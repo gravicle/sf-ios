@@ -12,7 +12,6 @@
 
 @interface EventDataSourceTests : XCTestCase
 
-@property (nonatomic) EventDataSource *dataSource;
 @property (nonatomic) CKDatabase *database;
 
 @end
@@ -23,12 +22,6 @@
     [super setUp];
     
     self.database = [CKContainer defaultContainer].publicCloudDatabase;
-    self.dataSource = [[EventDataSource alloc] initWithDatabase:self.database];
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
 }
 
 
@@ -36,14 +29,17 @@
  This test will start failing as soon as more events are added. Figure out a better way to test CloudKit!
  The limitation is that w/o mocking the only way to test is with live records in the dev enviornment.
  */
-- (void)testFetchingEvents {
+- (void)testFetchingCoffeeEvents {
     XCTestExpectation *exp = [self expectationWithDescription:@"Wait for events"];
     
-    [self.dataSource fetchPreviousEventsOfType:EventTypeSFCoffee withCompletionHander:^(NSArray<Event *> * _Nullable events, NSError * _Nullable error) {
+    EventDataSource *dataSource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:self.database];
+    [dataSource fetchPreviousEventsWithCompletionHandler:^(BOOL didUpdate, NSError * _Nullable error) {
         if (error) {
+            XCTAssertFalse(didUpdate);
             XCTFail(@"Error fetching events: %@", error);
         } else {
-            XCTAssertEqual(events.count, 2);
+            XCTAssertTrue(didUpdate);
+            XCTAssertEqual(dataSource.numberOfEvents, 2);
         }
         
         [exp fulfill];
