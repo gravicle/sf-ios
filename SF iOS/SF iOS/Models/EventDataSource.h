@@ -11,12 +11,16 @@
 @import CloudKit;
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface EventDataSource : NSObject
 
-- (instancetype)initWithDatabase:(CKDatabase *)database;
+@property (nonatomic, assign) BOOL hasMoreEvents;
 
-typedef void (^EventsFetchCompletionHandler)(NSArray<Event *> * _Nullable events, NSError * _Nullable error);
-- (void)fetchPreviousEventsOfType:(EventType)eventType withCompletionHander:(EventsFetchCompletionHandler)completionHandler;
+- (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database;
+- (void)fetchPreviousEventsWithCompletionHandler:(void (^)(BOOL didUpdate, NSError * _Nullable error))completionHandler;
+
+@property (nonatomic, readonly, assign) NSUInteger numberOfEvents;
+- (Event *)eventAtIndex:(NSUInteger)index;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -14,41 +14,45 @@
 
 @property (nonatomic) CKDatabase *database;
 @property (nonatomic) CKQueryCursor *cursor;
+@property (nonatomic, assign) EventType eventType;
+@property (nonatomic) NSMutableArray<Event *> *events;
 
 @end
 
-
 @implementation EventDataSource
 
-- (instancetype)initWithDatabase:(CKDatabase *)database {
+- (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database {
     if (self = [super init]) {
+        self.eventType = eventType;
         self.database = database;
+        self.events = [NSMutableArray new];
     }
     return self;
 }
 
-- (void)fetchPreviousEventsOfType:(EventType)eventType withCompletionHander:(EventsFetchCompletionHandler)completionHandler {
+- (void)fetchPreviousEventsWithCompletionHandler:(void (^)(BOOL didUpdate, NSError * _Nullable))completionHandler {
     __weak typeof(self) welf = self;
     __block NSArray<CKRecord *> *eventRecords;
     
     CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(nil, error);
+                completionHandler(false, error);
             });
             return;
         }
         
-        NSArray<Event *> *events = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
+        NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
+        [welf storeNewEvents:newEvents];
         dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler(events, nil);
+            completionHandler(true, nil);
         });
     }];
     
-    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:eventType withCursor:self.cursor completionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
+    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCursor:self.cursor completionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(nil, error);
+                completionHandler(false, error);
             });
             return;
         }
@@ -60,6 +64,14 @@
     }];
     
     [self.database addOperation:eventRecordsOperation];
+}
+
+- (Event *)eventAtIndex:(NSUInteger)index {
+    return self.events[index];
+}
+
+- (NSUInteger)numberOfEvents {
+    return self.events.count;
 }
 
 // MARK: - CloudKit Operations Construction
@@ -148,6 +160,15 @@
         [recordIDs addObject:[self locationRecordIDFromEventRecord:eventRecord]];
     }
     return recordIDs;
+}
+
+// MARK: - Bookeeping
+
+- (void)storeNewEvents:(NSArray<Event *> *)newEvents {
+    [self.events addObjectsFromArray:newEvents];
+    [self.events sortUsingComparator:^NSComparisonResult(Event * _Nonnull obj1, Event * _Nonnull obj2) {
+        return [obj1.date compare:obj2.date];
+    }];
 }
 
 @end
