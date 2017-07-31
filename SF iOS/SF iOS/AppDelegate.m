@@ -7,8 +7,12 @@
 //
 
 #import "AppDelegate.h"
+#import "EventDataSource.h"
+@import CloudKit;
 
 @interface AppDelegate ()
+
+@property (nonatomic) EventDataSource *dataSource;
 
 @end
 
@@ -16,8 +20,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    return YES;
+    return true;
 }
 
 
