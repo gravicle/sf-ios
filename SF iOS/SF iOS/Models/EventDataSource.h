@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithDatabase:(CKDatabase *)database;
 
 typedef void (^EventsFetchCompletionHandler)(NSArray<Event *> * _Nullable events, NSError * _Nullable error);
-- (void)fetchPreviousEventsWithCompletionHander:(EventsFetchCompletionHandler)completionHandler;
+- (void)fetchPreviousEventsOfType:(EventType)eventType withCompletionHander:(EventsFetchCompletionHandler)completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END

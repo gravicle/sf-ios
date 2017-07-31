@@ -28,7 +28,7 @@
     return self;
 }
 
-- (void)fetchPreviousEventsWithCompletionHander:(EventsFetchCompletionHandler)completionHandler {
+- (void)fetchPreviousEventsOfType:(EventType)eventType withCompletionHander:(EventsFetchCompletionHandler)completionHandler {
     __weak typeof(self) welf = self;
     __block NSArray<CKRecord *> *eventRecords;
     __block CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSArray<CKRecord *> * _Nullable locationRecords, NSError * _Nullable error) {
@@ -45,7 +45,7 @@
         });
     }];
     
-    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationWithCursor:self.cursor completionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
+    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:eventType withCursor:self.cursor completionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(nil, error);
@@ -55,22 +55,20 @@
         welf.cursor = cursor;
         eventRecords = records;
         locationsOperation.recordIDs = [welf locationRecordIDsFromEventRecords:eventRecords];
+        [self.database addOperation:locationsOperation];
     }];
-    eventRecordsOperation.resultsLimit = 10;
     
-    [locationsOperation addDependency:eventRecordsOperation];
     [self.database addOperation:eventRecordsOperation];
-    [self.database addOperation:locationsOperation];
 }
 
-- (CKQueryOperation *)eventRecordsQueryOperationWithCursor:(CKQueryCursor *)cursor completionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {
+- (CKQueryOperation *)eventRecordsQueryOperationForEventsOfType:(EventType)eventType withCursor:(CKQueryCursor *)cursor completionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {
     NSString *recordType = Event.recordName;
     
     CKQueryOperation *operation = nil;
     if (cursor) {
         operation = [[CKQueryOperation alloc] initWithCursor:cursor];
     } else {
-        NSPredicate *predicate = [NSPredicate predicateWithValue:true];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"eventType == %u", eventType];
         CKQuery *query = [[CKQuery alloc] initWithRecordType:recordType predicate:predicate];
         query.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"eventDate" ascending:false]];
         operation = [[CKQueryOperation alloc] initWithQuery:query];
@@ -84,7 +82,6 @@
         }
         [records addObject:record];
     };
-    
     operation.queryCompletionBlock = ^(CKQueryCursor * _Nullable cursor, NSError * _Nullable operationError) {
         if (operationError != nil) {
             completionHandler(nil, nil, operationError);
@@ -93,6 +90,7 @@
         
         completionHandler(cursor, records, nil);
     };
+    operation.resultsLimit = 10;
     
     return operation;
 }

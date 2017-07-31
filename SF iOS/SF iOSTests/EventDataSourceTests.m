@@ -34,11 +34,12 @@
 
 /**
  This test will start failing as soon as more events are added. Figure out a better way to test CloudKit!
+ The limitation is that w/o mocking the only way to test is with live records in the dev enviornment.
  */
 - (void)testFetchingEvents {
     XCTestExpectation *exp = [self expectationWithDescription:@"Wait for events"];
     
-    [self.dataSource fetchPreviousEventsWithCompletionHander:^(NSArray<Event *> * _Nullable events, NSError * _Nullable error) {
+    [self.dataSource fetchPreviousEventsOfType:EventTypeSFCoffee withCompletionHander:^(NSArray<Event *> * _Nullable events, NSError * _Nullable error) {
         if (error) {
             XCTFail(@"Error fetching events: %@", error);
         } else {
