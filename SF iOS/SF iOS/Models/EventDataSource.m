@@ -31,7 +31,8 @@
 - (void)fetchPreviousEventsOfType:(EventType)eventType withCompletionHander:(EventsFetchCompletionHandler)completionHandler {
     __weak typeof(self) welf = self;
     __block NSArray<CKRecord *> *eventRecords;
-    __block CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSArray<CKRecord *> * _Nullable locationRecords, NSError * _Nullable error) {
+    
+    CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(nil, error);
@@ -39,7 +40,7 @@
             return;
         }
         
-        NSArray<Event *> *events = [welf eventsFromEventRecords:eventRecords locationRecords:locationRecords];
+        NSArray<Event *> *events = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
         dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler(events, nil);
         });
@@ -54,12 +55,15 @@
         }
         welf.cursor = cursor;
         eventRecords = records;
+        
         locationsOperation.recordIDs = [welf locationRecordIDsFromEventRecords:eventRecords];
         [self.database addOperation:locationsOperation];
     }];
     
     [self.database addOperation:eventRecordsOperation];
 }
+
+// MARK: - CloudKit Operations Construction
 
 - (CKQueryOperation *)eventRecordsQueryOperationForEventsOfType:(EventType)eventType withCursor:(CKQueryCursor *)cursor completionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {
     NSString *recordType = Event.recordName;
@@ -95,7 +99,7 @@
     return operation;
 }
 
-- (CKFetchRecordsOperation *)locationRecordsFetchOperationWithCompletionHandler:(void (^)(NSArray<CKRecord *> * _Nullable locationRecords, NSError * _Nullable error))completionHandler {
+- (CKFetchRecordsOperation *)locationRecordsFetchOperationWithCompletionHandler:(void (^)(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error))completionHandler {
     NSMutableArray<CKRecord *> *locationRecords = [NSMutableArray new];
     CKFetchRecordsOperation *operation = [CKFetchRecordsOperation new];
     operation.perRecordCompletionBlock = ^(CKRecord * _Nullable record, CKRecordID * _Nullable recordID, NSError * _Nullable error) {
@@ -108,28 +112,25 @@
         [locationRecords addObject:record];
     };
     
-    operation.completionBlock = ^{
-        completionHandler(locationRecords, nil);
-    };
+    operation.fetchRecordsCompletionBlock = completionHandler;
     
     return operation;
 }
 
-- (NSArray<Event *> *)eventsFromEventRecords:(NSArray<CKRecord *> *)eventRecords locationRecords:(NSArray<CKRecord *> *)locationRecords {
-    NSAssert(eventRecords.count == locationRecords.count,
-             @"Number of events %lu != Number of locations %lu", (unsigned long)eventRecords.count, locationRecords.count);
+// MARK: - Records Parsing
+
+- (NSArray<Event *> *)eventsFromEventRecords:(NSArray<CKRecord *> *)eventRecords locationRecordsByID:(NSDictionary<CKRecordID *,CKRecord *> *) locationRecordsByRecordID {
+    NSAssert(eventRecords.count == locationRecordsByRecordID.count,
+             @"Number of events %lu != Number of locations %lu", (unsigned long)eventRecords.count, locationRecordsByRecordID.count);
     
     NSMutableArray<Event *> *events = [NSMutableArray new];
     for (CKRecord *eventRecord in eventRecords) {
-        NSUInteger locationIndex = [locationRecords indexOfObjectPassingTest:^BOOL(CKRecord * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            return [((CKReference *)[eventRecord objectForKey:@"location"]).recordID isEqual:obj.recordID];
-        }];
-        if (locationIndex == NSNotFound) {
-            NSAssert(false, @"Could not find a matching location for event: %@", eventRecord);
+        CKRecordID *locationRecordID = [self locationRecordIDFromEventRecord:eventRecord];
+        if (!locationRecordID) {
+            NSAssert(false, @"Location corresponding to Event does not exist\n%@", eventRecord);
             break;
         }
-        
-        Location *location = [[Location alloc] initWithRecord:locationRecords[locationIndex]];
+        Location *location = [[Location alloc] initWithRecord:locationRecordsByRecordID[locationRecordID]];
         Event *event = [[Event alloc] initWithRecord:eventRecord location:location];
         [events addObject:event];
     }
@@ -137,13 +138,16 @@
     return events;
 }
                                           
+- (CKRecordID *)locationRecordIDFromEventRecord:(CKRecord *)eventRecord {
+    CKReference *locationReference = [eventRecord objectForKey:@"location"];
+    return locationReference.recordID;
+}
+
 - (NSArray<CKRecordID *> *)locationRecordIDsFromEventRecords:(NSArray<CKRecord *> *)eventRecords {
     NSMutableArray<CKRecordID *> *recordIDs = [NSMutableArray new];
-    for (CKRecord *record in eventRecords) {
-        CKReference *locationReference = [record objectForKey:@"location"];
-        [recordIDs addObject:locationReference.recordID];
+    for (CKRecord *eventRecord in eventRecords) {
+        [recordIDs addObject:[self locationRecordIDFromEventRecord:eventRecord]];
     }
-    
     return recordIDs;
 }
 
