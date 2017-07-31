@@ -24,7 +24,6 @@
     if (self = [super init]) {
         self.database = database;
     }
-    
     return self;
 }
 
