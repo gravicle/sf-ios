@@ -13,12 +13,12 @@
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
 		C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2D1F2BFE6900DCFEB6 /* LaunchScreen.storyboard */; };
 		C8810A321F2BFE6900DCFEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A311F2BFE6900DCFEB6 /* main.m */; };
-		C8810A3C1F2BFE6900DCFEB6 /* SF_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A3B1F2BFE6900DCFEB6 /* SF_iOSTests.m */; };
 		C8810A471F2BFE6900DCFEB6 /* SF_iOSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A461F2BFE6900DCFEB6 /* SF_iOSUITests.m */; };
 		C8810A571F2BFE9500DCFEB6 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8810A561F2BFE9500DCFEB6 /* CloudKit.framework */; };
 		C8810A591F2BFEBB00DCFEB6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8810A581F2BFEBB00DCFEB6 /* MapKit.framework */; };
 		C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A5C1F2C043600DCFEB6 /* Location.m */; };
 		C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */; };
+		C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */; };
 		C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DDE1F2D8BCF007A5B0C /* Event.m */; };
 		C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DE21F2D926A007A5B0C /* EventDataSource.m */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,6 @@
 		C8810A301F2BFE6900DCFEB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8810A311F2BFE6900DCFEB6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C8810A371F2BFE6900DCFEB6 /* SF iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SF iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C8810A3B1F2BFE6900DCFEB6 /* SF_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SF_iOSTests.m; sourceTree = "<group>"; };
 		C8810A3D1F2BFE6900DCFEB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8810A421F2BFE6900DCFEB6 /* SF iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SF iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8810A461F2BFE6900DCFEB6 /* SF_iOSUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SF_iOSUITests.m; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		C8810A5C1F2C043600DCFEB6 /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		C88A19C41F2DC52D00C08187 /* NSError+Constructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Constructor.h"; sourceTree = "<group>"; };
 		C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Constructor.m"; sourceTree = "<group>"; };
+		C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDataSourceTests.m; sourceTree = "<group>"; };
 		C89A8DDD1F2D8BCF007A5B0C /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		C89A8DDE1F2D8BCF007A5B0C /* Event.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		C89A8DE01F2D8C2A007A5B0C /* EventType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
@@ -141,8 +141,8 @@
 		C8810A3A1F2BFE6900DCFEB6 /* SF iOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				C8810A3B1F2BFE6900DCFEB6 /* SF_iOSTests.m */,
 				C8810A3D1F2BFE6900DCFEB6 /* Info.plist */,
+				C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */,
 			);
 			path = "SF iOSTests";
 			sourceTree = "<group>";
@@ -344,7 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8810A3C1F2BFE6900DCFEB6 /* SF_iOSTests.m in Sources */,
+				C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

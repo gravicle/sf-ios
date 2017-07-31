@@ -17,7 +17,7 @@
 
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location {
     EventType type = [(NSNumber *)[record objectForKey:@"eventType"] integerValue];
-    NSDate *date = [record objectForKey:@"date"];
+    NSDate *date = [record objectForKey:@"eventDate"];
     
     return [self initWithEventType:type date:date location:location];
 }
