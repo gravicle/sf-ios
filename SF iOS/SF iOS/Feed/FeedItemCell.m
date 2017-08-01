@@ -9,6 +9,7 @@
 #import "FeedItemCell.h"
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
+#import "MapView.h"
 
 @interface FeedItemCell ()
 
@@ -16,7 +17,8 @@
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *subtitleLabel;
-@property (nonatomic) UIView *representationView;
+@property (nonatomic) UIView *locationContainerView;
+@property (nonatomic) MapView *mapView;
 
 @end
 
@@ -26,21 +28,31 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self setup];
     }
-    
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
+//MARK: - Configuration
 
 - (void)configureWithFeedItem:(FeedItem *)item {
     self.timeLabel.text = item.time;
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = [self subtitleAttributedStringFromString:item.subtitle];
+    [self showLocation:item.location];
 }
+
+- (void)setTracksUserLocation:(BOOL)tracksUserLocation {
+    self.mapView.showsUserLocation = tracksUserLocation;
+}
+
+- (void)showLocation:(CLLocation *)location {
+    if (!self.mapView) {
+        [self setupMapView];
+    }
+    
+    [self.mapView setDestinationToLocation:location];
+}
+
+//MARK: - Setup
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -75,12 +87,12 @@
 - (void)setupDetailsStack {
     CGFloat cornerRadius = 15;
     
-    self.representationView = [UIView new];
-    self.representationView.backgroundColor = [UIColor lightGrayColor];
-    self.representationView.translatesAutoresizingMaskIntoConstraints = false;
-    self.representationView.layer.cornerRadius = cornerRadius;
-    self.representationView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
-    self.representationView.clipsToBounds = true;
+    self.locationContainerView = [UIView new];
+    self.locationContainerView.backgroundColor = [UIColor lightGrayColor];
+    self.locationContainerView.translatesAutoresizingMaskIntoConstraints = false;
+    self.locationContainerView.layer.cornerRadius = cornerRadius;
+    self.locationContainerView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    self.locationContainerView.clipsToBounds = true;
     
     self.titleLabel = [UILabel new];
     self.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
@@ -99,7 +111,7 @@
                                                                     spacing:6
                                                                     margins:UIEdgeInsetsMake(19, 19, 19, 19)];
     
-    UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.representationView, titleStack]
+    UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.locationContainerView, titleStack]
                                                                  axis:UILayoutConstraintAxisVertical
                                                          distribution:UIStackViewDistributionFill
                                                             alignment:UIStackViewAlignmentFill
@@ -125,9 +137,21 @@
     [self.containerStack addArrangedSubview:detailsStackContainer];
 }
 
+- (void)setupMapView {
+    self.mapView = [MapView new];
+    self.mapView.translatesAutoresizingMaskIntoConstraints = false;
+    self.mapView.userInteractionEnabled = false;
+    
+    [self.locationContainerView addSubview:self.mapView];
+    [self.mapView.leftAnchor constraintEqualToAnchor:self.locationContainerView.leftAnchor].active = true;
+    [self.mapView.rightAnchor constraintEqualToAnchor:self.locationContainerView.rightAnchor].active = true;
+    [self.mapView.topAnchor constraintEqualToAnchor:self.locationContainerView.topAnchor].active = true;
+    [self.mapView.bottomAnchor constraintEqualToAnchor:self.locationContainerView.bottomAnchor].active = true;
+}
+
 - (NSAttributedString *)subtitleAttributedStringFromString:(NSString *)string {
     NSDictionary<NSAttributedStringKey, id> *kerning = @{NSKernAttributeName : @(0.82)};
-    return [[NSAttributedString alloc] initWithString:string attributes:kerning];
+    return [[NSAttributedString alloc] initWithString:[string uppercaseString] attributes:kerning];
 }
 
 @end

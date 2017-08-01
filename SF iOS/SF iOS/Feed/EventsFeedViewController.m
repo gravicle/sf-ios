@@ -13,6 +13,7 @@
 @interface EventsFeedViewController ()
 
 @property (nonatomic) EventDataSource *dataSource;
+@property (nonatomic) CLLocationManager *locationManager;
 
 @end
 
@@ -60,6 +61,11 @@ static CGFloat const eventCellAspectRatio = 1.352;
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self requestLocationPermission];
+}
+
 //MARK: - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -84,6 +90,30 @@ static CGFloat const eventCellAspectRatio = 1.352;
 
 - (Class)feedItemCellClass {
     return [FeedItemCell class];
+}
+
+//MARK: - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [(FeedItemCell *)cell setTracksUserLocation:true];
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [(FeedItemCell *)cell setTracksUserLocation:false];
+}
+
+//MARK: - Location Permission
+
+- (void)requestLocationPermission {
+    if (!self.locationManager) {
+        self.locationManager = [CLLocationManager new];
+    }
+    
+    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
+    BOOL permissionCanBeRequested = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined;
+    if (locationServicesEnabled || permissionCanBeRequested) {
+        [self.locationManager requestWhenInUseAuthorization];
+    }
 }
 
 @end
