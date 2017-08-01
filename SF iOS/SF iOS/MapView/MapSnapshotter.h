@@ -13,8 +13,9 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface MapSnapshotter : NSObject
 
-- (void)snapshotWithDestinationLocation:(CLLocation *)location
-                      completionHandler:(void(^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler;
+- (instancetype)initWithLocationManager:
+    (nullable CLLocationManager *)locationManager;
+- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(void (^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END

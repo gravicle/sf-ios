@@ -9,18 +9,22 @@
 #import "FeedItemCell.h"
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
-#import "MapView.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell ()
 
 @property (nonatomic) UIStackView *containerStack;
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *subtitleLabel;
-@property (nonatomic) UIView *locationContainerView;
-@property (nonatomic) MapView *mapView;
+@property (nonatomic) UIStackView *itemImageStack;
+@property (nonatomic) UIImageView *itemImageView;
+
+typedef void(^MapSnapshotTask)(void);
+@property (nullable, nonatomic) MapSnapshotTask takeMapSnapshot;
 
 @end
+NS_ASSUME_NONNULL_END
 
 @implementation FeedItemCell
 
@@ -33,23 +37,41 @@
 
 //MARK: - Configuration
 
-- (void)configureWithFeedItem:(FeedItem *)item {
+- (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
     self.timeLabel.text = item.time;
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = [self subtitleAttributedStringFromString:item.subtitle];
-    [self showLocation:item.location];
-}
-
-- (void)setTracksUserLocation:(BOOL)tracksUserLocation {
-    self.mapView.showsUserLocation = tracksUserLocation;
-}
-
-- (void)showLocation:(CLLocation *)location {
-    if (!self.mapView) {
-        [self setupMapView];
+    if (item.shouldShowDirections) {
+        __weak typeof(self) welf = self;
+        self.takeMapSnapshot = ^{
+            [welf showMapForLocation:item.location usingSnapshotter:snapshotter];
+        };
     }
-    
-    [self.mapView setDestinationToLocation:location];
+}
+
+- (void)layoutMap {
+    if (self.takeMapSnapshot) {
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
+        
+        self.takeMapSnapshot();
+        self.takeMapSnapshot = nil;
+    }
+}
+
+//MARK: - Map
+
+- (void)showMapForLocation:(nonnull CLLocation *)location usingSnapshotter:(MapSnapshotter *)snapshotter {
+    __weak typeof(self) welf = self;
+    [snapshotter snapshotOfsize:welf.itemImageStack.bounds.size showingDestinationLocation:location withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+         dispatch_async(dispatch_get_main_queue(), ^{
+             if (error) {
+                 NSLog(@"Error displaying map: %@", error);
+                 return;
+             }
+             welf.itemImageView.image = image;
+         });
+    }];
 }
 
 //MARK: - Setup
@@ -87,12 +109,22 @@
 - (void)setupDetailsStack {
     CGFloat cornerRadius = 15;
     
-    self.locationContainerView = [UIView new];
-    self.locationContainerView.backgroundColor = [UIColor lightGrayColor];
-    self.locationContainerView.translatesAutoresizingMaskIntoConstraints = false;
-    self.locationContainerView.layer.cornerRadius = cornerRadius;
-    self.locationContainerView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
-    self.locationContainerView.clipsToBounds = true;
+    self.itemImageView = [UIImageView new];
+    self.itemImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.itemImageView.backgroundColor = [UIColor alabaster];
+    self.itemImageView.layer.cornerRadius = cornerRadius;
+    self.itemImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    self.itemImageView.clipsToBounds = true;
+    self.itemImageView.translatesAutoresizingMaskIntoConstraints = false;
+    
+    self.itemImageStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.itemImageView]
+                                                                   axis:UILayoutConstraintAxisVertical
+                                                           distribution:UIStackViewDistributionFill
+                                                              alignment:UIStackViewAlignmentFill
+                                                                spacing:0
+                                                                margins:UIEdgeInsetsZero];
+    self.itemImageStack.translatesAutoresizingMaskIntoConstraints = false;
+    [self.itemImageStack setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     
     self.titleLabel = [UILabel new];
     self.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
@@ -110,8 +142,9 @@
                                                                   alignment:UIStackViewAlignmentLeading
                                                                     spacing:6
                                                                     margins:UIEdgeInsetsMake(19, 19, 19, 19)];
+    [titleStack setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     
-    UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.locationContainerView, titleStack]
+    UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.itemImageStack, titleStack]
                                                                  axis:UILayoutConstraintAxisVertical
                                                          distribution:UIStackViewDistributionFill
                                                             alignment:UIStackViewAlignmentFill
@@ -135,18 +168,6 @@
     [detailsStack.bottomAnchor constraintEqualToAnchor:detailsStackContainer.bottomAnchor].active = true;
     
     [self.containerStack addArrangedSubview:detailsStackContainer];
-}
-
-- (void)setupMapView {
-    self.mapView = [MapView new];
-    self.mapView.translatesAutoresizingMaskIntoConstraints = false;
-    self.mapView.userInteractionEnabled = false;
-    
-    [self.locationContainerView addSubview:self.mapView];
-    [self.mapView.leftAnchor constraintEqualToAnchor:self.locationContainerView.leftAnchor].active = true;
-    [self.mapView.rightAnchor constraintEqualToAnchor:self.locationContainerView.rightAnchor].active = true;
-    [self.mapView.topAnchor constraintEqualToAnchor:self.locationContainerView.topAnchor].active = true;
-    [self.mapView.bottomAnchor constraintEqualToAnchor:self.locationContainerView.bottomAnchor].active = true;
 }
 
 - (NSAttributedString *)subtitleAttributedStringFromString:(NSString *)string {

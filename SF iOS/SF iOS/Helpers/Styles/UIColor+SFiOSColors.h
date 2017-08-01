@@ -13,4 +13,7 @@
 /// #58595E
 + (UIColor *)abbey;
 
+///#FEFEFE
++ (UIColor *)alabaster;
+
 @end
