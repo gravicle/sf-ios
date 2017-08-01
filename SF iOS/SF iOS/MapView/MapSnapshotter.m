@@ -29,7 +29,6 @@
 
 - (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotOptions *options = [MKMapSnapshotOptions new];
-    options.camera = [MKMapCamera new];
     options.mapType = MKMapTypeStandard;
     options.scale = UIScreen.mainScreen.scale;
     options.size = size;
@@ -64,7 +63,7 @@
                 return;
             }
             
-            UIImage *renderedImage = [welf imageFromRenderingSourceLocation:nil destinationLocation:destinationLocation onSnapshot:snapshot];
+            UIImage *renderedImage = [welf imageFromRenderingSourceLocation:sourceLocation destinationLocation:destinationLocation onSnapshot:snapshot];
             completionHandler(renderedImage, nil);
         });
     }];
@@ -75,10 +74,12 @@
 - (MKMapRect)mapRectEncompassingSourceLocation:(nonnull CLLocation *)sourceLocation destinationLocation:(nonnull CLLocation *)destinationLocation {
     MKMapPoint sourcePoint = MKMapPointForCoordinate(sourceLocation.coordinate);
     MKMapPoint destinationPoint = MKMapPointForCoordinate(destinationLocation.coordinate);
-    return MKMapRectMake(fmin(sourcePoint.x, destinationPoint.x),
-                         fmin(sourcePoint.y, destinationPoint.y),
-                         fabs(sourcePoint.x - destinationPoint.x),
-                         fabs(sourcePoint.y - destinationPoint.y));
+    CGRect fittingRect = CGRectMake(fmin(sourcePoint.x, destinationPoint.x),
+                                    fmin(sourcePoint.y, destinationPoint.y),
+                                    fabs(sourcePoint.x - destinationPoint.x),
+                                    fabs(sourcePoint.y - destinationPoint.y));
+    CGRect paddedRect = CGRectInset(fittingRect, 0, -fittingRect.size.height * 0.1);
+    return MKMapRectMake(paddedRect.origin.x, paddedRect.origin.y, paddedRect.size.width, paddedRect.size.height);
 }
 
 - (MKCoordinateRegion)mapRegionCenteredAroundLocation:(nonnull CLLocation *)location {
@@ -102,7 +103,7 @@
     return annotatedImage;
 }
 
-// https://stackoverflow.com/a/32207157/2671390
+// https://stackoverflow.com/a/42773351/2671390
 - (void)addAnnotationWithImage:(nullable UIImage *)image toSnapshot:(nonnull MKMapSnapshot *)snapshot atLocation:(nonnull CLLocation *)location {
     CLLocationCoordinate2D coordinate = location.coordinate;
     
@@ -110,14 +111,16 @@
     annotation.coordinate = coordinate;
     annotation.title = @"Test";
     
-    MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-    annotationView.image = [UIImage imageNamed:@"location-icon"];
+    MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
     annotationView.selected = true;
     
     CGPoint annotationPosition = [snapshot pointForCoordinate:coordinate];
-    CGSize annotationSize = annotationView.bounds.size;
-    CGRect annotationRect = CGRectMake(annotationPosition.x, annotationPosition.y, annotationSize.width, annotationSize.height);
-    [annotationView drawViewHierarchyInRect:annotationRect afterScreenUpdates:true];
+    CGPoint pinCenterOffset = annotationView.centerOffset;
+    annotationPosition.x -= annotationView.bounds.size.width / 2;
+    annotationPosition.y -= annotationView.bounds.size.height / 2;
+    annotationPosition.x += pinCenterOffset.x;
+    annotationPosition.y += pinCenterOffset.y;
+    [annotationView.image drawAtPoint:annotationPosition];
 }
 
 @end
