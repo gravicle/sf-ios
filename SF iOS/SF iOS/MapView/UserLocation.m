@@ -27,6 +27,7 @@ static NSTimeInterval const cacheExpirationduration = 10.0; //10s
 - (instancetype)init {
     if (self = [super init]) {
         self.locationManager = [CLLocationManager new];
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
         self.locationManager.delegate = self;
     }
     return self;
