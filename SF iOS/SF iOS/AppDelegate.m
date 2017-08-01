@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "EventDataSource.h"
+#import "EventsFeedViewController.h"
 @import CloudKit;
 
 @interface AppDelegate ()
@@ -18,12 +19,14 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [[UIViewController alloc] init];
-    self.window.rootViewController.view.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+    EventDataSource *datasource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:[[CKContainer defaultContainer] publicCloudDatabase]];
+    EventsFeedViewController *feedController = [[EventsFeedViewController alloc] initWithDataSource:datasource];
+    
+    self.window.rootViewController = feedController;
     
     return true;
 }

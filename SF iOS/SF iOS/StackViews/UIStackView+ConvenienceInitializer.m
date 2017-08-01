@@ -27,6 +27,8 @@
     self.spacing = spacing;
     self.layoutMargins = margins;
     
+    [self setLayoutMarginsRelativeArrangement:true];
+    
     return self;
 }
 

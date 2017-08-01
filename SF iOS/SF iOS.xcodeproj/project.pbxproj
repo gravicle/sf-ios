@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */; };
+		C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516331F2FBBD2006B9D7E /* FeedItemCell.m */; };
+		C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516371F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m */; };
+		C825163C1F2FDF46006B9D7E /* UIColor+SFiOSColors.m in Sources */ = {isa = PBXBuildFile; fileRef = C825163B1F2FDF46006B9D7E /* UIColor+SFiOSColors.m */; };
+		C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516411F2FE9E7006B9D7E /* FeedItem.m */; };
+		C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516451F2FEB6F006B9D7E /* NSDate+Utilities.m */; };
+		C82516481F2FF293006B9D7E /* FeedItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516471F2FF293006B9D7E /* FeedItemTests.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
 		C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2D1F2BFE6900DCFEB6 /* LaunchScreen.storyboard */; };
@@ -42,6 +48,17 @@
 /* Begin PBXFileReference section */
 		C825162E1F2FA260006B9D7E /* EventsFeedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsFeedViewController.h; sourceTree = "<group>"; };
 		C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventsFeedViewController.m; sourceTree = "<group>"; };
+		C82516321F2FBBD2006B9D7E /* FeedItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemCell.h; sourceTree = "<group>"; };
+		C82516331F2FBBD2006B9D7E /* FeedItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItemCell.m; sourceTree = "<group>"; };
+		C82516361F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIStackView+ConvenienceInitializer.h"; sourceTree = "<group>"; };
+		C82516371F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIStackView+ConvenienceInitializer.m"; sourceTree = "<group>"; };
+		C825163A1F2FDF46006B9D7E /* UIColor+SFiOSColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFiOSColors.h"; sourceTree = "<group>"; };
+		C825163B1F2FDF46006B9D7E /* UIColor+SFiOSColors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SFiOSColors.m"; sourceTree = "<group>"; };
+		C82516401F2FE9E7006B9D7E /* FeedItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItem.h; sourceTree = "<group>"; };
+		C82516411F2FE9E7006B9D7E /* FeedItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItem.m; sourceTree = "<group>"; };
+		C82516441F2FEB6F006B9D7E /* NSDate+Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utilities.h"; sourceTree = "<group>"; };
+		C82516451F2FEB6F006B9D7E /* NSDate+Utilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utilities.m"; sourceTree = "<group>"; };
+		C82516471F2FF293006B9D7E /* FeedItemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItemTests.m; sourceTree = "<group>"; };
 		C8810A1F1F2BFE6900DCFEB6 /* SF iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8810A221F2BFE6900DCFEB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -101,8 +118,39 @@
 			children = (
 				C825162E1F2FA260006B9D7E /* EventsFeedViewController.h */,
 				C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */,
+				C82516321F2FBBD2006B9D7E /* FeedItemCell.h */,
+				C82516331F2FBBD2006B9D7E /* FeedItemCell.m */,
+				C82516401F2FE9E7006B9D7E /* FeedItem.h */,
+				C82516411F2FE9E7006B9D7E /* FeedItem.m */,
 			);
 			path = Feed;
+			sourceTree = "<group>";
+		};
+		C82516351F2FBDEF006B9D7E /* StackViews */ = {
+			isa = PBXGroup;
+			children = (
+				C82516361F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.h */,
+				C82516371F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m */,
+			);
+			path = StackViews;
+			sourceTree = "<group>";
+		};
+		C82516391F2FDF01006B9D7E /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				C825163A1F2FDF46006B9D7E /* UIColor+SFiOSColors.h */,
+				C825163B1F2FDF46006B9D7E /* UIColor+SFiOSColors.m */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		C82516431F2FEB5C006B9D7E /* NSDateUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				C82516441F2FEB6F006B9D7E /* NSDate+Utilities.h */,
+				C82516451F2FEB6F006B9D7E /* NSDate+Utilities.m */,
+			);
+			path = NSDateUtilities;
 			sourceTree = "<group>";
 		};
 		C8810A161F2BFE6900DCFEB6 = {
@@ -129,6 +177,9 @@
 		C8810A211F2BFE6900DCFEB6 /* SF iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C82516431F2FEB5C006B9D7E /* NSDateUtilities */,
+				C82516391F2FDF01006B9D7E /* Styles */,
+				C82516351F2FBDEF006B9D7E /* StackViews */,
 				C825162D1F2FA24B006B9D7E /* Feed */,
 				C88A19C31F2DC51500C08187 /* Errors */,
 				C8810A5A1F2C028900DCFEB6 /* Models */,
@@ -148,6 +199,7 @@
 			children = (
 				C8810A3D1F2BFE6900DCFEB6 /* Info.plist */,
 				C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */,
+				C82516471F2FF293006B9D7E /* FeedItemTests.m */,
 			);
 			path = "SF iOSTests";
 			sourceTree = "<group>";
@@ -334,10 +386,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */,
+				C825163C1F2FDF46006B9D7E /* UIColor+SFiOSColors.m in Sources */,
 				C8810A321F2BFE6900DCFEB6 /* main.m in Sources */,
 				C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */,
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
+				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
+				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
+				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
 				C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */,
 				C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */,
 				C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */,
@@ -348,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C82516481F2FF293006B9D7E /* FeedItemTests.m in Sources */,
 				C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
