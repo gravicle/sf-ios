@@ -29,6 +29,7 @@
 
 - (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(void (^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler {
     MKMapSnapshotOptions *options = [MKMapSnapshotOptions new];
+    options.camera = [MKMapCamera new];
     options.mapType = MKMapTypeStandard;
     options.region = [self mapRegionCenteredAroundLocation:location];
     options.scale = UIScreen.mainScreen.scale;

@@ -167,7 +167,7 @@
 - (void)storeNewEvents:(NSArray<Event *> *)newEvents {
     [self.events addObjectsFromArray:newEvents];
     [self.events sortUsingComparator:^NSComparisonResult(Event * _Nonnull obj1, Event * _Nonnull obj2) {
-        return [obj1.date compare:obj2.date];
+        return [obj2.date compare:obj1.date];
     }];
 }
 
