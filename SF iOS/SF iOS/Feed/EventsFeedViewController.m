@@ -10,12 +10,13 @@
 #import "FeedItemCell.h"
 #import "FeedItem.h"
 #import "MapSnapshotter.h"
+#import "UserLocation.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EventsFeedViewController ()
 
 @property (nonatomic) EventDataSource *dataSource;
-@property (nullable, nonatomic) CLLocationManager *locationManager;
+@property (nullable, nonatomic) UserLocation *userLocationService;
 @property (nonatomic) MapSnapshotter *snapshotter;
 
 @end
@@ -26,8 +27,8 @@ NS_ASSUME_NONNULL_END
 - (instancetype)initWithDataSource:(EventDataSource *)dataSource {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.dataSource = dataSource;
-        [self setupLocationManager];
-        self.snapshotter = [[MapSnapshotter alloc] initWithLocationManager:self.locationManager];
+        self.userLocationService = [UserLocation new];
+        self.snapshotter = [[MapSnapshotter alloc] initWithUserLocationService:self.userLocationService];
     }
     
     return self;
@@ -102,30 +103,8 @@ NS_ASSUME_NONNULL_END
 
 //MARK: - Location Permission
 
-- (void)setupLocationManager {
-    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
-    
-    CLAuthorizationStatus permission = [CLLocationManager authorizationStatus];
-    BOOL locationCanBeAccessed =
-    permission == kCLAuthorizationStatusNotDetermined ||
-    permission == kCLAuthorizationStatusAuthorizedWhenInUse ||
-    permission == kCLAuthorizationStatusAuthorizedAlways;
-    
-    if (locationServicesEnabled || locationCanBeAccessed) {
-        self.locationManager = [CLLocationManager new];
-    }
-}
-
 - (void)requestLocationPermission {
-    if (!self.locationManager) {
-        return;
-    }
-    
-    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
-    BOOL permissionCanBeRequested = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined;
-    if (locationServicesEnabled || permissionCanBeRequested) {
-        [self.locationManager requestWhenInUseAuthorization];
-    }
+    [self.userLocationService requestLocationPermission];
 }
 
 //MARK: - Cell Dimensions

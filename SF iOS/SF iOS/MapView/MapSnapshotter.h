@@ -7,15 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UserLocation.h"
 @import CoreLocation;
 @import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface MapSnapshotter : NSObject
 
-- (instancetype)initWithLocationManager:
-    (nullable CLLocationManager *)locationManager;
-- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(void (^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler;
+- (instancetype)initWithUserLocationService:(UserLocation *)userLocationService;
+
+typedef void(^MapSnapshotCompletionHandler)(UIImage * _Nullable image, NSError * _Nullable error);
+- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -11,30 +11,50 @@
 
 @interface MapSnapshotter ()
 
-@property (nullable, nonatomic) CLLocationManager *locationManager;
+@property (nullable, nonatomic) UserLocation *locationService;
 @property (nonnull, nonatomic) dispatch_queue_t snapshotQueue;
 
 @end
 
 @implementation MapSnapshotter
 
-- (instancetype)initWithLocationManager:(CLLocationManager *)locationManager {
+- (instancetype)initWithUserLocationService:(UserLocation *)userLocationService {
     if (self = [super init]) {
-        self.locationManager = locationManager;
+        self.locationService = userLocationService;
         // High priority as snapshots are needed for UI rendering.
         self.snapshotQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     }
     return self;
 }
 
-- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(void (^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler {
+- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotOptions *options = [MKMapSnapshotOptions new];
     options.camera = [MKMapCamera new];
     options.mapType = MKMapTypeStandard;
-    options.region = [self mapRegionCenteredAroundLocation:location];
     options.scale = UIScreen.mainScreen.scale;
     options.size = size;
+    options.region = [self mapRegionCenteredAroundLocation:location];
     
+    if (self.locationService.canRequestUserLocation) {
+        __weak typeof(self) welf = self;
+        [self.locationService requestWithCompletionHandler:^(CLLocation * _Nullable currentLocation, NSError * _Nullable error) {
+            if (!currentLocation) {
+                NSLog(@"User location could not be determined: %@", error);
+                [welf takeSnapshotWithOptions:options sourceLocation:nil destinationLocation:location completionHandler:completionHandler];
+                return;
+            }
+            options.mapRect = [welf mapRectEncompassingSourceLocation:currentLocation destinationLocation:location];
+            [welf takeSnapshotWithOptions:options sourceLocation:currentLocation destinationLocation:location completionHandler:completionHandler];
+        }];
+    } else {
+        [self takeSnapshotWithOptions:options sourceLocation:nil destinationLocation:location completionHandler:completionHandler];
+    }
+}
+
+- (void)takeSnapshotWithOptions:(MKMapSnapshotOptions *)options
+                 sourceLocation:(nullable CLLocation *)sourceLocation
+            destinationLocation:(nonnull CLLocation *)destinationLocation
+              completionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     __weak typeof(self) welf = self;
     [snapShotter startWithQueue:self.snapshotQueue completionHandler:^(MKMapSnapshot * _Nullable snapshot, NSError * _Nullable error) {
@@ -43,7 +63,7 @@
             return;
         }
         
-        UIImage *renderedImage = [welf imageFromRenderingSourceLocation:nil destinationLocation:location onSnapshot:snapshot];
+        UIImage *renderedImage = [welf imageFromRenderingSourceLocation:nil destinationLocation:destinationLocation onSnapshot:snapshot];
         completionHandler(renderedImage, nil);
     }];
 }
