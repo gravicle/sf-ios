@@ -58,13 +58,15 @@
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     __weak typeof(self) welf = self;
     [snapShotter startWithQueue:self.snapshotQueue completionHandler:^(MKMapSnapshot * _Nullable snapshot, NSError * _Nullable error) {
-        if (error) {
-            completionHandler(nil, error);
-            return;
-        }
-        
-        UIImage *renderedImage = [welf imageFromRenderingSourceLocation:nil destinationLocation:destinationLocation onSnapshot:snapshot];
-        completionHandler(renderedImage, nil);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (error) {
+                completionHandler(nil, error);
+                return;
+            }
+            
+            UIImage *renderedImage = [welf imageFromRenderingSourceLocation:nil destinationLocation:destinationLocation onSnapshot:snapshot];
+            completionHandler(renderedImage, nil);
+        });
     }];
 }
 
@@ -84,7 +86,38 @@
 }
 
 - (nonnull UIImage *)imageFromRenderingSourceLocation:(nullable CLLocation *)sourceLocation destinationLocation:(nonnull CLLocation *)destinationLocation onSnapshot:(MKMapSnapshot *)snapshot {
-    return snapshot.image;
+    UIImage *image = snapshot.image;
+    
+    UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
+    [image drawAtPoint:CGPointZero]; // draw map
+    
+    [self addAnnotationWithImage:nil toSnapshot:snapshot atLocation:destinationLocation];
+    if (sourceLocation) {
+        [self addAnnotationWithImage:nil toSnapshot:snapshot atLocation:sourceLocation];
+    }
+    
+    UIImage *annotatedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return annotatedImage;
+}
+
+// https://stackoverflow.com/a/32207157/2671390
+- (void)addAnnotationWithImage:(nullable UIImage *)image toSnapshot:(nonnull MKMapSnapshot *)snapshot atLocation:(nonnull CLLocation *)location {
+    CLLocationCoordinate2D coordinate = location.coordinate;
+    
+    MKPointAnnotation *annotation = [MKPointAnnotation new];
+    annotation.coordinate = coordinate;
+    annotation.title = @"Test";
+    
+    MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+    annotationView.image = [UIImage imageNamed:@"location-icon"];
+    annotationView.selected = true;
+    
+    CGPoint annotationPosition = [snapshot pointForCoordinate:coordinate];
+    CGSize annotationSize = annotationView.bounds.size;
+    CGRect annotationRect = CGRectMake(annotationPosition.x, annotationPosition.y, annotationSize.width, annotationSize.height);
+    [annotationView drawViewHierarchyInRect:annotationRect afterScreenUpdates:true];
 }
 
 @end
