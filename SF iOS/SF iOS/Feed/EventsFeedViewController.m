@@ -7,53 +7,83 @@
 //
 
 #import "EventsFeedViewController.h"
+#import "FeedItemCell.h"
+#import "FeedItem.h"
 
 @interface EventsFeedViewController ()
 
-@property (nonatomic, assign) EventType eventType;
+@property (nonatomic) EventDataSource *dataSource;
 
 @end
 
 @implementation EventsFeedViewController
 
-- (instancetype)initWithEventType:(EventType)eventType {
-    if (self = [super initWithNibName:nil bundle:nil]) {
-        self.eventType = eventType;
+- (instancetype)initWithDataSource:(EventDataSource *)dataSource {
+    if (self = [super initWithStyle:UITableViewStylePlain]) {
+        self.dataSource = dataSource;
     }
     
     return self;
 }
 
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    NSAssert(false, @"Use -initWithDataSource");
+    self = [self initWithDataSource:nil];
+    return self;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    NSAssert(false, @"Use -initWithEventType");
-    self = [self initWithEventType:EventTypeSFCoffee];
+    NSAssert(false, @"Use -initWithDataSource");
+    self = [self initWithDataSource:nil];
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSAssert(false, @"Use -initWithEventType");
-    self = [self initWithEventType:EventTypeSFCoffee];
+    NSAssert(false, @"Use -initWithDataSource");
+    self = [self initWithDataSource:nil];
     return self;
 }
 
+static CGFloat const eventCellAspectRatio = 1.352;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self.tableView registerClass:self.feedItemCellClass forCellReuseIdentifier:NSStringFromClass(self.feedItemCellClass)];
+    self.tableView.rowHeight = [UIScreen mainScreen].bounds.size.width * eventCellAspectRatio;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+    
+    __weak typeof(self) welf = self;
+    [self.dataSource fetchPreviousEventsWithCompletionHandler:^(BOOL didUpdate, NSError * _Nullable error) {
+        [welf.tableView reloadData];
+    }];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//MARK: - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.numberOfEvents;
 }
-*/
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    FeedItemCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(self.feedItemCellClass) forIndexPath:indexPath];
+    if (!cell) {
+        NSAssert(false, @"cell couldn't be dequeued");
+    }
+    
+    FeedItem *item = [[FeedItem alloc] initWithEvent:[self.dataSource eventAtIndex:indexPath.row]];
+    [cell configureWithFeedItem:item];
+    
+    return cell;
+}
+
+- (Class)feedItemCellClass {
+    return [FeedItemCell class];
+}
 
 @end

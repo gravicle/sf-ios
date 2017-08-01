@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Event.h"
+#import "EventDataSource.h"
 
-@interface EventsFeedViewController : UIViewController
+@interface EventsFeedViewController : UITableViewController
 
-- (instancetype)initWithEventType:(EventType)eventType NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDataSource:(EventDataSource *)dataSource NS_DESIGNATED_INITIALIZER;
 
 @end
