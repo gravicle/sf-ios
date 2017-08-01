@@ -15,6 +15,7 @@
 		C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516451F2FEB6F006B9D7E /* NSDate+Utilities.m */; };
 		C82516481F2FF293006B9D7E /* FeedItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516471F2FF293006B9D7E /* FeedItemTests.m */; };
 		C825164D1F3054F6006B9D7E /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C825164C1F3054F6006B9D7E /* MapView.m */; };
+		C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516521F30ECA7006B9D7E /* MapSnapshotter.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
 		C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2D1F2BFE6900DCFEB6 /* LaunchScreen.storyboard */; };
@@ -62,6 +63,8 @@
 		C82516471F2FF293006B9D7E /* FeedItemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedItemTests.m; sourceTree = "<group>"; };
 		C825164B1F3054F6006B9D7E /* MapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
 		C825164C1F3054F6006B9D7E /* MapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
+		C82516511F30ECA7006B9D7E /* MapSnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSnapshotter.h; sourceTree = "<group>"; };
+		C82516521F30ECA7006B9D7E /* MapSnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSnapshotter.m; sourceTree = "<group>"; };
 		C8810A1F1F2BFE6900DCFEB6 /* SF iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8810A221F2BFE6900DCFEB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -172,6 +175,8 @@
 			children = (
 				C825164B1F3054F6006B9D7E /* MapView.h */,
 				C825164C1F3054F6006B9D7E /* MapView.m */,
+				C82516511F30ECA7006B9D7E /* MapSnapshotter.h */,
+				C82516521F30ECA7006B9D7E /* MapSnapshotter.m */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -415,6 +420,7 @@
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
+				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
 				C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */,
