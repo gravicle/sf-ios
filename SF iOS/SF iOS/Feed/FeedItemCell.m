@@ -59,6 +59,11 @@ NS_ASSUME_NONNULL_END
     }
 }
 
+- (void)prepareForReuse {
+    self.takeMapSnapshot = nil;
+    [super prepareForReuse];
+}
+
 //MARK: - Map
 
 - (void)showMapForLocation:(nonnull CLLocation *)location usingSnapshotter:(MapSnapshotter *)snapshotter {
