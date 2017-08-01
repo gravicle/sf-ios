@@ -1,5 +1,5 @@
 //
-//  FeedItemCell.h
+//  MapView.h
 //  SF iOS
 //
 //  Created by Amit Jain on 7/31/17.
@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FeedItem.h"
 @import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface FeedItemCell : UITableViewCell
+@interface MapView : UIView
 
-@property (nonatomic, assign) BOOL tracksUserLocation;
-- (void)configureWithFeedItem:(FeedItem *)item;
+@property (nonatomic, assign) BOOL showsUserLocation;
+- (void)setDestinationToLocation:(CLLocation *)destination;
 
 @end
 NS_ASSUME_NONNULL_END
