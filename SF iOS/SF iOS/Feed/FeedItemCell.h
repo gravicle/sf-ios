@@ -8,13 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "FeedItem.h"
+#import "MapSnapshotter.h"
 @import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell : UITableViewCell
 
-@property (nonatomic, assign) BOOL tracksUserLocation;
-- (void)configureWithFeedItem:(FeedItem *)item;
+- (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter;
+
+/**
+ For capturing snapshots of correct size, they need to be taken after all the layout work
+ has been completed and the view hierarchy has settled.
+ This method should be called from `tableView:willDisplayCell:`.
+ */
+- (void)layoutMap;
 
 @end
 NS_ASSUME_NONNULL_END

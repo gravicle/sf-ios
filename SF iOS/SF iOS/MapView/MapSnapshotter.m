@@ -18,20 +18,21 @@
 
 @implementation MapSnapshotter
 
-- (instancetype)init {
+- (instancetype)initWithLocationManager:(CLLocationManager *)locationManager {
     if (self = [super init]) {
-        [self setupLocationManager];
-        
+        self.locationManager = locationManager;
         // High priority as snapshots are needed for UI rendering.
         self.snapshotQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     }
     return self;
 }
 
-- (void)snapshotWithDestinationLocation:(CLLocation *)location completionHandler:(void (^)(UIImage * _Nullable, NSError * _Nullable))completionHandler {
+- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(void (^)(UIImage * _Nullable image, NSError * _Nullable error))completionHandler {
     MKMapSnapshotOptions *options = [MKMapSnapshotOptions new];
     options.mapType = MKMapTypeStandard;
     options.region = [self mapRegionCenteredAroundLocation:location];
+    options.scale = UIScreen.mainScreen.scale;
+    options.size = size;
     
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     __weak typeof(self) welf = self;
@@ -44,19 +45,6 @@
         UIImage *renderedImage = [welf imageFromRenderingSourceLocation:nil destinationLocation:location onSnapshot:snapshot];
         completionHandler(renderedImage, nil);
     }];
-}
-
-- (void)setupLocationManager {
-    BOOL locationServicesEnabled = [CLLocationManager locationServicesEnabled];
-    CLAuthorizationStatus permission = [CLLocationManager authorizationStatus];
-    BOOL locationCanBeAccessed =
-        permission == kCLAuthorizationStatusNotDetermined ||
-        permission == kCLAuthorizationStatusAuthorizedWhenInUse ||
-        permission == kCLAuthorizationStatusAuthorizedAlways;
-    
-    if (locationServicesEnabled || locationCanBeAccessed) {
-        self.locationManager = [CLLocationManager new];
-    }
 }
 
 //MARK: - Map Rendering
