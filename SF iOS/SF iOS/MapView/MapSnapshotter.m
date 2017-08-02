@@ -32,6 +32,7 @@
     options.mapType = MKMapTypeMutedStandard;
     options.scale = UIScreen.mainScreen.scale;
     options.size = size;
+    options.showsPointsOfInterest = false;
     options.region = [self mapRegionCenteredAroundLocation:location];
     
     if (self.locationService.canRequestUserLocation) {
@@ -97,9 +98,9 @@ static double const mapApertureInRadians = (30 * M_PI) / 180;
     UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
     [image drawAtPoint:CGPointZero]; // draw map
     
-    [self addAnnotationWithImage:nil toSnapshot:snapshot atLocation:destinationLocation];
+    [self addAnnotationWithImage:[UIImage imageNamed:@"coffee-location-icon"] toSnapshot:snapshot atLocation:destinationLocation];
     if (sourceLocation) {
-        [self addAnnotationWithImage:nil toSnapshot:snapshot atLocation:sourceLocation];
+        [self addAnnotationWithImage:[UIImage imageNamed:@"user-location-icon"] toSnapshot:snapshot atLocation:sourceLocation];
     }
     
     UIImage *annotatedImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -116,7 +117,7 @@ static double const mapApertureInRadians = (30 * M_PI) / 180;
     annotation.coordinate = coordinate;
     
     MKPinAnnotationView *annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-    annotationView.image = [UIImage imageNamed:@"location-icon"];
+    annotationView.image = image;
     
     CGPoint annotationPosition = [snapshot pointForCoordinate:coordinate];
     CGPoint pinCenterOffset = annotationView.centerOffset;
