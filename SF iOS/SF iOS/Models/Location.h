@@ -17,9 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *streetAddress;
 @property (nonatomic) CLLocation *location;
+@property (nullable, nonatomic) NSURL *imageFileURL;
 
 - (instancetype)initWithRecord:(CKRecord *)record;
-- (instancetype)initWithName: (NSString *)name streetAddress: (NSString *)streetAddress location: (CLLocation *)location;
+- (instancetype)initWithName: (NSString *)name streetAddress: (NSString *)streetAddress location: (CLLocation *)location imageFileURL:(nullable NSURL *)imageURL;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *subtitle;
 @property (nonatomic) UIImage *annotationImage;
 @property (nonatomic, assign) BOOL shouldShowDirections;
-@property (nullable, nonatomic) NSURL *coverImageURL;
+@property (nullable, nonatomic) NSURL *coverImageFileURL;
 @property (nonatomic) CLLocation *location;
 
 - (instancetype)initWithEvent:(Event *)event;

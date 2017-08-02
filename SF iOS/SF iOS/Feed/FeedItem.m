@@ -20,7 +20,7 @@
     self.title = event.location.name;
     self.subtitle = event.location.streetAddress;
     self.shouldShowDirections = [self directionsAreRelevantForEventWithDate:event.date];
-    self.coverImageURL = nil;
+    self.coverImageFileURL = event.location.imageFileURL;
     self.location = event.location.location;
     
     switch (event.type) {
