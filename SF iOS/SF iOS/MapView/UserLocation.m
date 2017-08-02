@@ -13,9 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UserLocation ()
 
 @property (nonatomic) CLLocationManager *locationManager;
-@property (nullable, nonatomic) UserLocationRequestCompletionHandler requestCompletionHandler;
 @property (nullable, nonatomic) CLLocation *lastKnownLocation;
 @property (nullable, nonatomic) NSTimer *cacheExpirationTimer;
+
+// Support multiple requests backed by a single location manager
+@property (nullable, nonatomic) NSMutableArray<UserLocationRequestCompletionHandler> *requestCompletionHandlers;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -26,6 +28,7 @@ static NSTimeInterval const cacheExpirationduration = 10.0; //10s
 
 - (instancetype)init {
     if (self = [super init]) {
+        self.requestCompletionHandlers = [NSMutableArray new];
         self.locationManager = [CLLocationManager new];
         self.locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
         self.locationManager.delegate = self;
@@ -64,7 +67,7 @@ static NSTimeInterval const cacheExpirationduration = 10.0; //10s
         return;
     }
     
-    self.requestCompletionHandler = completionHandler;
+    [self.requestCompletionHandlers addObject:completionHandler];
     [self.locationManager requestLocation];
 }
 
@@ -89,19 +92,26 @@ static NSTimeInterval const cacheExpirationduration = 10.0; //10s
     [self cancelCacheExpirationTimer];
     
     if (locations.count == 0) {
-        self.requestCompletionHandler(nil, [NSError appErrorWithDescription:@"Locations array came in empty."]);
+        [self callCompletionHandlersWithLocation:nil error:[NSError appErrorWithDescription:@"Locations array came in empty."]];
         return;
     }
     
     self.lastKnownLocation = locations.firstObject;
-    self.requestCompletionHandler(self.lastKnownLocation, nil);
     [self startCacheExpirationTimer];
-    self.requestCompletionHandler = nil;
+    [self callCompletionHandlersWithLocation:self.lastKnownLocation error:nil];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    self.requestCompletionHandler(nil, error);
-    self.requestCompletionHandler = nil;
+    [self callCompletionHandlersWithLocation:nil error:error];
+}
+
+// MARK - Completion Handlers
+
+- (void)callCompletionHandlersWithLocation:(nullable CLLocation *)location error:(nullable NSError *)error {
+    for (UserLocationRequestCompletionHandler handler in self.requestCompletionHandlers) {
+        handler(location, error);
+    }
+    [self.requestCompletionHandlers removeAllObjects];
 }
 
 @end
