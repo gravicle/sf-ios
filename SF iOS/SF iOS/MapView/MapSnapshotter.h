@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithUserLocationService:(UserLocation *)userLocationService;
 
 typedef void(^MapSnapshotCompletionHandler)(UIImage * _Nullable image, NSError * _Nullable error);
-- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler;
+- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location annotationImage:(UIImage *)annotationImage withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END

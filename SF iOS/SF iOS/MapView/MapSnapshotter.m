@@ -27,7 +27,7 @@
     return self;
 }
 
-- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler {
+- (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location annotationImage:(UIImage *)annotationImage withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotOptions *options = [MKMapSnapshotOptions new];
     options.mapType = MKMapTypeMutedStandard;
     options.scale = UIScreen.mainScreen.scale;
@@ -40,21 +40,22 @@
         [self.locationService requestWithCompletionHandler:^(CLLocation * _Nullable currentLocation, NSError * _Nullable error) {
             if (!currentLocation) {
                 NSLog(@"User location could not be determined: %@", error);
-                [welf takeSnapshotWithOptions:options sourceLocation:nil destinationLocation:location completionHandler:completionHandler];
+                [welf takeSnapshotWithOptions:options sourceLocation:nil destinationLocation:location destinationAnnotationImage:annotationImage completionHandler:completionHandler];
                 return;
             }
             
             options.camera = [welf cameraFromSourceLocation:currentLocation destinationLocation:location canvasSize:size];
-            [welf takeSnapshotWithOptions:options sourceLocation:currentLocation destinationLocation:location completionHandler:completionHandler];
+            [welf takeSnapshotWithOptions:options sourceLocation:currentLocation destinationLocation:location destinationAnnotationImage:annotationImage completionHandler:completionHandler];
         }];
     } else {
-        [self takeSnapshotWithOptions:options sourceLocation:nil destinationLocation:location completionHandler:completionHandler];
+        [self takeSnapshotWithOptions:options sourceLocation:nil destinationLocation:location destinationAnnotationImage:annotationImage completionHandler:completionHandler];
     }
 }
 
 - (void)takeSnapshotWithOptions:(MKMapSnapshotOptions *)options
                  sourceLocation:(nullable CLLocation *)sourceLocation
             destinationLocation:(nonnull CLLocation *)destinationLocation
+     destinationAnnotationImage:(nonnull UIImage *)destinationAnnotationImage
               completionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     __weak typeof(self) welf = self;
@@ -65,7 +66,10 @@
                 return;
             }
             
-            UIImage *renderedImage = [welf imageFromRenderingSourceLocation:sourceLocation destinationLocation:destinationLocation onSnapshot:snapshot];
+            UIImage *renderedImage = [welf imageFromRenderingSourceLocation:sourceLocation
+                                                        destinationLocation:destinationLocation
+                                                 destinationAnnotationImage:destinationAnnotationImage
+                                                                 onSnapshot:snapshot];
             completionHandler(renderedImage, nil);
         });
     }];
@@ -92,13 +96,13 @@ static double const mapApertureInRadians = (30 * M_PI) / 180;
     return [MKMapCamera cameraLookingAtCenterCoordinate:centerCoordinate fromDistance:altitudeAdjustedForPadding pitch:0 heading:0];
 }
 
-- (nonnull UIImage *)imageFromRenderingSourceLocation:(nullable CLLocation *)sourceLocation destinationLocation:(nonnull CLLocation *)destinationLocation onSnapshot:(MKMapSnapshot *)snapshot {
+- (nonnull UIImage *)imageFromRenderingSourceLocation:(nullable CLLocation *)sourceLocation destinationLocation:(nonnull CLLocation *)destinationLocation destinationAnnotationImage:(UIImage *)destinationAnnotationImage onSnapshot:(MKMapSnapshot *)snapshot {
     UIImage *image = snapshot.image;
     
     UIGraphicsBeginImageContextWithOptions(image.size, true, image.scale);
     [image drawAtPoint:CGPointZero]; // draw map
     
-    [self addAnnotationWithImage:[UIImage imageNamed:@"coffee-location-icon"] toSnapshot:snapshot atLocation:destinationLocation];
+    [self addAnnotationWithImage:destinationAnnotationImage toSnapshot:snapshot atLocation:destinationLocation];
     if (sourceLocation) {
         [self addAnnotationWithImage:[UIImage imageNamed:@"user-location-icon"] toSnapshot:snapshot atLocation:sourceLocation];
     }

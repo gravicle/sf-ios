@@ -23,6 +23,14 @@
     self.coverImageURL = nil;
     self.location = event.location.location;
     
+    switch (event.type) {
+        case EventTypeSFCoffee:
+            self.annotationImage = [UIImage imageNamed:@"coffee-location-icon"];
+            break;
+        default:
+            break;
+    }
+    
     return self;
 }
 
