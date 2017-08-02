@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_END
     if (true) {
         __weak typeof(self) welf = self;
         self.takeMapSnapshot = ^{
-            [welf showMapForLocation:item.location usingSnapshotter:snapshotter];
+            [welf showMapForLocation:item.location annotionImage:item.annotationImage usingSnapshotter:snapshotter];
         };
     }
 }
@@ -67,9 +67,9 @@ NS_ASSUME_NONNULL_END
 
 //MARK: - Map
 
-- (void)showMapForLocation:(nonnull CLLocation *)location usingSnapshotter:(MapSnapshotter *)snapshotter {
+- (void)showMapForLocation:(nonnull CLLocation *)location annotionImage:(UIImage *)annotationImage usingSnapshotter:(MapSnapshotter *)snapshotter {
     __weak typeof(self) welf = self;
-    [snapshotter snapshotOfsize:welf.itemImageStack.bounds.size showingDestinationLocation:location withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+    [snapshotter snapshotOfsize:welf.itemImageStack.bounds.size showingDestinationLocation:location annotationImage:annotationImage withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
          dispatch_async(dispatch_get_main_queue(), ^{
              if (error) {
                  NSLog(@"Error displaying map: %@", error);

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Event.h"
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItem : NSObject
@@ -15,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *time;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *subtitle;
+@property (nonatomic) UIImage *annotationImage;
 @property (nonatomic, assign) BOOL shouldShowDirections;
 @property (nullable, nonatomic) NSURL *coverImageURL;
 @property (nonatomic) CLLocation *location;
