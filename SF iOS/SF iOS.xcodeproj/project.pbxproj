@@ -16,6 +16,7 @@
 		C82516481F2FF293006B9D7E /* FeedItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516471F2FF293006B9D7E /* FeedItemTests.m */; };
 		C825164D1F3054F6006B9D7E /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C825164C1F3054F6006B9D7E /* MapView.m */; };
 		C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516521F30ECA7006B9D7E /* MapSnapshotter.m */; };
+		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
@@ -66,6 +67,8 @@
 		C825164C1F3054F6006B9D7E /* MapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
 		C82516511F30ECA7006B9D7E /* MapSnapshotter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapSnapshotter.h; sourceTree = "<group>"; };
 		C82516521F30ECA7006B9D7E /* MapSnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSnapshotter.m; sourceTree = "<group>"; };
+		C86E38691F31B78300E35EBF /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
+		C86E386A1F31B78300E35EBF /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
 		C87995CB1F312873002CA6C8 /* UserLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserLocation.m; sourceTree = "<group>"; };
 		C8810A1F1F2BFE6900DCFEB6 /* SF iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +189,15 @@
 			path = MapView;
 			sourceTree = "<group>";
 		};
+		C86E38651F31B75700E35EBF /* RemoteUIImage */ = {
+			isa = PBXGroup;
+			children = (
+				C86E38691F31B78300E35EBF /* UIImage+URL.h */,
+				C86E386A1F31B78300E35EBF /* UIImage+URL.m */,
+			);
+			path = RemoteUIImage;
+			sourceTree = "<group>";
+		};
 		C8810A161F2BFE6900DCFEB6 = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +222,7 @@
 		C8810A211F2BFE6900DCFEB6 /* SF iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C86E38651F31B75700E35EBF /* RemoteUIImage */,
 				C825164A1F3054D1006B9D7E /* MapView */,
 				C82516491F3054BE006B9D7E /* Helpers */,
 				C825162D1F2FA24B006B9D7E /* Feed */,
@@ -424,6 +437,7 @@
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
+				C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */,
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
 				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,

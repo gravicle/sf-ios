@@ -9,6 +9,7 @@
 #import "FeedItemCell.h"
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
+#import "UIImage+URL.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell ()
@@ -18,10 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *subtitleLabel;
 @property (nonatomic) UIStackView *itemImageStack;
-@property (nonatomic) UIImageView *itemImageView;
+@property (nonatomic) UIImageView *coverImageView;
 
 typedef void(^MapSnapshotTask)(void);
 @property (nullable, nonatomic) MapSnapshotTask takeMapSnapshot;
+@property (nullable, weak, nonatomic) NSURLSessionDataTask *imageDownloadTask;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -44,8 +46,15 @@ NS_ASSUME_NONNULL_END
     if (item.shouldShowDirections) {
         __weak typeof(self) welf = self;
         self.takeMapSnapshot = ^{
-            [welf showMapForLocation:item.location annotionImage:item.annotationImage usingSnapshotter:snapshotter];
+            [welf showMapForLocation:item.location annotionImage:item.annotationImage usingSnapshotter:snapshotter withCompletionHandler:^(NSError * _Nullable error) {
+                if (error) {
+                    NSLog(@"Error displaying map: %@", error);
+                    [welf showImageWithFileURL:item.coverImageFileURL];
+                }
+            }];
         };
+    } else {
+        [self showImageWithFileURL:item.coverImageFileURL];
     }
 }
 
@@ -61,22 +70,31 @@ NS_ASSUME_NONNULL_END
 
 - (void)prepareForReuse {
     self.takeMapSnapshot = nil;
+    
+    [self.imageDownloadTask cancel];
+    self.imageDownloadTask = nil;
+    
     [super prepareForReuse];
 }
 
 //MARK: - Map
 
-- (void)showMapForLocation:(nonnull CLLocation *)location annotionImage:(UIImage *)annotationImage usingSnapshotter:(MapSnapshotter *)snapshotter {
+- (void)showMapForLocation:(nonnull CLLocation *)location annotionImage:(UIImage *)annotationImage usingSnapshotter:(MapSnapshotter *)snapshotter withCompletionHandler:(void(^)(NSError * _Nullable error))completionHandler {
     __weak typeof(self) welf = self;
     [snapshotter snapshotOfsize:welf.itemImageStack.bounds.size showingDestinationLocation:location annotationImage:annotationImage withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
          dispatch_async(dispatch_get_main_queue(), ^{
              if (error) {
-                 NSLog(@"Error displaying map: %@", error);
+                 completionHandler(error);
                  return;
              }
-             welf.itemImageView.image = image;
+             welf.coverImageView.image = image;
+             completionHandler(nil);
          });
     }];
+}
+
+- (void)showImageWithFileURL:(NSURL *)url {
+    self.coverImageView.image = [UIImage imageFromFileURL:url];
 }
 
 //MARK: - Setup
@@ -114,22 +132,22 @@ NS_ASSUME_NONNULL_END
 - (void)setupDetailsStack {
     CGFloat cornerRadius = 15;
     
-    self.itemImageView = [UIImageView new];
-    self.itemImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.itemImageView.backgroundColor = [UIColor alabaster];
-    self.itemImageView.layer.cornerRadius = cornerRadius;
-    self.itemImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
-    self.itemImageView.clipsToBounds = true;
-    self.itemImageView.translatesAutoresizingMaskIntoConstraints = false;
+    self.coverImageView = [UIImageView new];
+    self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.coverImageView.backgroundColor = [UIColor alabaster];
+    self.coverImageView.layer.cornerRadius = cornerRadius;
+    self.coverImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    self.coverImageView.clipsToBounds = true;
+    self.coverImageView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.coverImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     
-    self.itemImageStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.itemImageView]
+    self.itemImageStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.coverImageView]
                                                                    axis:UILayoutConstraintAxisVertical
                                                            distribution:UIStackViewDistributionFill
                                                               alignment:UIStackViewAlignmentFill
                                                                 spacing:0
                                                                 margins:UIEdgeInsetsZero];
     self.itemImageStack.translatesAutoresizingMaskIntoConstraints = false;
-    [self.itemImageStack setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     
     self.titleLabel = [UILabel new];
     self.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
@@ -147,7 +165,7 @@ NS_ASSUME_NONNULL_END
                                                                   alignment:UIStackViewAlignmentLeading
                                                                     spacing:6
                                                                     margins:UIEdgeInsetsMake(19, 19, 19, 19)];
-    [titleStack setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+    [titleStack setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     
     UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.itemImageStack, titleStack]
                                                                  axis:UILayoutConstraintAxisVertical
