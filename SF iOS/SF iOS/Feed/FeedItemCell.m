@@ -41,8 +41,7 @@ NS_ASSUME_NONNULL_END
     self.timeLabel.text = item.time;
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = [self subtitleAttributedStringFromString:item.subtitle];
-//    if (item.shouldShowDirections) {
-    if (true) {
+    if (item.shouldShowDirections) {
         __weak typeof(self) welf = self;
         self.takeMapSnapshot = ^{
             [welf showMapForLocation:item.location annotionImage:item.annotationImage usingSnapshotter:snapshotter];
