@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, readonly) NSString *recordName;
 @property (nonatomic, assign) EventType type;
 @property (nonatomic) NSDate* date;
-@property (nonatomic, assign) NSTimeInterval *duration;
+@property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic) Location* location;
 @property (nonatomic, readonly) UIImage *annotationImage;
 

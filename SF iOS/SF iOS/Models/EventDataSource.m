@@ -152,7 +152,7 @@
 }
                                           
 - (CKRecordID *)locationRecordIDFromEventRecord:(CKRecord *)eventRecord {
-    CKReference *locationReference = [eventRecord objectForKey:@"location"];
+    CKReference *locationReference = eventRecord[@"location"];
     return locationReference.recordID;
 }
 

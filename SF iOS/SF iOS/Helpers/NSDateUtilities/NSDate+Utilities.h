@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, assign) BOOL isThisYear;
 @property (nonatomic, readonly, assign) BOOL isInFuture;
 @property (nullable, nonatomic, readonly) NSString *relativeDayRepresentation;
-@property (nonatomic, readonly) NSString *abbreviatedDurationFromNow;
 
+@property (nonatomic, readonly) NSString *abbreviatedDurationFromNow;
 + (NSString *)abbreviatedDurationForTimeInterval:(NSTimeInterval)timeInterval;
 
 @end

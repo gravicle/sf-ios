@@ -15,10 +15,10 @@
 }
 
 - (instancetype)initWithRecord:(CKRecord *)record {
-    NSString* name = [record objectForKey:@"name"];
-    NSString* streetAddress = [record objectForKey:@"streetAddress"];
-    CLLocation *location = [record objectForKey:@"location"];
-    CKAsset *imageAsset = [record objectForKey:@"image"];
+    NSString* name = record[@"name"];
+    NSString* streetAddress = record[@"streetAddress"];
+    CLLocation *location = record[@"location"];
+    CKAsset *imageAsset = record[@"image"];
     
     return [self initWithName:name streetAddress:streetAddress location:location imageFileURL:imageAsset.fileURL];
 }

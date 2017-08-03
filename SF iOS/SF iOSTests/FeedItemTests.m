@@ -38,7 +38,7 @@
     self.event.date = eventDate;
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
-    XCTAssertTrue([item.time isEqualToString:@"Tomorrow"]);
+    XCTAssertTrue([item.dateString isEqualToString:@"Tomorrow"]);
     XCTAssertTrue(item.shouldShowDirections);
 }
 
@@ -47,7 +47,7 @@
     self.event.date = eventDate;
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
-    XCTAssertTrue([item.time isEqualToString:@"Today"]);
+    XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
     XCTAssertTrue(item.shouldShowDirections);
 }
 
@@ -56,7 +56,7 @@
     self.event.date = eventDate;
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
-    XCTAssertTrue([item.time isEqualToString:@"Today"]);
+    XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
     XCTAssertTrue(item.shouldShowDirections);
 }
 
@@ -65,7 +65,7 @@
     self.event.date = eventDate;
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
-    XCTAssertTrue([item.time isEqualToString:@"Yesterday"]);
+    XCTAssertTrue([item.dateString isEqualToString:@"Yesterday"]);
     XCTAssertEqual(item.shouldShowDirections, false);
 }
 
@@ -78,7 +78,7 @@
     formatter.dateFormat = @"MMM d";
     NSString *expctedTime = [formatter stringFromDate:eventDate];
     
-    XCTAssertTrue([item.time isEqualToString:expctedTime]);
+    XCTAssertTrue([item.dateString isEqualToString:expctedTime]);
     XCTAssertFalse(item.shouldShowDirections);
 }
 
