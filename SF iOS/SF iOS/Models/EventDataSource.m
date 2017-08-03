@@ -9,13 +9,14 @@
 #import "EventDataSource.h"
 #import "Event.h"
 #import "NSError+Constructor.h"
+#import "NSNotification+ApplicationEventNotifications.h"
 
 @interface EventDataSource ()
 
 @property (nonatomic) CKDatabase *database;
 @property (nonatomic) CKQueryCursor *cursor;
 @property (nonatomic, assign) EventType eventType;
-@property (nonatomic) NSMutableArray<Event *> *events;
+@property (nonatomic) NSMutableOrderedSet<Event *> *events;
 
 @end
 
@@ -25,19 +26,20 @@
     if (self = [super init]) {
         self.eventType = eventType;
         self.database = database;
-        self.events = [NSMutableArray new];
+        self.events = [NSMutableOrderedSet new];
+        [self observeAppActivationEvents];
     }
     return self;
 }
 
-- (void)fetchPreviousEventsWithCompletionHandler:(void (^)(BOOL didUpdate, NSError * _Nullable))completionHandler {
+- (void)fetchPreviousEvents {
     __weak typeof(self) welf = self;
     __block NSArray<CKRecord *> *eventRecords;
     
     CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(false, error);
+                [welf.delegate dataSource:welf failedToUpdateWithError:error];
             });
             return;
         }
@@ -45,14 +47,14 @@
         NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
         [welf storeNewEvents:newEvents];
         dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler(true, nil);
+            [welf.delegate didUpdateDataSource:welf];
         });
     }];
     
     CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCursor:self.cursor completionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(false, error);
+                [welf.delegate dataSource:welf failedToUpdateWithError:error];
             });
             return;
         }
@@ -165,9 +167,21 @@
 // MARK: - Bookeeping
 
 - (void)storeNewEvents:(NSArray<Event *> *)newEvents {
+//    NSSet *eventsSet = [NSSet setWithArray:[self.events arrayByAddingObjectsFromArray:newEvents]];
+//    NSSortDescriptor *reverseChronologicalSort = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:false];
+//    self.events = [eventsSet sortedArrayUsingDescriptors:@[reverseChronologicalSort]];
     [self.events addObjectsFromArray:newEvents];
-    [self.events sortUsingComparator:^NSComparisonResult(Event * _Nonnull obj1, Event * _Nonnull obj2) {
-        return [obj2.date compare:obj1.date];
+    [self.events sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [[(Event *)obj2 date] compare:[(Event *)obj1 date]];
+    }];
+}
+
+//MARK: - Respond To app Events
+
+- (void)observeAppActivationEvents {
+    __weak typeof(self) welf = self;
+    [[NSNotificationCenter defaultCenter] addObserverForName:NSNotification.applicationBecameActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        [welf fetchPreviousEvents];
     }];
 }
 

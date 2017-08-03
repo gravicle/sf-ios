@@ -10,6 +10,7 @@
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
 #import "UIImage+URL.h"
+#import "NSAttributedString+EventAddress.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell ()
@@ -42,7 +43,7 @@ NS_ASSUME_NONNULL_END
 - (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
     self.timeLabel.text = item.time;
     self.titleLabel.text = item.title;
-    self.subtitleLabel.attributedText = [self subtitleAttributedStringFromString:item.subtitle];
+    self.subtitleLabel.attributedText = [NSAttributedString eventAddressAttributedStringFromAddress:item.subtitle];
     if (item.shouldShowDirections) {
         __weak typeof(self) welf = self;
         self.takeMapSnapshot = ^{
@@ -191,11 +192,6 @@ NS_ASSUME_NONNULL_END
     [detailsStack.bottomAnchor constraintEqualToAnchor:detailsStackContainer.bottomAnchor].active = true;
     
     [self.containerStack addArrangedSubview:detailsStackContainer];
-}
-
-- (NSAttributedString *)subtitleAttributedStringFromString:(NSString *)string {
-    NSDictionary<NSAttributedStringKey, id> *kerning = @{NSKernAttributeName : @(0.82)};
-    return [[NSAttributedString alloc] initWithString:[string uppercaseString] attributes:kerning];
 }
 
 @end

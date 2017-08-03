@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "EventType.h"
 #import "Location.h"
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface Event : NSObject
@@ -17,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) EventType type;
 @property (nonatomic) NSDate* date;
 @property (nonatomic) Location* location;
+@property (nonatomic, readonly) UIImage *annotationImage;
 
 - (instancetype)initWithEventType:(EventType)type date:(NSDate *)date location:(Location *)location;
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location;

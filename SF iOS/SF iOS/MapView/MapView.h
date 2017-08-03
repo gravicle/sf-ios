@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @import CoreLocation;
+@import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface MapView : UIView
+@interface MapView : UIView <MKMapViewDelegate>
 
-@property (nonatomic, assign) BOOL showsUserLocation;
-- (void)setDestinationToLocation:(CLLocation *)destination;
+- (void)setDestinationToLocation:(CLLocation *)destination withAnnotationImage:(UIImage *)annotationImage;
 
 @end
 NS_ASSUME_NONNULL_END

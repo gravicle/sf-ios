@@ -30,6 +30,11 @@
 		C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */; };
 		C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DDE1F2D8BCF007A5B0C /* Event.m */; };
 		C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DE21F2D926A007A5B0C /* EventDataSource.m */; };
+		C8CC491D1F3259EB0064B03E /* NSAttributedString+EventAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC491C1F3259EB0064B03E /* NSAttributedString+EventAddress.m */; };
+		C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */; };
+		C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */; };
+		C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */; };
+		C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +101,16 @@
 		C89A8DE01F2D8C2A007A5B0C /* EventType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
 		C89A8DE11F2D926A007A5B0C /* EventDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDataSource.h; sourceTree = "<group>"; };
 		C89A8DE21F2D926A007A5B0C /* EventDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDataSource.m; sourceTree = "<group>"; };
+		C8CC491B1F3259EB0064B03E /* NSAttributedString+EventAddress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+EventAddress.h"; sourceTree = "<group>"; };
+		C8CC491C1F3259EB0064B03E /* NSAttributedString+EventAddress.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+EventAddress.m"; sourceTree = "<group>"; };
+		C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MKMapCamera+OverlookingLocations.m"; sourceTree = "<group>"; };
+		C8CC49281F32643A0064B03E /* MKMapCamera+OverlookingLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MKMapCamera+OverlookingLocations.h"; sourceTree = "<group>"; };
+		C8CC492F1F32A6820064B03E /* NSNotification+ApplicationEventNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNotification+ApplicationEventNotifications.h"; sourceTree = "<group>"; };
+		C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNotification+ApplicationEventNotifications.m"; sourceTree = "<group>"; };
+		C8CC49331F32A7260064B03E /* UIApplication+Metadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Metadata.h"; sourceTree = "<group>"; };
+		C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Metadata.m"; sourceTree = "<group>"; };
+		C8E6A3EB1F3256180098339C /* EventDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
+		C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +183,9 @@
 		C82516491F3054BE006B9D7E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C8CC49321F32A70A0064B03E /* Application */,
+				C8CC49291F3264420064B03E /* MapCameraOverlookingLocations */,
+				C8CC491F1F3260730064B03E /* EventAddressFormatter */,
 				C82516431F2FEB5C006B9D7E /* NSDateUtilities */,
 				C82516391F2FDF01006B9D7E /* Styles */,
 				C82516351F2FBDEF006B9D7E /* StackViews */,
@@ -226,6 +244,7 @@
 				C825164A1F3054D1006B9D7E /* MapView */,
 				C82516491F3054BE006B9D7E /* Helpers */,
 				C825162D1F2FA24B006B9D7E /* Feed */,
+				C8E6A3EA1F3255F70098339C /* EventDetails */,
 				C8810A5A1F2C028900DCFEB6 /* Models */,
 				C8810A541F2BFE9400DCFEB6 /* SF iOS.entitlements */,
 				C8810A221F2BFE6900DCFEB6 /* AppDelegate.h */,
@@ -269,6 +288,7 @@
 		C8810A5A1F2C028900DCFEB6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C8CC492B1F32A5E20064B03E /* ApplicationEventNotifications */,
 				C8810A5B1F2C043600DCFEB6 /* Location.h */,
 				C8810A5C1F2C043600DCFEB6 /* Location.m */,
 				C89A8DDD1F2D8BCF007A5B0C /* Event.h */,
@@ -287,6 +307,51 @@
 				C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		C8CC491F1F3260730064B03E /* EventAddressFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				C8CC491B1F3259EB0064B03E /* NSAttributedString+EventAddress.h */,
+				C8CC491C1F3259EB0064B03E /* NSAttributedString+EventAddress.m */,
+			);
+			path = EventAddressFormatter;
+			sourceTree = "<group>";
+		};
+		C8CC49291F3264420064B03E /* MapCameraOverlookingLocations */ = {
+			isa = PBXGroup;
+			children = (
+				C8CC49281F32643A0064B03E /* MKMapCamera+OverlookingLocations.h */,
+				C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */,
+			);
+			path = MapCameraOverlookingLocations;
+			sourceTree = "<group>";
+		};
+		C8CC492B1F32A5E20064B03E /* ApplicationEventNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				C8CC492F1F32A6820064B03E /* NSNotification+ApplicationEventNotifications.h */,
+				C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */,
+			);
+			path = ApplicationEventNotifications;
+			sourceTree = "<group>";
+		};
+		C8CC49321F32A70A0064B03E /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C8CC49331F32A7260064B03E /* UIApplication+Metadata.h */,
+				C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C8E6A3EA1F3255F70098339C /* EventDetails */ = {
+			isa = PBXGroup;
+			children = (
+				C8E6A3EB1F3256180098339C /* EventDetailsViewController.h */,
+				C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */,
+			);
+			path = EventDetails;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -431,12 +496,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */,
+				C8CC491D1F3259EB0064B03E /* NSAttributedString+EventAddress.m in Sources */,
 				C825163C1F2FDF46006B9D7E /* UIColor+SFiOSColors.m in Sources */,
 				C8810A321F2BFE6900DCFEB6 /* main.m in Sources */,
 				C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */,
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
+				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
+				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,
+				C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */,
+				C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */,
 				C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */,
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
 				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,

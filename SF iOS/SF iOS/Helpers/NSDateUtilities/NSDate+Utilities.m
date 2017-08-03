@@ -40,4 +40,8 @@
     return  dateYear == currentYear;
 }
 
+- (BOOL)isInFuture {
+    return [self compare:[NSDate new]] == NSOrderedDescending;
+}
+
 @end

@@ -34,4 +34,15 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]]) {
+        return false;
+    }
+    Location *location = (Location *)object;
+    return (self.location.coordinate.latitude == location.location.coordinate.latitude) &&
+           (self.location.coordinate.longitude == location.location.coordinate.longitude) &&
+           [self.streetAddress isEqual:location.streetAddress] &&
+           [self.name isEqual:location.name];
+}
+
 @end
