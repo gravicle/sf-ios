@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_END
 //MARK: - Configuration
 
 - (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
-    self.timeLabel.text = item.time;
+    self.timeLabel.text = item.dateString;
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = [NSAttributedString eventAddressAttributedStringFromAddress:item.subtitle];
     if (item.shouldShowDirections) {

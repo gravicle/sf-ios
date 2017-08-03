@@ -13,7 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItem : NSObject
 
-@property (nonatomic) NSString *time;
+@property (nonatomic) NSString *dateString;
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSString *subtitle;
 @property (nonatomic) UIImage *annotationImage;

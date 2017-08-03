@@ -16,9 +16,9 @@
 }
 
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location {
-    EventType type = [(NSNumber *)[record objectForKey:@"eventType"] integerValue];
-    NSDate *date = [record objectForKey:@"eventDate"];
-    NSTimeInterval duration = [(NSNumber *)[record objectForKey:@"duration"] doubleValue];
+    EventType type = [(NSNumber *)record[@"eventType"] integerValue];
+    NSDate *date = record[@"eventDate"];
+    NSTimeInterval duration = [(NSNumber *)record[@"duration"] doubleValue];
     
     return [self initWithEventType:type date:date duration: duration location:location];
 }
@@ -27,6 +27,7 @@
     if (self = [super init]) {
         self.type = type;
         self.date = date;
+        self.duration = duration;
         self.location = location;
     }
     
