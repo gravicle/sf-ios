@@ -167,9 +167,6 @@
 // MARK: - Bookeeping
 
 - (void)storeNewEvents:(NSArray<Event *> *)newEvents {
-//    NSSet *eventsSet = [NSSet setWithArray:[self.events arrayByAddingObjectsFromArray:newEvents]];
-//    NSSortDescriptor *reverseChronologicalSort = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:false];
-//    self.events = [eventsSet sortedArrayUsingDescriptors:@[reverseChronologicalSort]];
     [self.events addObjectsFromArray:newEvents];
     [self.events sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         return [[(Event *)obj2 date] compare:[(Event *)obj1 date]];
