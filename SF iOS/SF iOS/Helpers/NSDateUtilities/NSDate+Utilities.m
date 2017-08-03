@@ -44,4 +44,16 @@
     return [self compare:[NSDate new]] == NSOrderedDescending;
 }
 
+- (NSString *)abbreviatedDurationFromNow {
+    NSTimeInterval difference = [self timeIntervalSinceNow];
+    return [NSDate abbreviatedDurationForTimeInterval:difference];
+}
+
++ (NSString *)abbreviatedDurationForTimeInterval:(NSTimeInterval)timeInterval {
+    NSDateComponentsFormatter *formatter = [NSDateComponentsFormatter new];
+    formatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
+    formatter.allowedUnits = NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+    return [formatter stringFromTimeInterval:timeInterval];
+}
+
 @end

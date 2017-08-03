@@ -34,6 +34,9 @@
 		C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */; };
 		C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */; };
 		C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */; };
+		C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC493A1F3303170064B03E /* TravelTimeService.m */; };
+		C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC493E1F3307DD0064B03E /* TravelTime.m */; };
+		C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49421F330F360064B03E /* AsyncOperation.m */; };
 		C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +112,12 @@
 		C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNotification+ApplicationEventNotifications.m"; sourceTree = "<group>"; };
 		C8CC49331F32A7260064B03E /* UIApplication+Metadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Metadata.h"; sourceTree = "<group>"; };
 		C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Metadata.m"; sourceTree = "<group>"; };
+		C8CC49391F3303170064B03E /* TravelTimeService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTimeService.h; sourceTree = "<group>"; };
+		C8CC493A1F3303170064B03E /* TravelTimeService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTimeService.m; sourceTree = "<group>"; };
+		C8CC493D1F3307DD0064B03E /* TravelTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTime.h; sourceTree = "<group>"; };
+		C8CC493E1F3307DD0064B03E /* TravelTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTime.m; sourceTree = "<group>"; };
+		C8CC49411F330F360064B03E /* AsyncOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncOperation.h; sourceTree = "<group>"; };
+		C8CC49421F330F360064B03E /* AsyncOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AsyncOperation.m; sourceTree = "<group>"; };
 		C8E6A3EB1F3256180098339C /* EventDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
 		C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,6 +192,7 @@
 		C82516491F3054BE006B9D7E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C8CC49401F330F1E0064B03E /* Concurrency */,
 				C8CC49321F32A70A0064B03E /* Application */,
 				C8CC49291F3264420064B03E /* MapCameraOverlookingLocations */,
 				C8CC491F1F3260730064B03E /* EventAddressFormatter */,
@@ -194,7 +204,7 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		C825164A1F3054D1006B9D7E /* MapView */ = {
+		C825164A1F3054D1006B9D7E /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				C825164B1F3054F6006B9D7E /* MapView.h */,
@@ -203,8 +213,9 @@
 				C82516521F30ECA7006B9D7E /* MapSnapshotter.m */,
 				C87995CA1F312873002CA6C8 /* UserLocation.h */,
 				C87995CB1F312873002CA6C8 /* UserLocation.m */,
+				C8CC493C1F3307C70064B03E /* TravelTime */,
 			);
-			path = MapView;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		C86E38651F31B75700E35EBF /* RemoteUIImage */ = {
@@ -241,7 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				C86E38651F31B75700E35EBF /* RemoteUIImage */,
-				C825164A1F3054D1006B9D7E /* MapView */,
+				C825164A1F3054D1006B9D7E /* Map */,
 				C82516491F3054BE006B9D7E /* Helpers */,
 				C825162D1F2FA24B006B9D7E /* Feed */,
 				C8E6A3EA1F3255F70098339C /* EventDetails */,
@@ -343,6 +354,26 @@
 				C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		C8CC493C1F3307C70064B03E /* TravelTime */ = {
+			isa = PBXGroup;
+			children = (
+				C8CC49391F3303170064B03E /* TravelTimeService.h */,
+				C8CC493A1F3303170064B03E /* TravelTimeService.m */,
+				C8CC493D1F3307DD0064B03E /* TravelTime.h */,
+				C8CC493E1F3307DD0064B03E /* TravelTime.m */,
+			);
+			path = TravelTime;
+			sourceTree = "<group>";
+		};
+		C8CC49401F330F1E0064B03E /* Concurrency */ = {
+			isa = PBXGroup;
+			children = (
+				C8CC49411F330F360064B03E /* AsyncOperation.h */,
+				C8CC49421F330F360064B03E /* AsyncOperation.m */,
+			);
+			path = Concurrency;
 			sourceTree = "<group>";
 		};
 		C8E6A3EA1F3255F70098339C /* EventDetails */ = {
@@ -496,6 +527,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */,
+				C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */,
 				C8CC491D1F3259EB0064B03E /* NSAttributedString+EventAddress.m in Sources */,
 				C825163C1F2FDF46006B9D7E /* UIColor+SFiOSColors.m in Sources */,
 				C8810A321F2BFE6900DCFEB6 /* main.m in Sources */,
@@ -512,9 +544,11 @@
 				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
+				C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */,
 				C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */,
 				C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */,
 				C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */,
+				C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */,
 				C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

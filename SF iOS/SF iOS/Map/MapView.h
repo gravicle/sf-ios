@@ -15,5 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)setDestinationToLocation:(CLLocation *)destination withAnnotationImage:(UIImage *)annotationImage;
 
+typedef void(^UserLocationObserverBlock)(CLLocation *_Nullable userLocation);
+@property (nullable, nonatomic) UserLocationObserverBlock userLocationObserver;
+
 @end
 NS_ASSUME_NONNULL_END
