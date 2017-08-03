@@ -18,11 +18,12 @@
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location {
     EventType type = [(NSNumber *)[record objectForKey:@"eventType"] integerValue];
     NSDate *date = [record objectForKey:@"eventDate"];
+    NSTimeInterval duration = [(NSNumber *)[record objectForKey:@"duration"] doubleValue];
     
-    return [self initWithEventType:type date:date location:location];
+    return [self initWithEventType:type date:date duration: duration location:location];
 }
 
-- (instancetype)initWithEventType:(EventType)type date:(NSDate *)date location:(Location *)location {
+- (instancetype)initWithEventType:(EventType)type date:(NSDate *)date duration:(NSTimeInterval)duration location:(Location *)location {
     if (self = [super init]) {
         self.type = type;
         self.date = date;
