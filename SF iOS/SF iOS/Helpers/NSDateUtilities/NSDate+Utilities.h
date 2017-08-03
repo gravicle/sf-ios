@@ -13,7 +13,8 @@
 @property (nonatomic, readonly, assign) BOOL isYesterday;
 @property (nonatomic, readonly, assign) BOOL isToday;
 @property (nonatomic, readonly, assign) BOOL isTomorrow;
-@property (nullable, nonatomic, readonly) NSString *relativeDayRepresentation;
 @property (nonatomic, readonly, assign) BOOL isThisYear;
+@property (nonatomic, readonly, assign) BOOL isInFuture;
+@property (nullable, nonatomic, readonly) NSString *relativeDayRepresentation;
 
 @end

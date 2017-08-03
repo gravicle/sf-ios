@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "EventDataSource.h"
 #import "EventsFeedViewController.h"
+#import "NSNotification+ApplicationEventNotifications.h"
 @import CloudKit;
 
 @interface AppDelegate ()
@@ -51,6 +52,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[NSNotificationCenter defaultCenter] postNotificationName:NSNotification.applicationBecameActiveNotification object:nil];
 }
 
 

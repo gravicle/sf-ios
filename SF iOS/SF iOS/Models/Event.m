@@ -32,4 +32,22 @@
     return self;
 }
 
+- (UIImage *)annotationImage {
+    switch (self.type) {
+        case EventTypeSFCoffee:
+            return [UIImage imageNamed:@"coffee-location-icon"];
+            break;
+        default:
+            break;
+    }
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]]) {
+        return false;
+    }
+    Event *event = (Event *)object;
+    return (self.type == event.type) && [self.date isEqual:event.date] && [self.location isEqual:event.location];
+}
+
 @end

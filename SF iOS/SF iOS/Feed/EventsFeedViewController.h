@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "EventDataSource.h"
 
-@interface EventsFeedViewController : UITableViewController
+NS_ASSUME_NONNULL_BEGIN
+@interface EventsFeedViewController : UITableViewController <EventDataSourceDelegate>
 
 - (instancetype)initWithDataSource:(EventDataSource *)dataSource NS_DESIGNATED_INITIALIZER;
 
 @end
+NS_ASSUME_NONNULL_END

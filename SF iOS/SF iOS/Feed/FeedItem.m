@@ -22,14 +22,7 @@
     self.shouldShowDirections = [self directionsAreRelevantForEventWithDate:event.date];
     self.coverImageFileURL = event.location.imageFileURL;
     self.location = event.location.location;
-    
-    switch (event.type) {
-        case EventTypeSFCoffee:
-            self.annotationImage = [UIImage imageNamed:@"coffee-location-icon"];
-            break;
-        default:
-            break;
-    }
+    self.annotationImage = event.annotationImage;
     
     return self;
 }
@@ -54,8 +47,7 @@
 }
 
 - (BOOL)directionsAreRelevantForEventWithDate:(NSDate *)date {
-    BOOL dateIsIsFuture = [date compare:[NSDate new]] == NSOrderedDescending;
-    if (date.isToday || dateIsIsFuture) {
+    if (date.isToday || date.isInFuture) {
         return true;
     }
     return false;

@@ -7,6 +7,7 @@
 //
 
 #import "MapSnapshotter.h"
+#import "MKMapCamera+OverlookingLocations.h"
 @import MapKit;
 
 @interface MapSnapshotter ()
@@ -44,7 +45,7 @@
                 return;
             }
             
-            options.camera = [welf cameraFromSourceLocation:currentLocation destinationLocation:location canvasSize:size];
+            options.camera = [MKMapCamera cameraOverlookingLocation1:currentLocation location2:location];
             [welf takeSnapshotWithOptions:options sourceLocation:currentLocation destinationLocation:location destinationAnnotationImage:annotationImage completionHandler:completionHandler];
         }];
     } else {
@@ -79,21 +80,6 @@
 
 - (MKCoordinateRegion)mapRegionCenteredAroundLocation:(nonnull CLLocation *)location {
     return MKCoordinateRegionMake(location.coordinate, MKCoordinateSpanMake(0.2, 0.2));
-}
-
-// https://stackoverflow.com/a/21034410/2671390
-static double const mapApertureInRadians = (30 * M_PI) / 180;
-
-- (MKMapCamera *)cameraFromSourceLocation:(CLLocation *)sourceLocation destinationLocation:(CLLocation *)destinationLocation canvasSize:(CGSize)canvasSize {
-    CLLocationCoordinate2D sourceCoordinate = sourceLocation.coordinate;
-    CLLocationCoordinate2D destCoordinate = destinationLocation.coordinate;
-    CLLocationCoordinate2D centerCoordinate = CLLocationCoordinate2DMake((sourceCoordinate.latitude + destCoordinate.latitude) / 2, (sourceCoordinate.longitude + destCoordinate.longitude) / 2);
-    
-    double span = [sourceLocation distanceFromLocation:destinationLocation] / 2;
-    double altitude = span / tan(mapApertureInRadians / 2);
-    double altitudeAdjustedForPadding = altitude + (altitude * 0.15);
-    
-    return [MKMapCamera cameraLookingAtCenterCoordinate:centerCoordinate fromDistance:altitudeAdjustedForPadding pitch:0 heading:0];
 }
 
 - (nonnull UIImage *)imageFromRenderingSourceLocation:(nullable CLLocation *)sourceLocation destinationLocation:(nonnull CLLocation *)destinationLocation destinationAnnotationImage:(UIImage *)destinationAnnotationImage onSnapshot:(MKMapSnapshot *)snapshot {

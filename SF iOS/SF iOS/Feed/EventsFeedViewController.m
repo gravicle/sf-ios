@@ -11,6 +11,7 @@
 #import "FeedItem.h"
 #import "MapSnapshotter.h"
 #import "UserLocation.h"
+#import "EventDetailsViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EventsFeedViewController ()
@@ -27,6 +28,7 @@ NS_ASSUME_NONNULL_END
 - (instancetype)initWithDataSource:(EventDataSource *)dataSource {
     if (self = [super initWithStyle:UITableViewStylePlain]) {
         self.dataSource = dataSource;
+        dataSource.delegate = self;
         self.userLocationService = [UserLocation new];
         self.snapshotter = [[MapSnapshotter alloc] initWithUserLocationService:self.userLocationService];
     }
@@ -36,19 +38,19 @@ NS_ASSUME_NONNULL_END
 
 - (instancetype)initWithStyle:(UITableViewStyle)style {
     NSAssert(false, @"Use -initWithDataSource");
-    self = [self initWithDataSource:nil];
+    self = [self initWithDataSource:[EventDataSource new]];
     return self;
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     NSAssert(false, @"Use -initWithDataSource");
-    self = [self initWithDataSource:nil];
+    self = [self initWithDataSource:[EventDataSource new]];
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"Use -initWithDataSource");
-    self = [self initWithDataSource:nil];
+    self = [self initWithDataSource:[EventDataSource new]];
     return self;
 }
 
@@ -60,10 +62,7 @@ NS_ASSUME_NONNULL_END
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
     
-    __weak typeof(self) welf = self;
-    [self.dataSource fetchPreviousEventsWithCompletionHandler:^(BOOL didUpdate, NSError * _Nullable error) {
-        [welf.tableView reloadData];
-    }];
+    [self.dataSource fetchPreviousEvents];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -99,6 +98,24 @@ NS_ASSUME_NONNULL_END
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     [(FeedItemCell *)cell layoutMap];
+}
+
+//MARK: - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Event *event = [self.dataSource eventAtIndex:indexPath.row];
+    EventDetailsViewController *detailsViewController = [[EventDetailsViewController alloc] initWithEvent:event];
+    [self presentViewController:detailsViewController animated:true completion:nil];
+}
+
+//MARK: - EventDataSourceDelegate
+
+- (void)didUpdateDataSource:(EventDataSource *)datasource {
+    [self.tableView reloadData];
+}
+
+- (void)dataSource:(EventDataSource *)datasource failedToUpdateWithError:(NSError *)error {
+    NSLog(@"Error fetching events: %@", error);
 }
 
 //MARK: - Location Permission

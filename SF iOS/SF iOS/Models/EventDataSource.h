@@ -12,14 +12,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class EventDataSource;
+
+@protocol EventDataSourceDelegate
+- (void)didUpdateDataSource:(EventDataSource *)datasource;
+- (void)dataSource:(EventDataSource *)datasource failedToUpdateWithError:(NSError *)error;
+@end
+
 @interface EventDataSource : NSObject
 
+@property (nonatomic, weak) id<EventDataSourceDelegate> delegate;
 @property (nonatomic, assign) BOOL hasMoreEvents;
+@property (nonatomic, readonly, assign) NSUInteger numberOfEvents;
 
 - (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database;
-- (void)fetchPreviousEventsWithCompletionHandler:(void (^)(BOOL didUpdate, NSError * _Nullable error))completionHandler;
-
-@property (nonatomic, readonly, assign) NSUInteger numberOfEvents;
+- (void)fetchPreviousEvents;
 - (Event *)eventAtIndex:(NSUInteger)index;
 
 @end
