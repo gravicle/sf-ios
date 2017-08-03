@@ -96,7 +96,13 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
 //MARK: - UserLocation
 
 - (void)setUserLocation:(CLLocation *)userLocation {
+    if ([self location:userLocation isSameAsLocation:_userLocation]) {
+        return;
+    }
+    
     _userLocation = userLocation;
+    self.userLocationObserver(userLocation);
+    
     if (!userLocation) {
         [self setCameraOnDestination];
     } else {
@@ -140,6 +146,12 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
     CLLocationCoordinate2D sanFrancisco = CLLocationCoordinate2DMake(37.749576, -122.442606);
     MKMapCamera *camera = [MKMapCamera cameraLookingAtCenterCoordinate:sanFrancisco fromDistance:10000 pitch:0 heading:0];
     [self.mapView setCamera:camera animated:false];
+}
+
+//MARK: - Location Comparison
+
+- (BOOL)location:(CLLocation *)lhs isSameAsLocation:(CLLocation *)rhs {
+    return lhs.coordinate.latitude == rhs.coordinate.latitude && lhs.coordinate.longitude == rhs.coordinate.longitude;
 }
 
 @end

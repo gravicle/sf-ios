@@ -1,3 +1,4 @@
+
 //
 //  EventDetailsViewController.m
 //  SF iOS
@@ -12,6 +13,7 @@
 #import "NSAttributedString+EventAddress.h"
 #import "NSDate+Utilities.h"
 #import "MapView.h"
+#import "TravelTimeService.h"
 @import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -20,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) Event *event;
 @property (nonatomic) MapView *mapView;
 @property (nonatomic) UIStackView *containerStack;
+@property (nonatomic) TravelTimeService *travelTimeService;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -29,6 +32,7 @@ NS_ASSUME_NONNULL_END
 - (instancetype)initWithEvent:(Event *)event {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.event = event;
+        self.travelTimeService = [TravelTimeService new];
     }
     return self;
 }
@@ -69,7 +73,7 @@ NS_ASSUME_NONNULL_END
     UILabel *timeRemainingLabel = nil;
     if (self.event.date.isInFuture && self.event.date.isToday) {
         timeRemainingLabel = [UILabel new];
-        timeRemainingLabel.text = [self timeRemainingToDate:self.event.date];
+        timeRemainingLabel.text = self.event.date.abbreviatedDurationFromNow;
         timeRemainingLabel.font = [UIFont systemFontOfSize:13];
         timeRemainingLabel.textColor = [UIColor abbey];
         [detailViews addObject:timeRemainingLabel];
@@ -85,6 +89,10 @@ NS_ASSUME_NONNULL_END
     
     self.mapView = [MapView new];
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+    __weak typeof(self) welf = self;
+    self.mapView.userLocationObserver = ^(CLLocation * _Nullable userLocation) {
+        [welf updateTravelTimesWithUserLocation:userLocation];
+    };
     
     self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, detailsStack]
                                                                    axis:UILayoutConstraintAxisVertical
@@ -126,14 +134,19 @@ NS_ASSUME_NONNULL_END
     [self.mapView setDestinationToLocation:self.event.location.location withAnnotationImage:self.event.annotationImage];
 }
 
-// ---
+// MARK: - Travel Times
 
-- (NSString*)timeRemainingToDate:(nonnull NSDate *)date {
-    NSTimeInterval difference = [date timeIntervalSinceNow];
-    NSDateComponentsFormatter *formatter = [NSDateComponentsFormatter new];
-    formatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
-    return [formatter stringFromTimeInterval:difference];
+- (void)updateTravelTimesWithUserLocation:(nullable CLLocation *)userLocation {
+    if (!userLocation) {
+        return;
+    }
+    
+    [self.travelTimeService calculateTravelTimesFromLocation:userLocation toLocation:self.event.location.location withCompletionHandler:^(NSArray<TravelTime *> * _Nonnull travelTimes) {
+        
+    }];
 }
+
+// ---
 
 - (void)dismiss {
     [self dismissViewControllerAnimated:true completion:nil];
@@ -142,5 +155,7 @@ NS_ASSUME_NONNULL_END
 - (CGFloat)statusBarHeight {
     return [UIApplication sharedApplication].statusBarFrame.size.height;
 }
+
+
 
 @end
