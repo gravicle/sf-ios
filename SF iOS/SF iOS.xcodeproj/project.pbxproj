@@ -37,6 +37,8 @@
 		C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC493A1F3303170064B03E /* TravelTimeService.m */; };
 		C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC493E1F3307DD0064B03E /* TravelTime.m */; };
 		C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49421F330F360064B03E /* AsyncOperation.m */; };
+		C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49481F33B9150064B03E /* TravelTimesView.m */; };
+		C8CC494C1F33BA420064B03E /* TravelTimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC494B1F33BA420064B03E /* TravelTimeCell.m */; };
 		C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +120,10 @@
 		C8CC493E1F3307DD0064B03E /* TravelTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTime.m; sourceTree = "<group>"; };
 		C8CC49411F330F360064B03E /* AsyncOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncOperation.h; sourceTree = "<group>"; };
 		C8CC49421F330F360064B03E /* AsyncOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AsyncOperation.m; sourceTree = "<group>"; };
+		C8CC49471F33B9150064B03E /* TravelTimesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTimesView.h; sourceTree = "<group>"; };
+		C8CC49481F33B9150064B03E /* TravelTimesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTimesView.m; sourceTree = "<group>"; };
+		C8CC494A1F33BA420064B03E /* TravelTimeCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTimeCell.h; sourceTree = "<group>"; };
+		C8CC494B1F33BA420064B03E /* TravelTimeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTimeCell.m; sourceTree = "<group>"; };
 		C8E6A3EB1F3256180098339C /* EventDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
 		C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -381,6 +387,10 @@
 			children = (
 				C8E6A3EB1F3256180098339C /* EventDetailsViewController.h */,
 				C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */,
+				C8CC49471F33B9150064B03E /* TravelTimesView.h */,
+				C8CC49481F33B9150064B03E /* TravelTimesView.m */,
+				C8CC494A1F33BA420064B03E /* TravelTimeCell.h */,
+				C8CC494B1F33BA420064B03E /* TravelTimeCell.m */,
 			);
 			path = EventDetails;
 			sourceTree = "<group>";
@@ -534,6 +544,7 @@
 				C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */,
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
+				C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
 				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
 				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,
@@ -541,6 +552,7 @@
 				C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */,
 				C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */,
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
+				C8CC494C1F33BA420064B03E /* TravelTimeCell.m in Sources */,
 				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,

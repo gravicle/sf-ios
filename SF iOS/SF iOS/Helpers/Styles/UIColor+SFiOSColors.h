@@ -16,4 +16,16 @@
 ///#FEFEFE
 + (UIColor *)alabaster;
 
+///#8CD838
++ (UIColor *)atlantis;
+
+///#F6AE36
++ (UIColor *)saffron;
+
+///#E75D5A
++ (UIColor *)mandy;
+
+///#B7B7B7
++ (UIColor *)nobel;
+
 @end

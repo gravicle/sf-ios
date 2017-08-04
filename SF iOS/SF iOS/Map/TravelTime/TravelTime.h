@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 @import MapKit;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface TravelTime : NSObject
 
-@property (nonatomic, assign) MKDirectionsTransportType transportationType;
+@property (nonatomic, assign) MKDirectionsTransportType transportType;
 @property (nonatomic, assign) NSTimeInterval travelTime;
 @property (nonatomic, readonly) NSString *travelTimeEstimateString;
+@property (nonatomic) UIImage *icon;
 
 - (instancetype)initWithTransportType:(MKDirectionsTransportType)transportType travelTime:(NSTimeInterval)travelTime;
 
 @end
+NS_ASSUME_NONNULL_END
