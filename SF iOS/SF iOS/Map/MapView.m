@@ -101,7 +101,9 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
     }
     
     _userLocation = userLocation;
-    self.userLocationObserver(userLocation);
+    if (self.userLocationObserver) {
+        self.userLocationObserver(userLocation);
+    }
     
     if (!userLocation) {
         [self setCameraOnDestination];

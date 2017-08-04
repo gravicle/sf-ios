@@ -32,18 +32,21 @@
     
     MKDirectionsRequest *transitRequest = [self requestFromLocation:sourceLocation toLocation:destinationLocation usingTransporationType:MKDirectionsTransportTypeTransit];
     MKDirectionsRequest *walkingRequest = [self requestFromLocation:sourceLocation toLocation:destinationLocation usingTransporationType:MKDirectionsTransportTypeWalking];
-    MKDirectionsRequest *drivingRequest = [self requestFromLocation:sourceLocation toLocation:destinationLocation usingTransporationType:MKDirectionsTransportTypeTransit];
+    MKDirectionsRequest *drivingRequest = [self requestFromLocation:sourceLocation toLocation:destinationLocation usingTransporationType:MKDirectionsTransportTypeAutomobile];
     NSArray *requests = @[transitRequest, walkingRequest, drivingRequest];
     
     NSOperation *completionOperation = [NSBlockOperation blockOperationWithBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
+            [travelTimes sortUsingComparator:^NSComparisonResult(TravelTime *_Nonnull obj1, TravelTime *_Nonnull obj2) {
+                return obj1.travelTime > obj2.travelTime;
+            }];
             completionHandler(travelTimes);
         });
     }];
     
     for (MKDirectionsRequest *request in requests) {
         AsyncOperation *travelTimeCalculation = [self travelTimeCalculationWithRequest:request completionHandler:^(TravelTime * _Nullable travelTime) {
-            if (travelTime){
+            if (travelTime) {
                 [travelTimes addObject:travelTime];
             }
         }];
@@ -58,7 +61,7 @@
     request.source = [[MKMapItem alloc] initWithPlacemark: [[MKPlacemark alloc] initWithCoordinate:sourceLocation.coordinate]];
     request.destination = [[MKMapItem alloc] initWithPlacemark: [[MKPlacemark alloc] initWithCoordinate:destinationLocation.coordinate]];
     request.requestsAlternateRoutes = false;
-    request.transportType = MKDirectionsTransportTypeTransit | MKDirectionsTransportTypeWalking | MKDirectionsTransportTypeAutomobile;
+    request.transportType = transportationType;
     return request;
 }
 

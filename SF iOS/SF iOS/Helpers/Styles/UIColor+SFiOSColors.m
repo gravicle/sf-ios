@@ -18,4 +18,20 @@
     return [UIColor colorWithRed:0.98 green:0.98 blue:0.98 alpha:1.0];
 }
 
++ (UIColor *)atlantis {
+    return [UIColor colorWithRed:0.55 green:0.85 blue:0.22 alpha:1.0];
+}
+
++ (UIColor *)saffron {
+    return [UIColor colorWithRed:0.96 green:0.68 blue:0.21 alpha:1.0];
+}
+
++ (UIColor *)mandy {
+    return [UIColor colorWithRed:0.91 green:0.36 blue:0.35 alpha:1.0];
+}
+
++ (UIColor *)nobel {
+    return [UIColor colorWithRed:0.72 green:0.72 blue:0.72 alpha:1.0];
+}
+
 @end

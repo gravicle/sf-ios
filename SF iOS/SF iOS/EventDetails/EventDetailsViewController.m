@@ -14,6 +14,7 @@
 #import "NSDate+Utilities.h"
 #import "MapView.h"
 #import "TravelTimeService.h"
+#import "TravelTimesView.h"
 @import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) MapView *mapView;
 @property (nonatomic) UIStackView *containerStack;
 @property (nonatomic) TravelTimeService *travelTimeService;
+@property (nonatomic) TravelTimesView *travelTimesView;
+@property (nonatomic) NSLayoutConstraint *travelTimesViewHeightConstraint;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -84,7 +87,7 @@ NS_ASSUME_NONNULL_END
                                                                  distribution:UIStackViewDistributionEqualSpacing
                                                                     alignment:UIStackViewAlignmentFill
                                                                       spacing:12
-                                                                      margins:UIEdgeInsetsMake(18, 21, 32, 21)];
+                                                                      margins:UIEdgeInsetsMake(18, 21, 0, 21)];
     [detailsStack setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     
     self.mapView = [MapView new];
@@ -94,7 +97,12 @@ NS_ASSUME_NONNULL_END
         [welf updateTravelTimesWithUserLocation:userLocation];
     };
     
-    self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, detailsStack]
+    self.travelTimesView = [TravelTimesView new];
+    self.travelTimesViewHeightConstraint = [self.travelTimesView.heightAnchor constraintEqualToConstant:0];
+    self.travelTimesViewHeightConstraint.active = true;
+    UIStackView *travelTimeStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.travelTimesView] axis:UILayoutConstraintAxisVertical distribution:UIStackViewDistributionFill alignment:UIStackViewAlignmentFill spacing:0 margins:UIEdgeInsetsMake(32, 21, 21, 21)];
+    
+    self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, detailsStack, travelTimeStack]
                                                                    axis:UILayoutConstraintAxisVertical
                                                            distribution:UIStackViewDistributionFill
                                                               alignment:UIStackViewAlignmentFill
@@ -141,12 +149,23 @@ NS_ASSUME_NONNULL_END
         return;
     }
     
+    __weak typeof(self) welf = self;
     [self.travelTimeService calculateTravelTimesFromLocation:userLocation toLocation:self.event.location.location withCompletionHandler:^(NSArray<TravelTime *> * _Nonnull travelTimes) {
-        
+        if (travelTimes.count > 0) {
+            [welf.travelTimesView showTravelTimes:travelTimes];
+            [welf showTravelTimesView];
+        }
     }];
 }
 
 // ---
+
+- (void)showTravelTimesView {
+    self.travelTimesViewHeightConstraint.constant = 36;
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.containerStack layoutIfNeeded];
+    }];
+}
 
 - (void)dismiss {
     [self dismissViewControllerAnimated:true completion:nil];

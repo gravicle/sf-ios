@@ -13,9 +13,27 @@
 
 - (instancetype)initWithTransportType:(MKDirectionsTransportType)transportType travelTime:(NSTimeInterval)travelTime {
     if (self = [super init]) {
-        self.transportationType = transportType;
+        self.transportType = transportType;
         self.travelTime = travelTime;
+        
+        switch (self.transportType) {
+            case MKDirectionsTransportTypeTransit:
+                self.icon = [UIImage imageNamed:@"icon-transport-type-transit"];
+                break;
+                
+            case MKDirectionsTransportTypeWalking:
+                self.icon = [UIImage imageNamed:@"icon-transport-type-walking"];
+                break;
+                
+            case MKDirectionsTransportTypeAutomobile:
+                self.icon = [UIImage imageNamed:@"icon-transport-type-automobile"];
+                break;
+                
+            default:
+                break;
+        }
     }
+    
     return self;
 }
 
