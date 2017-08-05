@@ -11,9 +11,9 @@
 
 @implementation UberTravelTimeEstimateOperation
 
-- (instancetype)initWithStartLocation:(CLLocation *)startLocation endLocation:(CLLocation *)endLocation completionHandler:(UberTravelTimeEstimateCompletion)completionHandler {
-    CLLocationCoordinate2D start = startLocation.coordinate;
-    CLLocationCoordinate2D end = endLocation.coordinate;
+- (instancetype)initWithSourceLocation:(CLLocation *)sourceLocation destinationLocation:(CLLocation *)destinationLocation completionHandler:(TravelTimeCalculationCompletion)completionHandler {
+    CLLocationCoordinate2D start = sourceLocation.coordinate;
+    CLLocationCoordinate2D end = destinationLocation.coordinate;
     NSString *path = [NSString stringWithFormat:@"https://api.uber.com/v1.2/estimates/price?start_latitude=%f&start_longitude=%f&end_latitude=%f&end_longitude=%f", start.latitude, start.longitude, end.latitude, end.longitude];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
     request.HTTPMethod = @"GET";
