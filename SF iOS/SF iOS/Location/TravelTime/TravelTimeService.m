@@ -7,7 +7,8 @@
 //
 
 #import "TravelTimeService.h"
-#import "AsyncOperation.h"
+#import "AsyncBlockOperation.h"
+#import "UberTravelTimeEstimateOperation.h"
 @import MapKit;
 
 @interface TravelTimeService ()
@@ -53,6 +54,17 @@
         [completionOperation addDependency:travelTimeCalculation];
         [self.travelTimeCalculationQueue addOperation:travelTimeCalculation];
     }
+    
+    UberTravelTimeEstimateOperation *uberTimeCalculation = [[UberTravelTimeEstimateOperation alloc] initWithStartLocation:sourceLocation endLocation:destinationLocation completionHandler:^(TravelTime * _Nullable travelTime, NSError * _Nullable error) {
+        if (!travelTime) {
+            NSLog(@"Got not retrieve uber travel time: %@", error);
+            return;
+        }
+        [travelTimes addObject:travelTime];
+    }];
+    [completionOperation addDependency:uberTimeCalculation];
+    [self.travelTimeCalculationQueue addOperation:uberTimeCalculation];
+    
     [self.travelTimeCalculationQueue addOperation:completionOperation];
 }
 
@@ -65,8 +77,8 @@
     return request;
 }
 
-- (AsyncOperation *)travelTimeCalculationWithRequest:(MKDirectionsRequest *)request completionHandler:(void(^)(TravelTime * _Nullable travelTime))resultHandler {
-    return [[AsyncOperation alloc] initWithAsyncBlock:^(dispatch_block_t  _Nonnull completionHandler) {
+- (AsyncBlockOperation *)travelTimeCalculationWithRequest:(MKDirectionsRequest *)request completionHandler:(void(^)(TravelTime * _Nullable travelTime))resultHandler {
+    return [[AsyncBlockOperation alloc] initWithAsyncBlock:^(dispatch_block_t  _Nonnull completionHandler) {
         MKDirections *direction = [[MKDirections alloc] initWithRequest:request];
         [direction calculateETAWithCompletionHandler:^(MKETAResponse * _Nullable response, NSError * _Nullable error) {
             if (!response) {
@@ -74,7 +86,7 @@
                 resultHandler(nil);
                 completionHandler();
             }
-            TravelTime *result = [[TravelTime alloc] initWithTransportType:request.transportType travelTime:response.expectedTravelTime];
+            TravelTime *result = [[TravelTime alloc] initWithMKDirectionsTransportType:request.transportType travelTime:response.expectedTravelTime];
             resultHandler(result);
             completionHandler();
         }];

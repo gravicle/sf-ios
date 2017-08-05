@@ -13,37 +13,25 @@
     BOOL _executing;
 }
 
-@property (nonatomic, copy) AsyncBlock block;
-
 @end
 
 
 @implementation AsyncOperation
 
-+ (instancetype)asyncBlockOperationWithBlock:(AsyncBlock)block {
-    return [[AsyncOperation alloc] initWithAsyncBlock:block];
-}
-
-- (instancetype)initWithAsyncBlock:(AsyncBlock)block {
-    if (self = [super init]) {
-        self.block = block;
-    }
-    return self;
-}
-
 - (void)start {
     [self willChangeValueForKey:@"isExecuting"];
     _executing = YES;
     [self didChangeValueForKey:@"isExecuting"];
+}
+
+- (void)finish {
+    [self willChangeValueForKey:@"isExecuting"];
+    _executing = NO;
+    [self didChangeValueForKey:@"isExecuting"];
     
-    self.block(^{
-        [self willChangeValueForKey:@"isExecuting"];
-        _executing = NO;
-        [self didChangeValueForKey:@"isExecuting"];
-        [self willChangeValueForKey:@"isFinished"];
-        _finished = YES;
-        [self didChangeValueForKey:@"isFinished"];
-    });
+    [self willChangeValueForKey:@"isFinished"];
+    _finished = YES;
+    [self didChangeValueForKey:@"isFinished"];
 }
 
 - (BOOL)isFinished {

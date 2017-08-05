@@ -18,6 +18,9 @@
 		C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516521F30ECA7006B9D7E /* MapSnapshotter.m */; };
 		C83079FE1F364A04005CB3D2 /* secrets-example.plist in Resources */ = {isa = PBXBuildFile; fileRef = C83079FD1F364A04005CB3D2 /* secrets-example.plist */; };
 		C8307A051F364DDF005CB3D2 /* SecretsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A041F364DDF005CB3D2 /* SecretsStore.m */; };
+		C8307A081F365687005CB3D2 /* UberTravelTimeEstimateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A071F365687005CB3D2 /* UberTravelTimeEstimateOperation.m */; };
+		C8307A0E1F365969005CB3D2 /* HTTPRequestAsyncOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */; };
+		C8307A111F365E58005CB3D2 /* AsyncBlockOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */; };
 		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
@@ -83,6 +86,12 @@
 		C83079FF1F364BB3005CB3D2 /* secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = secrets.plist; sourceTree = "<group>"; };
 		C8307A031F364DDF005CB3D2 /* SecretsStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecretsStore.h; sourceTree = "<group>"; };
 		C8307A041F364DDF005CB3D2 /* SecretsStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecretsStore.m; sourceTree = "<group>"; };
+		C8307A061F365687005CB3D2 /* UberTravelTimeEstimateOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UberTravelTimeEstimateOperation.h; sourceTree = "<group>"; };
+		C8307A071F365687005CB3D2 /* UberTravelTimeEstimateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UberTravelTimeEstimateOperation.m; sourceTree = "<group>"; };
+		C8307A0C1F365969005CB3D2 /* HTTPRequestAsyncOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTTPRequestAsyncOperation.h; sourceTree = "<group>"; };
+		C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPRequestAsyncOperation.m; sourceTree = "<group>"; };
+		C8307A0F1F365E58005CB3D2 /* AsyncBlockOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncBlockOperation.h; sourceTree = "<group>"; };
+		C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AsyncBlockOperation.m; sourceTree = "<group>"; };
 		C86E38691F31B78300E35EBF /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
 		C86E386A1F31B78300E35EBF /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
@@ -387,6 +396,8 @@
 				C8CC493A1F3303170064B03E /* TravelTimeService.m */,
 				C8CC493D1F3307DD0064B03E /* TravelTime.h */,
 				C8CC493E1F3307DD0064B03E /* TravelTime.m */,
+				C8307A061F365687005CB3D2 /* UberTravelTimeEstimateOperation.h */,
+				C8307A071F365687005CB3D2 /* UberTravelTimeEstimateOperation.m */,
 			);
 			path = TravelTime;
 			sourceTree = "<group>";
@@ -396,6 +407,10 @@
 			children = (
 				C8CC49411F330F360064B03E /* AsyncOperation.h */,
 				C8CC49421F330F360064B03E /* AsyncOperation.m */,
+				C8307A0F1F365E58005CB3D2 /* AsyncBlockOperation.h */,
+				C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */,
+				C8307A0C1F365969005CB3D2 /* HTTPRequestAsyncOperation.h */,
+				C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */,
 			);
 			path = Concurrency;
 			sourceTree = "<group>";
@@ -555,6 +570,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8307A111F365E58005CB3D2 /* AsyncBlockOperation.m in Sources */,
+				C8307A081F365687005CB3D2 /* UberTravelTimeEstimateOperation.m in Sources */,
 				C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */,
 				C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */,
 				C8CC491D1F3259EB0064B03E /* NSAttributedString+EventAddress.m in Sources */,
@@ -573,6 +590,7 @@
 				C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */,
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
 				C8CC494C1F33BA420064B03E /* TravelTimeCell.m in Sources */,
+				C8307A0E1F365969005CB3D2 /* HTTPRequestAsyncOperation.m in Sources */,
 				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
