@@ -21,6 +21,7 @@
 		C8307A081F365687005CB3D2 /* UberTravelTimeEstimateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A071F365687005CB3D2 /* UberTravelTimeEstimateOperation.m */; };
 		C8307A0E1F365969005CB3D2 /* HTTPRequestAsyncOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */; };
 		C8307A111F365E58005CB3D2 /* AsyncBlockOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */; };
+		C8307A141F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A131F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m */; };
 		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
@@ -92,6 +93,9 @@
 		C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTTPRequestAsyncOperation.m; sourceTree = "<group>"; };
 		C8307A0F1F365E58005CB3D2 /* AsyncBlockOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncBlockOperation.h; sourceTree = "<group>"; };
 		C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AsyncBlockOperation.m; sourceTree = "<group>"; };
+		C8307A121F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LyftTravelTimeEstimateOperation.h; sourceTree = "<group>"; };
+		C8307A131F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LyftTravelTimeEstimateOperation.m; sourceTree = "<group>"; };
+		C8307A151F368CAF005CB3D2 /* TravelTimeCalculationCompletion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTimeCalculationCompletion.h; sourceTree = "<group>"; };
 		C86E38691F31B78300E35EBF /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
 		C86E386A1F31B78300E35EBF /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
@@ -398,6 +402,9 @@
 				C8CC493E1F3307DD0064B03E /* TravelTime.m */,
 				C8307A061F365687005CB3D2 /* UberTravelTimeEstimateOperation.h */,
 				C8307A071F365687005CB3D2 /* UberTravelTimeEstimateOperation.m */,
+				C8307A121F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.h */,
+				C8307A131F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m */,
+				C8307A151F368CAF005CB3D2 /* TravelTimeCalculationCompletion.h */,
 			);
 			path = TravelTime;
 			sourceTree = "<group>";
@@ -591,6 +598,7 @@
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
 				C8CC494C1F33BA420064B03E /* TravelTimeCell.m in Sources */,
 				C8307A0E1F365969005CB3D2 /* HTTPRequestAsyncOperation.m in Sources */,
+				C8307A141F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m in Sources */,
 				C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,

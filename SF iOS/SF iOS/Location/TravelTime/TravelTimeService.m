@@ -9,6 +9,7 @@
 #import "TravelTimeService.h"
 #import "AsyncBlockOperation.h"
 #import "UberTravelTimeEstimateOperation.h"
+#import "LyftTravelTimeEstimateOperation.h"
 @import MapKit;
 
 @interface TravelTimeService ()
@@ -55,15 +56,25 @@
         [self.travelTimeCalculationQueue addOperation:travelTimeCalculation];
     }
     
-    UberTravelTimeEstimateOperation *uberTimeCalculation = [[UberTravelTimeEstimateOperation alloc] initWithStartLocation:sourceLocation endLocation:destinationLocation completionHandler:^(TravelTime * _Nullable travelTime, NSError * _Nullable error) {
+    UberTravelTimeEstimateOperation *uberTimeCalculation = [[UberTravelTimeEstimateOperation alloc] initWithSourceLocation:sourceLocation destinationLocation:destinationLocation completionHandler:^(TravelTime * _Nullable travelTime, NSError * _Nullable error) {
         if (!travelTime) {
-            NSLog(@"Got not retrieve uber travel time: %@", error);
+            NSLog(@"Could not retrieve uber travel time: %@", error);
             return;
         }
         [travelTimes addObject:travelTime];
     }];
     [completionOperation addDependency:uberTimeCalculation];
     [self.travelTimeCalculationQueue addOperation:uberTimeCalculation];
+    
+    LyftTravelTimeEstimateOperation *lyftTimeCalculation = [[LyftTravelTimeEstimateOperation alloc] initWithSourceLocation:sourceLocation destinationLocation:destinationLocation completionHandler:^(TravelTime * _Nullable travelTime, NSError * _Nullable error) {
+        if (!travelTime) {
+            NSLog(@"Could not retrieve lyft travel time: %@", error);
+            return;
+        }
+        [travelTimes addObject:travelTime];
+    }];
+    [completionOperation addDependency:lyftTimeCalculation];
+    [self.travelTimeCalculationQueue addOperation:lyftTimeCalculation];
     
     [self.travelTimeCalculationQueue addOperation:completionOperation];
 }
