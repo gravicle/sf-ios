@@ -17,6 +17,7 @@
 		C825164D1F3054F6006B9D7E /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = C825164C1F3054F6006B9D7E /* MapView.m */; };
 		C82516531F30ECA7006B9D7E /* MapSnapshotter.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516521F30ECA7006B9D7E /* MapSnapshotter.m */; };
 		C83079FE1F364A04005CB3D2 /* secrets-example.plist in Resources */ = {isa = PBXBuildFile; fileRef = C83079FD1F364A04005CB3D2 /* secrets-example.plist */; };
+		C8307A051F364DDF005CB3D2 /* SecretsStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A041F364DDF005CB3D2 /* SecretsStore.m */; };
 		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
@@ -80,6 +81,8 @@
 		C82516521F30ECA7006B9D7E /* MapSnapshotter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapSnapshotter.m; sourceTree = "<group>"; };
 		C83079FD1F364A04005CB3D2 /* secrets-example.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "secrets-example.plist"; sourceTree = "<group>"; };
 		C83079FF1F364BB3005CB3D2 /* secrets.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = secrets.plist; sourceTree = "<group>"; };
+		C8307A031F364DDF005CB3D2 /* SecretsStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecretsStore.h; sourceTree = "<group>"; };
+		C8307A041F364DDF005CB3D2 /* SecretsStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecretsStore.m; sourceTree = "<group>"; };
 		C86E38691F31B78300E35EBF /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
 		C86E386A1F31B78300E35EBF /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
@@ -232,6 +235,8 @@
 			children = (
 				C83079FF1F364BB3005CB3D2 /* secrets.plist */,
 				C83079FD1F364A04005CB3D2 /* secrets-example.plist */,
+				C8307A031F364DDF005CB3D2 /* SecretsStore.h */,
+				C8307A041F364DDF005CB3D2 /* SecretsStore.m */,
 			);
 			path = Secrets;
 			sourceTree = "<group>";
@@ -562,6 +567,7 @@
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
 				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
 				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,
+				C8307A051F364DDF005CB3D2 /* SecretsStore.m in Sources */,
 				C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */,
 				C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */,
 				C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */,
