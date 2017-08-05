@@ -38,7 +38,7 @@
 }
 
 - (NSString *)travelTimeEstimateString {
-    return [NSDate abbreviatedDurationForTimeInterval:self.travelTime];
+    return [NSDate abbreviatedTimeIntervalForTimeInterval:self.travelTime];
 }
 
 @end

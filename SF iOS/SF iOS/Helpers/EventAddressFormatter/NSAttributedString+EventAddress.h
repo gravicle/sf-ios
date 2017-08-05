@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSAttributedString (EventAddress)
+@interface NSAttributedString (Kerning)
 
-+ (NSAttributedString *)eventAddressAttributedStringFromAddress:(NSString *)address;
++ (NSAttributedString *)kernedStringFromString:(NSString *)address;
 
 @end

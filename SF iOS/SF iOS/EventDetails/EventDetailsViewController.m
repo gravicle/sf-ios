@@ -56,39 +56,30 @@ NS_ASSUME_NONNULL_END
     self.view.backgroundColor = [UIColor whiteColor];
     self.extendedLayoutIncludesOpaqueBars = true;
     
-    UILabel *nameLabel = [UILabel new];
-    nameLabel.text = self.event.location.name;
-    nameLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
-    nameLabel.textColor = [UIColor blackColor];
+    UILabel *titleLabel = [UILabel new];
+    titleLabel.text = self.event.location.name;
+    titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
+    titleLabel.textColor = [UIColor blackColor];
     
-    UILabel *addressLabel = [UILabel new];
-    addressLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
-    addressLabel.textColor = [UIColor abbey];
-    addressLabel.attributedText = [NSAttributedString eventAddressAttributedStringFromAddress:self.event.location.streetAddress];
+    UILabel *subtitleLabel = [UILabel new];
+    subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
+    subtitleLabel.textColor = [UIColor abbey];
+    NSString *timeLabelText;
+    if (self.event.date.isInFuture && self.event.date.isToday) {
+        timeLabelText = self.event.date.abbreviatedTimeintervalFromNow;
+    } else {
+        timeLabelText = [NSDate timeslotStringFromStartDate:self.event.date duration:self.event.duration];
+    }
+    NSString *subtitle = [@[self.event.location.streetAddress, timeLabelText] componentsJoinedByString:@", "];
+    subtitleLabel.attributedText = [NSAttributedString kernedStringFromString:subtitle];
     
-    UIStackView *titleStack = [[UIStackView alloc] initWithArrangedSubviews:@[nameLabel, addressLabel]
+    UIStackView *titleStack = [[UIStackView alloc] initWithArrangedSubviews:@[titleLabel, subtitleLabel]
                                                                        axis:UILayoutConstraintAxisVertical
                                                                distribution:UIStackViewDistributionEqualSpacing
                                                                   alignment:UIStackViewAlignmentFill
                                                                     spacing:9
-                                                                    margins:UIEdgeInsetsZero];
-    NSMutableArray *detailViews = [NSMutableArray arrayWithObject:titleStack];
-    UILabel *timeRemainingLabel = nil;
-    if (self.event.date.isInFuture && self.event.date.isToday) {
-        timeRemainingLabel = [UILabel new];
-        timeRemainingLabel.text = self.event.date.abbreviatedDurationFromNow;
-        timeRemainingLabel.font = [UIFont systemFontOfSize:13];
-        timeRemainingLabel.textColor = [UIColor abbey];
-        [detailViews addObject:timeRemainingLabel];
-    }
-    
-    UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:detailViews
-                                                                         axis:UILayoutConstraintAxisVertical
-                                                                 distribution:UIStackViewDistributionEqualSpacing
-                                                                    alignment:UIStackViewAlignmentFill
-                                                                      spacing:12
-                                                                      margins:UIEdgeInsetsMake(18, 21, 0, 21)];
-    [detailsStack setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+                                                                    margins:UIEdgeInsetsMake(18, 21, 0, 21)];
+    [titleStack setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     
     self.mapView = [MapView new];
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
@@ -100,9 +91,14 @@ NS_ASSUME_NONNULL_END
     self.travelTimesView = [TravelTimesView new];
     self.travelTimesViewHeightConstraint = [self.travelTimesView.heightAnchor constraintEqualToConstant:0];
     self.travelTimesViewHeightConstraint.active = true;
-    UIStackView *travelTimeStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.travelTimesView] axis:UILayoutConstraintAxisVertical distribution:UIStackViewDistributionFill alignment:UIStackViewAlignmentFill spacing:0 margins:UIEdgeInsetsMake(32, 21, 21, 21)];
+    UIStackView *travelTimeStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.travelTimesView]
+                                                                            axis:UILayoutConstraintAxisVertical
+                                                                    distribution:UIStackViewDistributionFill
+                                                                       alignment:UIStackViewAlignmentFill
+                                                                         spacing:0
+                                                                         margins:UIEdgeInsetsMake(32, 21, 21, 21)];
     
-    self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, detailsStack, travelTimeStack]
+    self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, titleStack, travelTimeStack]
                                                                    axis:UILayoutConstraintAxisVertical
                                                            distribution:UIStackViewDistributionFill
                                                               alignment:UIStackViewAlignmentFill

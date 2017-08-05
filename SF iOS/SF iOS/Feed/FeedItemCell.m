@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_END
 - (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
     self.timeLabel.text = item.dateString;
     self.titleLabel.text = item.title;
-    self.subtitleLabel.attributedText = [NSAttributedString eventAddressAttributedStringFromAddress:item.subtitle];
+    self.subtitleLabel.attributedText = [NSAttributedString kernedStringFromString:item.subtitle];
     if (item.shouldShowDirections) {
         __weak typeof(self) welf = self;
         self.takeMapSnapshot = ^{

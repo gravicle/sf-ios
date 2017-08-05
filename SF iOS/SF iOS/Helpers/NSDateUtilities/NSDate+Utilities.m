@@ -44,16 +44,38 @@
     return [self compare:[NSDate new]] == NSOrderedDescending;
 }
 
-- (NSString *)abbreviatedDurationFromNow {
+- (NSString *)abbreviatedTimeintervalFromNow {
     NSTimeInterval difference = [self timeIntervalSinceNow];
-    return [NSDate abbreviatedDurationForTimeInterval:difference];
+    return [NSDate abbreviatedTimeIntervalForTimeInterval:difference];
 }
 
-+ (NSString *)abbreviatedDurationForTimeInterval:(NSTimeInterval)timeInterval {
++ (NSString *)abbreviatedTimeIntervalForTimeInterval:(NSTimeInterval)timeInterval {
     NSDateComponentsFormatter *formatter = [NSDateComponentsFormatter new];
     formatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
     formatter.allowedUnits = NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
     return [formatter stringFromTimeInterval:timeInterval];
+}
+
++ (NSString *)timeslotStringFromStartDate:(NSDate *)startDate duration:(NSTimeInterval)duration {
+    NSDate *endDate = [startDate dateByAddingTimeInterval:duration];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    BOOL startDateIsInAM = [calendar component:NSCalendarUnitHour fromDate:startDate] < 12;
+    BOOL endDateIsInAM = [calendar component:NSCalendarUnitHour fromDate:endDate] < 12;
+    BOOL shouldShowPeriodInStartDate = (startDateIsInAM != endDateIsInAM); // show period when start and end are in different periods
+    
+    NSString *timeFormat = @"h:mm";
+    NSString *timeFormatWithPeriod = @"h:mma";
+    NSString *startTime = [startDate stringWithformat:shouldShowPeriodInStartDate ? timeFormatWithPeriod : timeFormat];
+    NSString *endTime = [endDate stringWithformat:timeFormatWithPeriod];
+    
+    return [@[startTime, endTime] componentsJoinedByString:@" - "];
+}
+
+- (NSString *)stringWithformat:(NSString *)format {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:format];
+    return [formatter stringFromDate:self];
 }
 
 @end
