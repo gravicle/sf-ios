@@ -216,7 +216,7 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		C825164A1F3054D1006B9D7E /* Map */ = {
+		C825164A1F3054D1006B9D7E /* Location */ = {
 			isa = PBXGroup;
 			children = (
 				C825164B1F3054F6006B9D7E /* MapView.h */,
@@ -227,7 +227,7 @@
 				C87995CB1F312873002CA6C8 /* UserLocation.m */,
 				C8CC493C1F3307C70064B03E /* TravelTime */,
 			);
-			path = Map;
+			path = Location;
 			sourceTree = "<group>";
 		};
 		C83079FC1F3649EF005CB3D2 /* Secrets */ = {
@@ -276,7 +276,7 @@
 			children = (
 				C83079FC1F3649EF005CB3D2 /* Secrets */,
 				C86E38651F31B75700E35EBF /* RemoteUIImage */,
-				C825164A1F3054D1006B9D7E /* Map */,
+				C825164A1F3054D1006B9D7E /* Location */,
 				C82516491F3054BE006B9D7E /* Helpers */,
 				C825162D1F2FA24B006B9D7E /* Feed */,
 				C8E6A3EA1F3255F70098339C /* EventDetails */,
