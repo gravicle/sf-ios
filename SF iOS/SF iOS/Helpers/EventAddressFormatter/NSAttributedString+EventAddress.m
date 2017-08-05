@@ -9,11 +9,11 @@
 #import "NSAttributedString+EventAddress.h"
 @import UIKit;
 
-@implementation NSAttributedString (EventAddress)
+@implementation NSAttributedString (Kerning)
 
-+ (NSAttributedString *)eventAddressAttributedStringFromAddress:(NSString *)address {
++ (NSAttributedString *)kernedStringFromString:(NSString *)string {
     NSDictionary<NSAttributedStringKey, id> *kerning = @{NSKernAttributeName : @(0.82)};
-    return [[NSAttributedString alloc] initWithString:[address uppercaseString] attributes:kerning];
+    return [[NSAttributedString alloc] initWithString:[string uppercaseString] attributes:kerning];
 }
 
 @end

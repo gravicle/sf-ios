@@ -18,8 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, assign) BOOL isInFuture;
 @property (nullable, nonatomic, readonly) NSString *relativeDayRepresentation;
 
-@property (nonatomic, readonly) NSString *abbreviatedDurationFromNow;
-+ (NSString *)abbreviatedDurationForTimeInterval:(NSTimeInterval)timeInterval;
+@property (nonatomic, readonly) NSString *abbreviatedTimeintervalFromNow;
+
++ (NSString *)abbreviatedTimeIntervalForTimeInterval:(NSTimeInterval)timeInterval;
+
++ (NSString *)timeslotStringFromStartDate:(NSDate *)startDate duration:(NSTimeInterval)duration;
+
+- (NSString *)stringWithformat:(NSString *)format;
 
 @end
 NS_ASSUME_NONNULL_END
