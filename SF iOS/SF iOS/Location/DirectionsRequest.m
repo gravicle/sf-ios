@@ -31,7 +31,7 @@
             break;
             
         case TransportTypeLyft:
-            [self requestLyftRideToLocation:destination withName:name];
+            [self requestLyftRideToLocation:destination];
             break;
             
         default:
@@ -52,24 +52,32 @@
     NSString *escapedName = [name stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
     
     // https://stackoverflow.com/questions/26049950/uber-deeplinking-on-ios
-    NSString *fragment = [NSString stringWithFormat:@"?client_id=%@&action=setPickup&pickup=my_location&dropoff[latitude]=%f&dropoff[longitude]=%f&dropoff[nickname]=%@", clientID, destination.coordinate.latitude, destination.coordinate.longitude, escapedName];
+    NSString *query = [NSString stringWithFormat:@"?client_id=%@&action=setPickup&pickup=my_location&dropoff[latitude]=%f&dropoff[longitude]=%f&dropoff[nickname]=%@", clientID, destination.coordinate.latitude, destination.coordinate.longitude, escapedName];
     
-    NSString *urlScheme = @"uber://";
+    [self requestRideWithURLScheme:@"uber://" httpHost:@"https://m.uber.com/ul/" queryFragment:query];
+}
+
++ (void)requestLyftRideToLocation:(CLLocation *)destination {
+    SecretsStore *store = [[SecretsStore alloc] init];
+    NSString *clientID = store.lyftClientID;
+    
+    NSString *query = [NSString stringWithFormat:@"?id=lyft&partner=%@&destination[latitude]=%f&destination[longitude]=%f", clientID, destination.coordinate.latitude, destination.coordinate.longitude];
+    
+    [self requestRideWithURLScheme:@"lyft://ridetype" httpHost:@"https://www.lyft.com/ride" queryFragment:query];
+}
+
++ (void)requestRideWithURLScheme:(NSString *)urlScheme httpHost:(NSString *)httpHost queryFragment:(NSString *)query {
     NSString *path;
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlScheme]]) {
-        path = [NSString stringWithFormat:@"%@%@", urlScheme, fragment];
+        path = [NSString stringWithFormat:@"%@%@", urlScheme, query];
     } else {
-        path = [NSString stringWithFormat:@"https://m.uber.com/ul/%@", fragment];
+        path = [NSString stringWithFormat:@"%@%@", httpHost, query];
     }
     
     NSURL *url = [NSURL URLWithString:path];
     NSAssert(url != nil, @"Failed to construct URL from path: %@", path);
     
     [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
-}
-
-+ (void)requestLyftRideToLocation:(CLLocation *)destination withName:(NSString *)name {
-    
 }
 
 @end
