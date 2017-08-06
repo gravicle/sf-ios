@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_END
                  completionHandler(error);
                  return;
              }
-             welf.coverImageView.image = image;
+             [welf setCoverImageToImage:image];
              completionHandler(nil);
          });
     }];
@@ -98,8 +98,18 @@ NS_ASSUME_NONNULL_END
 - (void)showImageWithFileURL:(NSURL *)url {
     __weak typeof(self) welf = self;
     [UIImage imageFromFileURL:url withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-        welf.coverImageView.image = image;
+        [welf setCoverImageToImage:image];
     }];
+}
+
+- (void)setCoverImageToImage:(nullable UIImage *)image {
+    [UIView transitionWithView:self.coverImageView
+                      duration:0.3
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        self.coverImageView.image = image;
+                    }
+                    completion:nil];
 }
 
 //MARK: - Setup
