@@ -14,28 +14,32 @@
 
 @property (nonatomic) UIImageView *iconView;
 @property (nonatomic) UILabel *timeLabel;
+@property (nonatomic) TransportType transportType;
+@property (nonatomic, copy) DirectionsRequestHandler directionsRequestHandler;
 
 @end
 
 @implementation TravelTimeView
 
-- (instancetype)initWithTravelTime:(TravelTime *)travelTime {
+- (instancetype)initWithTravelTime:(TravelTime *)travelTime directionsRequestHandler:(DirectionsRequestHandler)directionsRequestHandler {
     if (self = [super initWithFrame:CGRectZero]) {
         [self setup];
         self.iconView.image = travelTime.icon;
         self.timeLabel.text = travelTime.travelTimeEstimateString;
+        self.transportType = travelTime.transportType;
+        self.directionsRequestHandler = directionsRequestHandler;
     }
     return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     NSAssert(false, @"Use initWithTravelTime:");
-    return [self initWithTravelTime:[TravelTime new]];
+    return [self initWithTravelTime:[TravelTime new] directionsRequestHandler:^(TransportType transportType) {}];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"Use initWithTravelTime:");
-    return [self initWithTravelTime:[TravelTime new]];
+    return [self initWithTravelTime:[TravelTime new] directionsRequestHandler:^(TransportType transportType) {}];
 }
 
 - (void)setup {
@@ -78,6 +82,30 @@
     [contentStack.topAnchor constraintEqualToAnchor:self.topAnchor].active = true;
     [contentStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
     [contentStack.heightAnchor constraintEqualToConstant:36].active = true;
+}
+
+//MARK: - Touch Handling
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self setAsHighlighted:true];
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self setAsHighlighted:false];
+    if (self.directionsRequestHandler) {
+        self.directionsRequestHandler(self.transportType);
+    }
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self setAsHighlighted:false];
+}
+
+- (void)setAsHighlighted:(BOOL)highlighted {
+    CGAffineTransform transform = highlighted ? CGAffineTransformScale(CGAffineTransformIdentity, 1.2, 1.2) : CGAffineTransformIdentity;
+    [UIView animateWithDuration:0.3 animations:^{
+        self.transform = transform;
+    }];
 }
 
 @end

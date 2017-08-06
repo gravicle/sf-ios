@@ -20,24 +20,28 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
 @property (nonatomic) UIStackView *regularStack;
 @property (nonatomic) UIStackView *ridesharingStack;
 @property (nonatomic) UIActivityIndicatorView *loadingIndicator;
+@property (copy, nonatomic) DirectionsRequestHandler directionsRequestHandler;
 
 @end
 
 @implementation TravelTimesView
 
-- (instancetype)init {
-    self = [super initWithArrangedSubviews:@[]
-                                      axis:UILayoutConstraintAxisVertical
-                              distribution:UIStackViewDistributionEqualSpacing
-                                 alignment:UIStackViewAlignmentLeading
-                                   spacing:16
-                                   margins:UIEdgeInsetsZero];
-    if (!self) {
-        return nil;
+- (instancetype)initWithDirectionsRequestHandler:(DirectionsRequestHandler)directionsRequestHandler {
+    if (self = [super initWithFrame:CGRectZero]) {
+        self.directionsRequestHandler = directionsRequestHandler;
+        [self setup];
     }
-    
-    [self setup];
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    NSAssert(false, @"use initWithDirectionsRequestHandler:");
+    return [self initWithDirectionsRequestHandler:^(TransportType transportType) {}];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    NSAssert(false, @"use initWithDirectionsRequestHandler:");
+    return [self initWithDirectionsRequestHandler:^(TransportType transportType) {}];
 }
 
 - (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes {
@@ -62,6 +66,13 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds = false;
     
+    self.axis = UILayoutConstraintAxisVertical;
+    self.distribution = UIStackViewDistributionEqualSpacing;
+    self.alignment = UIStackViewAlignmentLeading;
+    self.spacing = 16;
+    self.layoutMargins = UIEdgeInsetsZero;
+    self.preservesSuperviewLayoutMargins = true;
+    
     self.regularStack = [self timesStackView];
     [self addArrangedSubview:self.regularStack];
     self.ridesharingStack = [self timesStackView];
@@ -79,7 +90,7 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
 
 - (void)populateTravelTimeViewsInStack:(nonnull UIStackView *)stack withTimes:(nonnull NSArray *)travelTimes {
     for (TravelTime *time in travelTimes) {
-        TravelTimeView *view = [[TravelTimeView alloc] initWithTravelTime:time];
+        TravelTimeView *view = [[TravelTimeView alloc] initWithTravelTime:time directionsRequestHandler:self.directionsRequestHandler];
         [stack addArrangedSubview:view];
     }
 }
