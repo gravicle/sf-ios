@@ -22,6 +22,7 @@
 		C8307A0E1F365969005CB3D2 /* HTTPRequestAsyncOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */; };
 		C8307A111F365E58005CB3D2 /* AsyncBlockOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */; };
 		C8307A141F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8307A131F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m */; };
+		C86178E31F36D1CF00883EF1 /* secrets.plist in Resources */ = {isa = PBXBuildFile; fileRef = C83079FF1F364BB3005CB3D2 /* secrets.plist */; };
 		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
@@ -243,8 +244,8 @@
 				C82516521F30ECA7006B9D7E /* MapSnapshotter.m */,
 				C87995CA1F312873002CA6C8 /* UserLocation.h */,
 				C87995CB1F312873002CA6C8 /* UserLocation.m */,
-				C89401031F36C273001E8E27 /* DirectionsRequest.m */,
 				C89401021F36C273001E8E27 /* DirectionsRequest.h */,
+				C89401031F36C273001E8E27 /* DirectionsRequest.m */,
 				C89401051F36C2A0001E8E27 /* TransportType.h */,
 				C8CC493C1F3307C70064B03E /* TravelTime */,
 			);
@@ -559,6 +560,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C86178E31F36D1CF00883EF1 /* secrets.plist in Resources */,
 				C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */,
 				C83079FE1F364A04005CB3D2 /* secrets-example.plist in Resources */,
 				C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */,

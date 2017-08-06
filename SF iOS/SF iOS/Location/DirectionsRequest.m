@@ -7,6 +7,7 @@
 //
 
 #import "DirectionsRequest.h"
+#import "SecretsStore.h"
 @import MapKit;
 
 @implementation DirectionsRequest
@@ -46,7 +47,25 @@
 }
 
 + (void)requestUberRideToLocation:(CLLocation *)destination withName:(NSString *)name {
+    SecretsStore *store = [[SecretsStore alloc] init];
+    NSString *clientID = store.uberClientID;
+    NSString *escapedName = [name stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
     
+    // https://stackoverflow.com/questions/26049950/uber-deeplinking-on-ios
+    NSString *fragment = [NSString stringWithFormat:@"?client_id=%@&action=setPickup&pickup=my_location&dropoff[latitude]=%f&dropoff[longitude]=%f&dropoff[nickname]=%@", clientID, destination.coordinate.latitude, destination.coordinate.longitude, escapedName];
+    
+    NSString *urlScheme = @"uber://";
+    NSString *path;
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:urlScheme]]) {
+        path = [NSString stringWithFormat:@"%@%@", urlScheme, fragment];
+    } else {
+        path = [NSString stringWithFormat:@"https://m.uber.com/ul/%@", fragment];
+    }
+    
+    NSURL *url = [NSURL URLWithString:path];
+    NSAssert(url != nil, @"Failed to construct URL from path: %@", path);
+    
+    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
 }
 
 + (void)requestLyftRideToLocation:(CLLocation *)destination withName:(NSString *)name {
