@@ -20,10 +20,8 @@ static NSString *const secretsFileName = @"secrets";
 @interface SecretsStore : NSObject
 
 @property (readonly, nonatomic) NSString *uberClientID;
-@property (readonly, nonatomic) NSString *uberClientSecret;
 @property (readonly, nonatomic) NSString *uberServerToken;
 @property (readonly, nonatomic) NSString *lyftClientID;
-@property (readonly, nonatomic) NSString *lyftClientSecret;
 @property (readonly, nonatomic) NSString *lyftServerToken;
 
 @end

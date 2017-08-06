@@ -29,20 +29,12 @@
     return self.secrets[@"uber-client-id"];
 }
 
-- (NSString *)uberClientSecret {
-    return self.secrets[@"uber-client-secret"];
-}
-
 - (NSString *)uberServerToken {
     return self.secrets[@"uber-server-token"];
 }
 
 - (NSString *)lyftClientID {
     return self.secrets[@"lyft-client-id"];
-}
-
-- (NSString *)lyftClientSecret {
-    return self.secrets[@"lyft-client-secret"];
 }
 
 -(NSString *)lyftServerToken {
