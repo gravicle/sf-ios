@@ -9,9 +9,14 @@
 #import "TravelTimesView.h"
 #import "TravelTimeCell.h"
 
+typedef NS_ENUM(NSUInteger, TravelTimeType) {
+    TravelTimeTypeRegular = 0,
+    TravelTimeTypeRideSharing = 1
+};
+
 @interface TravelTimesView ()
 
-@property (nonatomic) NSArray<TravelTime *> *travelTimes;
+@property (nonatomic) NSDictionary<NSNumber *, NSArray<TravelTime *> *> *travelTimes;
 
 @end
 
@@ -19,7 +24,7 @@
 
 - (instancetype)init {
     if (self = [super initWithFrame:CGRectZero collectionViewLayout:[UICollectionViewFlowLayout new]]) {
-        self.travelTimes = [NSArray new];
+        self.travelTimes = [NSDictionary new];
         self.dataSource = self;
         [self setup];
     }
@@ -27,7 +32,7 @@
 }
 
 - (void)showTravelTimes:(NSArray<TravelTime *> *)travelTimes {
-    self.travelTimes = travelTimes;
+    self.travelTimes = [self travelTimesFromArray:travelTimes];
     [self reloadData];
     [self.collectionViewLayout invalidateLayout];
 }
@@ -52,7 +57,7 @@
 //MARK: - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return self.travelTimes.count;
 }
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -64,8 +69,41 @@
     if (!cell) {
         cell = [TravelTimeCell new];
     }
-    [cell configureWithTravelTime:self.travelTimes[indexPath.row]];
+    
+    TravelTime *time = self.travelTimes[@(indexPath.section)][indexPath.row];
+    [cell configureWithTravelTime:time];
     return cell;
+}
+
+// MARK: -
+
+- (NSDictionary *)travelTimesFromArray:(NSArray<TravelTime *> *)array {
+    NSMutableArray *regular = [NSMutableArray new];
+    NSMutableArray *ridesharing = [NSMutableArray new];
+    
+    for (TravelTime *time in array) {
+        switch (time.transportType) {
+            case TransportTypeUber:
+                [ridesharing addObject: time];
+                break;
+            case TransportTypeLyft:
+                [ridesharing addObject: time];
+                break;
+            case TransportTypeWalking:
+                [regular addObject: time];
+                break;
+            case TransportTypeAutomobile:
+                [regular addObject: time];
+                break;
+            case TransportTypeTransit:
+                [regular addObject: time];
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return @{@(TravelTimeTypeRegular) : regular, @(TravelTimeTypeRideSharing) : ridesharing};
 }
 
 @end

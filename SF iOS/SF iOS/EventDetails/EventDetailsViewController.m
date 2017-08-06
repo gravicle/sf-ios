@@ -157,7 +157,8 @@ NS_ASSUME_NONNULL_END
 // ---
 
 - (void)showTravelTimesView {
-    self.travelTimesViewHeightConstraint.constant = 36;
+    NSUInteger sections = self.travelTimesView.numberOfSections;
+    self.travelTimesViewHeightConstraint.constant = sections * 36 + MAX((sections - 1) * 16, 0);
     [UIView animateWithDuration:0.3 animations:^{
         [self.containerStack layoutIfNeeded];
     }];
