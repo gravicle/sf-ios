@@ -7,7 +7,8 @@
 //
 
 #import "TravelTimesView.h"
-#import "TravelTimeCell.h"
+#import "TravelTimeView.h"
+#import "UIStackView+ConvenienceInitializer.h"
 
 typedef NS_ENUM(NSUInteger, TravelTimeType) {
     TravelTimeTypeRegular = 0,
@@ -16,68 +17,72 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
 
 @interface TravelTimesView ()
 
-@property (nonatomic) NSDictionary<NSNumber *, NSArray<TravelTime *> *> *travelTimes;
+@property (nonatomic) UIStackView *regularStack;
+@property (nonatomic) UIStackView *ridesharingStack;
 
 @end
 
 @implementation TravelTimesView
 
 - (instancetype)init {
-    if (self = [super initWithFrame:CGRectZero collectionViewLayout:[UICollectionViewFlowLayout new]]) {
-        self.travelTimes = [NSDictionary new];
-        self.dataSource = self;
-        [self setup];
+    self = [super initWithArrangedSubviews:@[]
+                                      axis:UILayoutConstraintAxisVertical
+                              distribution:UIStackViewDistributionEqualSpacing
+                                 alignment:UIStackViewAlignmentLeading
+                                   spacing:16
+                                   margins:UIEdgeInsetsZero];
+    if (!self) {
+        return nil;
     }
+    
+    [self setup];
     return self;
 }
 
-- (void)showTravelTimes:(NSArray<TravelTime *> *)travelTimes {
-    self.travelTimes = [self travelTimesFromArray:travelTimes];
-    [self reloadData];
-    [self.collectionViewLayout invalidateLayout];
+- (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes {
+    [self.regularStack removeAllArrangedSubviews];
+    [self.ridesharingStack removeAllArrangedSubviews];
+    
+    NSDictionary *categorizedTravelTimes = [self categorizedTravelTimesFromArray:travelTimes];
+    NSArray *regularTimes = categorizedTravelTimes[@(TravelTimeTypeRegular)];
+    if (regularTimes) {
+        [self populateTravelTimeViewsInStack:self.regularStack withTimes:regularTimes];
+    }
+    
+    NSArray *rideSharingTimes = categorizedTravelTimes[@(TravelTimeTypeRideSharing)];
+    if (rideSharingTimes) {
+        [self populateTravelTimeViewsInStack:self.ridesharingStack withTimes:rideSharingTimes];
+    }
 }
 
 - (void)setup {
     self.backgroundColor = [UIColor whiteColor];
     self.clipsToBounds = false;
     
-    [self registerClass:self.cellClass forCellWithReuseIdentifier:NSStringFromClass(self.cellClass)];
-    
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.minimumLineSpacing = 16;
-    layout.minimumInteritemSpacing = 16;
-    layout.estimatedItemSize = CGSizeMake(92, 36);
+    self.regularStack = [self timesStackView];
+    [self addArrangedSubview:self.regularStack];
+    self.ridesharingStack = [self timesStackView];
+    [self addArrangedSubview:self.ridesharingStack];
 }
 
-- (Class)cellClass {
-    return [TravelTimeCell class];
-}
-
-//MARK: - UICollectionViewDataSource
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.travelTimes.count;
-}
-
-- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.travelTimes.count;
-}
-
-- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    TravelTimeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass(self.cellClass) forIndexPath:indexPath];
-    if (!cell) {
-        cell = [TravelTimeCell new];
+- (void)populateTravelTimeViewsInStack:(nonnull UIStackView *)stack withTimes:(nonnull NSArray *)travelTimes {
+    for (TravelTime *time in travelTimes) {
+        TravelTimeView *view = [[TravelTimeView alloc] initWithTravelTime:time];
+        [stack addArrangedSubview:view];
     }
-    
-    TravelTime *time = self.travelTimes[@(indexPath.section)][indexPath.row];
-    [cell configureWithTravelTime:time];
-    return cell;
 }
 
-// MARK: -
+- (UIStackView *)timesStackView {
+    return [[UIStackView alloc] initWithArrangedSubviews:@[] axis:UILayoutConstraintAxisHorizontal
+                                            distribution:UIStackViewDistributionEqualSpacing
+                                               alignment:UIStackViewAlignmentLeading
+                                                 spacing:16
+                                                 margins:UIEdgeInsetsZero];
+}
 
-- (NSDictionary *)travelTimesFromArray:(NSArray<TravelTime *> *)array {
+// MARK: - Travel Time Categorization
+
+- (NSDictionary *)categorizedTravelTimesFromArray:(NSArray<TravelTime *> *)array {
     NSMutableArray *regular = [NSMutableArray new];
     NSMutableArray *ridesharing = [NSMutableArray new];
     

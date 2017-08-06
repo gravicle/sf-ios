@@ -1,5 +1,5 @@
 //
-//  TravelTimesView.h
+//  TravelTimeView.h
 //  SF iOS
 //
 //  Created by Amit Jain on 8/3/17.
@@ -10,9 +10,9 @@
 #import "TravelTime.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface TravelTimesView : UIStackView
+@interface TravelTimeView : UIView
 
-- (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes;
+- (instancetype)initWithTravelTime:(TravelTime *)travelTime NS_DESIGNATED_INITIALIZER;
 
 @end
 NS_ASSUME_NONNULL_END
