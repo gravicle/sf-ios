@@ -45,7 +45,7 @@
                 return;
             }
             
-            options.camera = [MKMapCamera cameraOverlookingLocation1:currentLocation location2:location];
+            options.camera = [MKMapCamera cameraOverlookingLocation1:currentLocation location2:location withPadding:0.3];
             [welf takeSnapshotWithOptions:options sourceLocation:currentLocation destinationLocation:location destinationAnnotationImage:annotationImage completionHandler:completionHandler];
         }];
     } else {
