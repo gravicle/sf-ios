@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
 
 @property (nonatomic) UIStackView *regularStack;
 @property (nonatomic) UIStackView *ridesharingStack;
+@property (nonatomic) UIActivityIndicatorView *loadingIndicator;
 
 @end
 
@@ -40,6 +41,8 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
 }
 
 - (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes {
+    [self.loadingIndicator stopAnimating];
+    
     [self.regularStack removeAllArrangedSubviews];
     [self.ridesharingStack removeAllArrangedSubviews];
     
@@ -63,6 +66,15 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     [self addArrangedSubview:self.regularStack];
     self.ridesharingStack = [self timesStackView];
     [self addArrangedSubview:self.ridesharingStack];
+    
+    self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.loadingIndicator.hidesWhenStopped = true;
+    self.loadingIndicator.translatesAutoresizingMaskIntoConstraints = false;
+    [self addSubview:self.loadingIndicator];
+    [self.loadingIndicator.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = true;
+    [self.loadingIndicator.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
+    
+    [self.loadingIndicator startAnimating];
 }
 
 - (void)populateTravelTimeViewsInStack:(nonnull UIStackView *)stack withTimes:(nonnull NSArray *)travelTimes {

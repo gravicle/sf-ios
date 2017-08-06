@@ -140,18 +140,15 @@ NS_ASSUME_NONNULL_END
     [self.travelTimeService calculateTravelTimesFromLocation:userLocation toLocation:self.event.location.location withCompletionHandler:^(NSArray<TravelTime *> * _Nonnull travelTimes) {
         if (travelTimes.count > 0) {
             [welf.travelTimesView configureWithTravelTimes:travelTimes];
-            [welf showTravelTimesView];
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                [welf.containerStack layoutIfNeeded];
+            }];
         }
     }];
 }
 
 // ---
-
-- (void)showTravelTimesView {
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.containerStack layoutIfNeeded];
-    }];
-}
 
 - (void)dismiss {
     [self dismissViewControllerAnimated:true completion:nil];
