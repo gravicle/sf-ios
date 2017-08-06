@@ -74,6 +74,7 @@ NS_ASSUME_NONNULL_END
     
     [self.imageDownloadTask cancel];
     self.imageDownloadTask = nil;
+    self.imageView.image = nil;
     
     [super prepareForReuse];
 }
@@ -95,7 +96,10 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)showImageWithFileURL:(NSURL *)url {
-    self.coverImageView.image = [UIImage imageFromFileURL:url];
+    __weak typeof(self) welf = self;
+    [UIImage imageFromFileURL:url withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+        welf.coverImageView.image = image;
+    }];
 }
 
 //MARK: - Setup
