@@ -32,4 +32,11 @@
     return self;
 }
 
+- (void)removeAllArrangedSubviews {
+    for (UIView *view in self.arrangedSubviews) {
+        [self removeArrangedSubview:view];
+        [view removeFromSuperview];
+    }
+}
+
 @end

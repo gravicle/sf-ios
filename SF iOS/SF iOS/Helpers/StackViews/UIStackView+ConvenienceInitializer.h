@@ -18,5 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
                                          spacing:(CGFloat)spacing
                                          margins:(UIEdgeInsets)margins;
 
+- (void)removeAllArrangedSubviews;
+
 @end
 NS_ASSUME_NONNULL_END

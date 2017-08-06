@@ -18,27 +18,32 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
 @property (nullable, nonatomic) UIImage *annotationImage;
 @property (nullable, nonatomic) CLLocation *destination;
 @property (nullable, nonatomic) CLLocation *userLocation;
+@property (nullable, copy, nonatomic) UserLocationObserverBlock userLocationObserver;
 
 @end
 
 @implementation MapView
+
+- (instancetype)initWithUserLocationObserver:(UserLocationObserverBlock)userLocationObserver {
+    if (self = [super initWithFrame:CGRectZero]) {
+        self.userLocationObserver = userLocationObserver;
+        [self setup];
+    }
+    return self;
+}
 
 - (instancetype)init {
     return [self initWithFrame:CGRectZero];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        [self setup];
-    }
-    return self;
+    NSAssert(false, @"Use initWithUserLocationObserver:");
+    return [self initWithUserLocationObserver: nil];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    if (self = [super initWithCoder:aDecoder]) {
-        [self setup];
-    }
-    return self;
+    NSAssert(false, @"Use initWithUserLocationObserver:");
+    return [self initWithUserLocationObserver: nil];
 }
 
 - (void)setDestinationToLocation:(CLLocation *)destination withAnnotationImage:(UIImage *)annotationImage {
@@ -51,9 +56,9 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
 - (void)setup {
     self.mapView = [MKMapView new];
     self.mapView.delegate = self;
-    self.mapView.showsUserLocation = true;
     self.mapView.mapType = MKMapTypeMutedStandard;
     self.mapView.showsTraffic = true;
+    self.mapView.showsUserLocation = true;
     [self.mapView registerClass:[MKAnnotationView class] forAnnotationViewWithReuseIdentifier:destAnnotationIdentifier];
     
     self.mapView.translatesAutoresizingMaskIntoConstraints = false;
