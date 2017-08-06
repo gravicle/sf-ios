@@ -36,6 +36,8 @@
 		C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */; };
 		C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */; };
 		C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C89401031F36C273001E8E27 /* DirectionsRequest.m */; };
+		C897CD0F1F37B26300E6C2A6 /* CloudKitDerivedRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */; };
+		C897CD111F37B78200E6C2A6 /* DateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C897CD101F37B78200E6C2A6 /* DateTests.m */; };
 		C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DDE1F2D8BCF007A5B0C /* Event.m */; };
 		C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DE21F2D926A007A5B0C /* EventDataSource.m */; };
 		C8CC491D1F3259EB0064B03E /* NSAttributedString+EventAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC491C1F3259EB0064B03E /* NSAttributedString+EventAddress.m */; };
@@ -126,6 +128,9 @@
 		C89401021F36C273001E8E27 /* DirectionsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsRequest.h; sourceTree = "<group>"; };
 		C89401031F36C273001E8E27 /* DirectionsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectionsRequest.m; sourceTree = "<group>"; };
 		C89401051F36C2A0001E8E27 /* TransportType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransportType.h; sourceTree = "<group>"; };
+		C897CD0D1F37B26300E6C2A6 /* CloudKitDerivedRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudKitDerivedRecord.h; sourceTree = "<group>"; };
+		C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CloudKitDerivedRecord.m; sourceTree = "<group>"; };
+		C897CD101F37B78200E6C2A6 /* DateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateTests.m; sourceTree = "<group>"; };
 		C89A8DDD1F2D8BCF007A5B0C /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		C89A8DDE1F2D8BCF007A5B0C /* Event.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		C89A8DE01F2D8C2A007A5B0C /* EventType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
@@ -320,6 +325,7 @@
 				C8810A3D1F2BFE6900DCFEB6 /* Info.plist */,
 				C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */,
 				C82516471F2FF293006B9D7E /* FeedItemTests.m */,
+				C897CD101F37B78200E6C2A6 /* DateTests.m */,
 			);
 			path = "SF iOSTests";
 			sourceTree = "<group>";
@@ -353,6 +359,8 @@
 				C89A8DE01F2D8C2A007A5B0C /* EventType.h */,
 				C89A8DE11F2D926A007A5B0C /* EventDataSource.h */,
 				C89A8DE21F2D926A007A5B0C /* EventDataSource.m */,
+				C897CD0D1F37B26300E6C2A6 /* CloudKitDerivedRecord.h */,
+				C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -603,6 +611,7 @@
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
 				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
 				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,
+				C897CD0F1F37B26300E6C2A6 /* CloudKitDerivedRecord.m in Sources */,
 				C8307A051F364DDF005CB3D2 /* SecretsStore.m in Sources */,
 				C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */,
 				C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */,
@@ -628,6 +637,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C82516481F2FF293006B9D7E /* FeedItemTests.m in Sources */,
+				C897CD111F37B78200E6C2A6 /* DateTests.m in Sources */,
 				C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
