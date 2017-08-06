@@ -120,7 +120,7 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
         return;
     }
 
-    MKMapCamera *camera = [MKMapCamera cameraOverlookingLocation1:self.userLocation location2:self.destination];
+    MKMapCamera *camera = [MKMapCamera cameraOverlookingLocation1:self.userLocation location2:self.destination withPadding:0.8];
     [self.mapView setCamera:camera animated:true];
 }
 
