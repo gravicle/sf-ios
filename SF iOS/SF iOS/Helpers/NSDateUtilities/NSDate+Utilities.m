@@ -78,4 +78,8 @@
     return [formatter stringFromDate:self];
 }
 
+- (BOOL)isLaterThanDate:(NSDate *)date {
+    return [self compare:date] == NSOrderedDescending;
+}
+
 @end

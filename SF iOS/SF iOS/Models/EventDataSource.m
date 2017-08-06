@@ -8,6 +8,7 @@
 
 #import "EventDataSource.h"
 #import "Event.h"
+#import "NSDate+Utilities.h"
 #import "NSError+Constructor.h"
 #import "NSNotification+ApplicationEventNotifications.h"
 
@@ -16,7 +17,7 @@
 @property (nonatomic) CKDatabase *database;
 @property (nonatomic) CKQueryCursor *cursor;
 @property (nonatomic, assign) EventType eventType;
-@property (nonatomic) NSMutableOrderedSet<Event *> *events;
+@property (nonatomic) NSMutableArray<Event *> *events;
 
 @end
 
@@ -26,7 +27,7 @@
     if (self = [super init]) {
         self.eventType = eventType;
         self.database = database;
-        self.events = [NSMutableOrderedSet new];
+        self.events = [NSMutableArray new];
         [self observeAppActivationEvents];
     }
     return self;
@@ -45,8 +46,8 @@
         }
         
         NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
-        [welf storeNewEvents:newEvents];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [welf addEvents:newEvents];
             [welf.delegate didUpdateDataSource:welf];
         });
     }];
@@ -164,21 +165,34 @@
     return recordIDs;
 }
 
-// MARK: - Bookeeping
-
-- (void)storeNewEvents:(NSArray<Event *> *)newEvents {
-    [self.events addObjectsFromArray:newEvents];
-    [self.events sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        return [[(Event *)obj2 date] compare:[(Event *)obj1 date]];
-    }];
-}
-
 //MARK: - Respond To app Events
 
 - (void)observeAppActivationEvents {
     __weak typeof(self) welf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:NSNotification.applicationBecameActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
         [welf fetchPreviousEvents];
+    }];
+}
+
+// MARK: - Bookeeping
+
+- (void)addEvents:(NSArray<Event *> *)newEvents {
+    NSMutableArray *newUniqueEvents = [NSMutableArray new];
+    for (Event *event in newEvents) {
+        NSUInteger index = [self.events indexOfObject:event];
+        if (index == NSNotFound) {
+            [newUniqueEvents addObject:event];
+        } else {
+            Event *exsistingEvent = self.events[index];
+            // If modified, replace
+            if ([event.modificationDate isLaterThanDate:exsistingEvent.modificationDate]) {
+                [self.events replaceObjectAtIndex:index withObject:event];
+            }
+        }
+    }
+    [self.events addObjectsFromArray:newUniqueEvents];
+    [self.events sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return [[(Event *)obj2 date] compare:[(Event *)obj1 date]];
     }];
 }
 

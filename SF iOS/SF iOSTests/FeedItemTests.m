@@ -21,11 +21,15 @@
 - (void)setUp {
     [super setUp];
     
-    Location *location = [[Location alloc] initWithName:@"Test Event" streetAddress:@"600 Post St." location: [[CLLocation alloc] initWithLatitude:37.7564388 longitude:-122.4213833]];
-    self.event = [[Event alloc]
-                  initWithEventType:EventTypeSFCoffee
-                  date: [NSDate new]
-                  location: location];
+    Location *location = [Location new];
+    location.name = @"Test Event";
+    location.streetAddress = @"600 Post St.";
+    location.location = [[CLLocation alloc] initWithLatitude:37.7564388 longitude:-122.4213833];
+    
+    self.event = [Event new];
+    self.event.location = location;
+    self.event.type = EventTypeSFCoffee;
+    self.event.date = [NSDate new];
 }
 
 - (void)tearDown {

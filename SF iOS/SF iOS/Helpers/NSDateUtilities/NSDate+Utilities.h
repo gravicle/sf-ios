@@ -26,5 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)stringWithformat:(NSString *)format;
 
+- (BOOL)isLaterThanDate:(NSDate *)date;
+
 @end
 NS_ASSUME_NONNULL_END
