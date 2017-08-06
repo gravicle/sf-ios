@@ -71,7 +71,7 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     self.alignment = UIStackViewAlignmentLeading;
     self.spacing = 16;
     self.layoutMargins = UIEdgeInsetsZero;
-    self.preservesSuperviewLayoutMargins = true;
+    self.layoutMarginsRelativeArrangement = true;
     
     self.regularStack = [self timesStackView];
     [self addArrangedSubview:self.regularStack];

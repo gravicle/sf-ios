@@ -34,6 +34,7 @@
 		C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A5C1F2C043600DCFEB6 /* Location.m */; };
 		C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */; };
 		C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */; };
+		C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C89401031F36C273001E8E27 /* DirectionsRequest.m */; };
 		C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DDE1F2D8BCF007A5B0C /* Event.m */; };
 		C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DE21F2D926A007A5B0C /* EventDataSource.m */; };
 		C8CC491D1F3259EB0064B03E /* NSAttributedString+EventAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC491C1F3259EB0064B03E /* NSAttributedString+EventAddress.m */; };
@@ -121,6 +122,9 @@
 		C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Constructor.m"; sourceTree = "<group>"; };
 		C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDataSourceTests.m; sourceTree = "<group>"; };
 		C89401011F36C08C001E8E27 /* DirectionsRequestHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsRequestHandler.h; sourceTree = "<group>"; };
+		C89401021F36C273001E8E27 /* DirectionsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsRequest.h; sourceTree = "<group>"; };
+		C89401031F36C273001E8E27 /* DirectionsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectionsRequest.m; sourceTree = "<group>"; };
+		C89401051F36C2A0001E8E27 /* TransportType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransportType.h; sourceTree = "<group>"; };
 		C89A8DDD1F2D8BCF007A5B0C /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		C89A8DDE1F2D8BCF007A5B0C /* Event.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		C89A8DE01F2D8C2A007A5B0C /* EventType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
@@ -239,6 +243,9 @@
 				C82516521F30ECA7006B9D7E /* MapSnapshotter.m */,
 				C87995CA1F312873002CA6C8 /* UserLocation.h */,
 				C87995CB1F312873002CA6C8 /* UserLocation.m */,
+				C89401031F36C273001E8E27 /* DirectionsRequest.m */,
+				C89401021F36C273001E8E27 /* DirectionsRequest.h */,
+				C89401051F36C2A0001E8E27 /* TransportType.h */,
 				C8CC493C1F3307C70064B03E /* TravelTime */,
 			);
 			path = Location;
@@ -590,6 +597,7 @@
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
 				C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */,
+				C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
 				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
 				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,

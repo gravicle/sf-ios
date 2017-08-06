@@ -7,15 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TransportType.h"
 @import MapKit;
-
-typedef NS_ENUM(NSUInteger, TransportType) {
-    TransportTypeTransit,
-    TransportTypeWalking,
-    TransportTypeAutomobile,
-    TransportTypeUber,
-    TransportTypeLyft
-};
 
 NS_ASSUME_NONNULL_BEGIN
 @interface TravelTime : NSObject
