@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MapView : UIView <MKMapViewDelegate>
 
 typedef void(^UserLocationObserverBlock)(CLLocation *_Nullable userLocation);
-- (instancetype)initWithUserLocationObserver:(nullable UserLocationObserverBlock)userLocationObserver NS_DESIGNATED_INITIALIZER;
+@property (nullable, copy, nonatomic) UserLocationObserverBlock userLocationObserver;
 
 - (void)setDestinationToLocation:(CLLocation *)destination withAnnotationImage:(UIImage *)annotationImage;
 

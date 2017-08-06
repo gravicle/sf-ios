@@ -13,6 +13,8 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface TravelTimesView : UIStackView
 
+@property (nonatomic, assign) BOOL loading;
+
 - (instancetype)initWithDirectionsRequestHandler:(DirectionsRequestHandler)directionsRequestHandler NS_DESIGNATED_INITIALIZER;
 
 - (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes;

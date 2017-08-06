@@ -18,32 +18,16 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
 @property (nullable, nonatomic) UIImage *annotationImage;
 @property (nullable, nonatomic) CLLocation *destination;
 @property (nullable, nonatomic) CLLocation *userLocation;
-@property (nullable, copy, nonatomic) UserLocationObserverBlock userLocationObserver;
 
 @end
 
 @implementation MapView
 
-- (instancetype)initWithUserLocationObserver:(UserLocationObserverBlock)userLocationObserver {
+- (instancetype)init {
     if (self = [super initWithFrame:CGRectZero]) {
-        self.userLocationObserver = userLocationObserver;
         [self setup];
     }
     return self;
-}
-
-- (instancetype)init {
-    return [self initWithFrame:CGRectZero];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    NSAssert(false, @"Use initWithUserLocationObserver:");
-    return [self initWithUserLocationObserver: nil];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSAssert(false, @"Use initWithUserLocationObserver:");
-    return [self initWithUserLocationObserver: nil];
 }
 
 - (void)setDestinationToLocation:(CLLocation *)destination withAnnotationImage:(UIImage *)annotationImage {

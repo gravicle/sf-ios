@@ -81,10 +81,7 @@ NS_ASSUME_NONNULL_END
                                                                     margins:UIEdgeInsetsMake(18, 21, 0, 21)];
     [titleStack setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
     
-    __weak typeof(self) welf = self;
-    self.mapView = [[MapView alloc] initWithUserLocationObserver:^(CLLocation * _Nullable userLocation) {
-        [welf updateTravelTimesWithUserLocation:userLocation];
-    }];
+    self.mapView = [[MapView alloc] init];
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     
     self.travelTimesView = [[TravelTimesView alloc] initWithDirectionsRequestHandler:^(TransportType transportType) {
@@ -93,6 +90,7 @@ NS_ASSUME_NONNULL_END
                                     usingTransportType:transportType];
     }];
     self.travelTimesView.layoutMargins = UIEdgeInsetsMake(32, 21, 21, 21);
+    self.travelTimesView.translatesAutoresizingMaskIntoConstraints = false;
     
     self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, titleStack, self.travelTimesView]
                                                                    axis:UILayoutConstraintAxisVertical
@@ -131,22 +129,30 @@ NS_ASSUME_NONNULL_END
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [self.mapView setDestinationToLocation:self.event.location.location withAnnotationImage:self.event.annotationImage];
+    __weak typeof(self) welf = self;
+    self.mapView.userLocationObserver = ^(CLLocation * _Nullable userLocation) {
+        if (userLocation) {
+            [welf updateTravelTimesWithUserLocation:userLocation];
+        }
+        welf.mapView.userLocationObserver = nil; // only set traveltimes once
+    };
 }
 
 // MARK: - Travel Times
 
 - (void)updateTravelTimesWithUserLocation:(nullable CLLocation *)userLocation {
-    if (!userLocation) {
-        return;
-    }
+    self.travelTimesView.loading = true;
     
     __weak typeof(self) welf = self;
     [self.travelTimeService calculateTravelTimesFromLocation:userLocation toLocation:self.event.location.location withCompletionHandler:^(NSArray<TravelTime *> * _Nonnull travelTimes) {
+        welf.travelTimesView.loading = false;
+        
         if (travelTimes.count > 0) {
             [welf.travelTimesView configureWithTravelTimes:travelTimes];
-            
             [UIView animateWithDuration:0.3 animations:^{
+                [welf.mapView layoutIfNeeded];
                 [welf.containerStack layoutIfNeeded];
             }];
         }

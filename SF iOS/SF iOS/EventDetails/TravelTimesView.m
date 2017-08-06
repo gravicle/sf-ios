@@ -44,6 +44,11 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     return [self initWithDirectionsRequestHandler:^(TransportType transportType) {}];
 }
 
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    loading ? [self.loadingIndicator startAnimating] : [self.loadingIndicator stopAnimating];
+}
+
 - (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes {
     [self.loadingIndicator stopAnimating];
     
@@ -84,8 +89,6 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     [self addSubview:self.loadingIndicator];
     [self.loadingIndicator.centerXAnchor constraintEqualToAnchor:self.centerXAnchor].active = true;
     [self.loadingIndicator.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
-    
-    [self.loadingIndicator startAnimating];
 }
 
 - (void)populateTravelTimeViewsInStack:(nonnull UIStackView *)stack withTimes:(nonnull NSArray *)travelTimes {

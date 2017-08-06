@@ -12,7 +12,7 @@
 
 // https://stackoverflow.com/a/21034410/2671390
 static double const mapApertureInRadians = (30 * M_PI) / 180;
-static double const padding = 0.3;
+static double const padding = 0.8;
 
 + (MKMapCamera *)cameraOverlookingLocation1:(CLLocation *)location1 location2:(CLLocation *)location2 {
     CLLocationCoordinate2D coordinate1 = location1.coordinate;
