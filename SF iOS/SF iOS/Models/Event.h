@@ -9,19 +9,18 @@
 #import <Foundation/Foundation.h>
 #import "EventType.h"
 #import "Location.h"
+#import "CloudKitDerivedRecord.h"
 @import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface Event : NSObject
+@interface Event : CloudKitDerivedRecord
 
-@property (class, nonatomic, readonly) NSString *recordName;
 @property (nonatomic, assign) EventType type;
 @property (nonatomic) NSDate* date;
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic) Location* location;
 @property (nonatomic, readonly) UIImage *annotationImage;
 
-- (instancetype)initWithEventType:(EventType)type date:(NSDate *)date duration:(NSTimeInterval)duration location:(Location *)location;
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location;
 
 @end
