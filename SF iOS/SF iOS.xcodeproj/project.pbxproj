@@ -120,6 +120,7 @@
 		C88A19C41F2DC52D00C08187 /* NSError+Constructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Constructor.h"; sourceTree = "<group>"; };
 		C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSError+Constructor.m"; sourceTree = "<group>"; };
 		C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDataSourceTests.m; sourceTree = "<group>"; };
+		C89401011F36C08C001E8E27 /* DirectionsRequestHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsRequestHandler.h; sourceTree = "<group>"; };
 		C89A8DDD1F2D8BCF007A5B0C /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		C89A8DDE1F2D8BCF007A5B0C /* Event.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		C89A8DE01F2D8C2A007A5B0C /* EventType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
@@ -431,6 +432,7 @@
 				C8CC49481F33B9150064B03E /* TravelTimesView.m */,
 				C8CC494A1F33BA420064B03E /* TravelTimeView.h */,
 				C8CC494B1F33BA420064B03E /* TravelTimeView.m */,
+				C89401011F36C08C001E8E27 /* DirectionsRequestHandler.h */,
 			);
 			path = EventDetails;
 			sourceTree = "<group>";

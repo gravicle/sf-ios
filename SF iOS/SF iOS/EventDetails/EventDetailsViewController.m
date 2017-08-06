@@ -86,7 +86,9 @@ NS_ASSUME_NONNULL_END
     }];
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     
-    self.travelTimesView = [TravelTimesView new];
+    self.travelTimesView = [[TravelTimesView alloc] initWithDirectionsRequestHandler:^(TransportType transportType) {
+        // implement
+    }];
     self.travelTimesView.layoutMargins = UIEdgeInsetsMake(32, 21, 21, 21);
     
     self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, titleStack, self.travelTimesView]
