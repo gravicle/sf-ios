@@ -43,26 +43,19 @@
 }
 
 - (void)setup {
-    UIView *backgroundView = [UIView new];
-    backgroundView.backgroundColor = [UIColor whiteColor];
-    backgroundView.clipsToBounds = false;
-    backgroundView.layer.cornerRadius = 8;
-    backgroundView.layer.shadowColor = [UIColor nobel].CGColor;
-    backgroundView.layer.shadowOpacity = 0.5;
-    backgroundView.layer.shadowOffset = CGSizeMake(0, 2);
-    backgroundView.layer.shadowRadius = 10;
-    backgroundView.translatesAutoresizingMaskIntoConstraints = false;
-    [self addSubview:backgroundView];
+    self.backgroundColor = [UIColor whiteColor];
+    self.layer.cornerRadius = 8;
+    self.layer.shadowColor = [UIColor nobel].CGColor;
+    self.layer.shadowOpacity = 0.5;
+    self.layer.shadowOffset = CGSizeMake(0, 2);
+    self.layer.shadowRadius = 8;
     self.clipsToBounds = false;
-    [backgroundView.leftAnchor constraintEqualToAnchor:self.leftAnchor].active = true;
-    [backgroundView.rightAnchor constraintEqualToAnchor:self.rightAnchor].active = true;
-    [backgroundView.topAnchor constraintEqualToAnchor:self.topAnchor].active = true;
-    [backgroundView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
     
     self.timeLabel = [UILabel new];
     self.timeLabel.font = [UIFont systemFontOfSize:14 weight:UIFontWeightMedium];
     self.timeLabel.textColor = [UIColor atlantis];
     self.timeLabel.numberOfLines = 1;
+    self.timeLabel.userInteractionEnabled = false;
     
     self.iconView = [UIImageView new];
     self.iconView.contentMode = UIViewContentModeScaleAspectFit;
@@ -74,6 +67,7 @@
                                                                     alignment:UIStackViewAlignmentFill
                                                                       spacing:10
                                                                       margins:UIEdgeInsetsMake(10, 10, 10, 10)];
+    contentStack.userInteractionEnabled = false;
     contentStack.translatesAutoresizingMaskIntoConstraints = false;
     [contentStack setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
     [self addSubview:contentStack];
@@ -82,28 +76,22 @@
     [contentStack.topAnchor constraintEqualToAnchor:self.topAnchor].active = true;
     [contentStack.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
     [contentStack.heightAnchor constraintEqualToConstant:36].active = true;
+    
+    [self addTarget:self action:@selector(requestdirections) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //MARK: - Touch Handling
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self setAsHighlighted:true];
-}
-
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self setAsHighlighted:false];
+- (void)requestdirections {
     if (self.directionsRequestHandler) {
         self.directionsRequestHandler(self.transportType);
     }
 }
 
-- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self setAsHighlighted:false];
-}
-
-- (void)setAsHighlighted:(BOOL)highlighted {
-    CGAffineTransform transform = highlighted ? CGAffineTransformScale(CGAffineTransformIdentity, 1.2, 1.2) : CGAffineTransformIdentity;
-    [UIView animateWithDuration:0.3 animations:^{
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    CGAffineTransform transform = highlighted ? CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1) : CGAffineTransformIdentity;
+    [UIView animateWithDuration:0.15 animations:^{
         self.transform = transform;
     }];
 }
