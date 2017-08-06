@@ -79,15 +79,7 @@ NS_ASSUME_NONNULL_END
     [super prepareForReuse];
 }
 
-static CGFloat const cornerRadius = 15;
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    if (@available(iOS 11, *)) {}
-    else {
-        [self roundCoverImageCorners];
-    }
-}
+//MARK: - Map
 
 - (void)showMapForLocation:(nonnull CLLocation *)location annotionImage:(UIImage *)annotationImage usingSnapshotter:(MapSnapshotter *)snapshotter withCompletionHandler:(void(^)(NSError * _Nullable error))completionHandler {
     __weak typeof(self) welf = self;
@@ -116,10 +108,11 @@ static CGFloat const cornerRadius = 15;
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:^{
                         self.coverImageView.image = image;
-                        [self roundCoverImageCorners];
                     }
                     completion:nil];
 }
+
+//MARK: - Setup
 
 - (void)setup {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -152,13 +145,22 @@ static CGFloat const cornerRadius = 15;
 }
 
 - (void)setupDetailsStack {
+    CGFloat cornerRadius = 15;
+    
     self.coverImageView = [UIImageView new];
     self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.coverImageView.backgroundColor = [UIColor alabaster];
+    self.coverImageView.layer.cornerRadius = cornerRadius;
     
     if (@available(iOS 11.0, *)) {
-        self.coverImageView.layer.cornerRadius = cornerRadius;
         self.coverImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
+    } else {
+        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+        UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:maskLayer.bounds
+                                                          byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
+                                                                cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
+        maskLayer.path = [roundedPath CGPath];
+        self.coverImageView.layer.mask = maskLayer;
     }
     
     self.coverImageView.clipsToBounds = true;
@@ -215,17 +217,6 @@ static CGFloat const cornerRadius = 15;
     [detailsStack.bottomAnchor constraintEqualToAnchor:detailsStackContainer.bottomAnchor].active = true;
     
     [self.containerStack addArrangedSubview:detailsStackContainer];
-}
-
--
-(void)roundCoverImageCorners {
-    UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:self.coverImageView.bounds
-                                                      byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
-                                                            cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.bounds = self.coverImageView.bounds;
-    maskLayer.path = [roundedPath CGPath];
-    self.coverImageView.layer.mask = maskLayer;
 }
 
 @end
