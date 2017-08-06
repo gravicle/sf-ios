@@ -40,16 +40,10 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
 - (void)setup {
     self.mapView = [MKMapView new];
     self.mapView.delegate = self;
-    if (@available(iOS 11.0, *)) {
-        self.mapView.mapType = MKMapTypeMutedStandard;
-    } else {
-        self.mapView.mapType = MKMapTypeStandard;
-    }
+    self.mapView.mapType = MKMapTypeMutedStandard;
     self.mapView.showsTraffic = true;
     self.mapView.showsUserLocation = true;
-    if (@available(iOS 11.0, *)) {
-        [self.mapView registerClass:[MKAnnotationView class] forAnnotationViewWithReuseIdentifier:destAnnotationIdentifier];
-    }
+    [self.mapView registerClass:[MKAnnotationView class] forAnnotationViewWithReuseIdentifier:destAnnotationIdentifier];
     
     self.mapView.translatesAutoresizingMaskIntoConstraints = false;
     [self addSubview:self.mapView];
@@ -77,20 +71,13 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
         return nil;
     }
     
-    MKAnnotationView *dest;
-    if (@available(iOS 11.0, *)) {
-        dest = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:destAnnotationIdentifier forAnnotation:annotation];
-        
-    } else {
-        dest = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:destAnnotationIdentifier];
-    }
-    
+    MKAnnotationView *dest = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:destAnnotationIdentifier forAnnotation:annotation];
     if (!dest) {
         dest = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:destAnnotationIdentifier];
         dest.canShowCallout = false;
+    } else {
+        dest.annotation = annotation;
     }
-    
-    dest.annotation = annotation;
     dest.image = self.annotationImage;
     return dest;
 }

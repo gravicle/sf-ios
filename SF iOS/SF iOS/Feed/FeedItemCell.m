@@ -151,18 +151,7 @@ NS_ASSUME_NONNULL_END
     self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.coverImageView.backgroundColor = [UIColor alabaster];
     self.coverImageView.layer.cornerRadius = cornerRadius;
-    
-    if (@available(iOS 11.0, *)) {
-        self.coverImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
-    } else {
-        CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:maskLayer.bounds
-                                                          byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
-                                                                cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
-        maskLayer.path = [roundedPath CGPath];
-        self.coverImageView.layer.mask = maskLayer;
-    }
-    
+    self.coverImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     self.coverImageView.clipsToBounds = true;
     self.coverImageView.translatesAutoresizingMaskIntoConstraints = false;
     [self.coverImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
