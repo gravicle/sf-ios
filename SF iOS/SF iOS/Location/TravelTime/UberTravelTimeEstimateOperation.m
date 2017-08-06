@@ -8,6 +8,7 @@
 
 #import "UberTravelTimeEstimateOperation.h"
 #import "HTTPRequestAsyncOperation.h"
+#import "SecretsStore.h"
 
 @implementation UberTravelTimeEstimateOperation
 
@@ -15,10 +16,13 @@
     CLLocationCoordinate2D start = sourceLocation.coordinate;
     CLLocationCoordinate2D end = destinationLocation.coordinate;
     NSString *path = [NSString stringWithFormat:@"https://api.uber.com/v1.2/estimates/price?start_latitude=%f&start_longitude=%f&end_latitude=%f&end_longitude=%f", start.latitude, start.longitude, end.latitude, end.longitude];
+    
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:path]];
     request.HTTPMethod = @"GET";
+    
+    NSString *token = [NSString stringWithFormat:@"Token %@", [[SecretsStore alloc] init].uberServerToken];
+    [request addValue:token forHTTPHeaderField:@"Authorization"];
     [request addValue:@"en_US" forHTTPHeaderField:@"Accept-Language"];
-    [request addValue:@"Token 4ZVI7jEBu2mDCm-f8HJTbWdni1T-u7Ihs3xsRwKz" forHTTPHeaderField:@"Authorization"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
  
     __weak typeof(self) welf = self;

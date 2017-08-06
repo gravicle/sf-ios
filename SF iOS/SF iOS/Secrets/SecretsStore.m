@@ -38,7 +38,7 @@
 }
 
 -(NSString *)lyftServerToken {
-    return self.secrets[@"lyft-sever-token"];
+    return self.secrets[@"lyft-server-token"];
 }
 
 @end
