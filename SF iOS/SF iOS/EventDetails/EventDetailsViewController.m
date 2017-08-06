@@ -15,6 +15,7 @@
 #import "MapView.h"
 #import "TravelTimeService.h"
 #import "TravelTimesView.h"
+#import "DirectionsRequest.h"
 @import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -87,7 +88,9 @@ NS_ASSUME_NONNULL_END
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
     
     self.travelTimesView = [[TravelTimesView alloc] initWithDirectionsRequestHandler:^(TransportType transportType) {
-        // implement
+        [DirectionsRequest requestDirectionsToLocation:self.event.location.location
+                                              withName:self.event.location.name
+                                    usingTransportType:transportType];
     }];
     self.travelTimesView.layoutMargins = UIEdgeInsetsMake(32, 21, 21, 21);
     
