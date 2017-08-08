@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithDirectionsRequestHandler:(DirectionsRequestHandler)directionsRequestHandler NS_DESIGNATED_INITIALIZER;
 
-- (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes timetoEvent:(NSTimeInterval)timeToEvent;
+- (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes eventStartDate:(NSDate *)startDate endDate:(NSDate *)endDate;
 
 @end
 NS_ASSUME_NONNULL_END

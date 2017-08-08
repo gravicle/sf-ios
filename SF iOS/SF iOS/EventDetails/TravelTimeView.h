@@ -9,12 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TravelTime.h"
 #import "DirectionsRequestHandler.h"
-
-typedef NS_ENUM(NSUInteger, Arrival) {
-    ArrivalOnTime,
-    ArrivalAboutTime,
-    ArrivalLate,
-};
+#import "TravelTime+Arrival.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface TravelTimeView : UIControl
