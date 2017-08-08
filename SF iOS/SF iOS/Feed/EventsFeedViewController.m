@@ -123,22 +123,16 @@ NS_ASSUME_NONNULL_END
     [self.refreshControl beginRefreshing];
 }
 
-- (void)didUpdateDataSource:(EventDataSource *)datasource {
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
-}
-
-- (void)dataSource:(EventDataSource *)datasource failedToUpdateWithError:(NSError *)error {
+- (void)didUpdateDataSource:(EventDataSource *)datasource withNewData:(BOOL)hasNewData error:(NSError *)error {
     [self.refreshControl endRefreshing];
     
-    NSLog(@"Error fetching events: %@", error);
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error Fetching Events" message:@"There was an error fetching events. Please try again." preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [alert dismissViewControllerAnimated:true completion:nil];
-    }];
-    [alert addAction:okAction];
+    if (hasNewData) {
+        [self.tableView reloadData];
+    }
     
-    [self presentViewController:alert animated:true completion:nil];
+    if (error) {
+        [self handleError:error];
+    }
 }
 
 //MARK: - Location Permission
@@ -150,10 +144,22 @@ NS_ASSUME_NONNULL_END
 //MARK: - Cell Dimensions
 
 static CGFloat const eventCellAspectRatio = 1.352;
-//static CGFloat const eventCellMapAspectRatio = 1.02;
 
 - (CGFloat)cellHeight{
     return [UIScreen mainScreen].bounds.size.width * eventCellAspectRatio;
+}
+
+//MARK: - Error Handling
+
+- (void)handleError:(NSError *)error {
+    NSLog(@"Error fetching events: %@", error);
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error Fetching Events" message:@"There was an error fetching events. Please try again." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:true completion:nil];
+    }];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 @end
