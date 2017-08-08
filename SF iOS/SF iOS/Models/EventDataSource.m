@@ -39,7 +39,7 @@
     CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [welf.delegate dataSource:welf failedToUpdateWithError:error];
+                [welf.delegate didUpdateDataSource:welf withNewData:false error:error];
             });
             return;
         }
@@ -47,16 +47,14 @@
         NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
         dispatch_async(dispatch_get_main_queue(), ^{
             BOOL updatedEvents = [welf reconcileNewEvents:newEvents];
-            if (updatedEvents) {
-                [welf.delegate didUpdateDataSource:welf];
-            }
+            [welf.delegate didUpdateDataSource:welf withNewData:updatedEvents error:nil];
         });
     }];
     
     CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCompletionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [welf.delegate dataSource:welf failedToUpdateWithError:error];
+                [welf.delegate didUpdateDataSource:welf withNewData:false error:error];
             });
             return;
         }
