@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_END
 
 - (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
     self.timeLabel.text = item.dateString;
-    self.timeLabel.textColor = item.isUpcoming ? [UIColor blackColor] : [UIColor boulder];
+    self.timeLabel.alpha =  item.isUpcoming ? 1 : 0.2;
     
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = [NSAttributedString kernedStringFromString:item.subtitle];
