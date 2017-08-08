@@ -112,6 +112,21 @@ NS_ASSUME_NONNULL_END
                     completion:nil];
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    UIBezierPath *path = [UIBezierPath
+        bezierPathWithRoundedRect:self.coverImageView.bounds
+                byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
+                      cornerRadii:CGSizeMake(15, 15)];
+
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.coverImageView.bounds;
+    maskLayer.path = path.CGPath;
+    
+    self.coverImageView.layer.mask = maskLayer;
+}
+
 //MARK: - Setup
 
 - (void)setup {
@@ -150,17 +165,12 @@ NS_ASSUME_NONNULL_END
     self.coverImageView = [UIImageView new];
     self.coverImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.coverImageView.backgroundColor = [UIColor alabaster];
-    self.coverImageView.layer.cornerRadius = cornerRadius;
     
     if (@available(iOS 11.0, *)) {
+        self.coverImageView.layer.cornerRadius = cornerRadius;
         self.coverImageView.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner;
     } else {
-        CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        UIBezierPath *roundedPath = [UIBezierPath bezierPathWithRoundedRect:maskLayer.bounds
-                                                          byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
-                                                                cornerRadii:CGSizeMake(cornerRadius, cornerRadius)];
-        maskLayer.path = [roundedPath CGPath];
-        self.coverImageView.layer.mask = maskLayer;
+        // round in layoutSubviews:
     }
     
     self.coverImageView.clipsToBounds = true;
