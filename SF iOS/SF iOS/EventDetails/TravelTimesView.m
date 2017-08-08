@@ -65,6 +65,8 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     if (rideSharingTimes) {
         [self populateTravelTimeViewsInStack:self.ridesharingStack withTimes:rideSharingTimes timeToEvent:timeToEvent];
     }
+    
+    [self animateInTravelTimeViews];
 }
 
 - (void)setup {
@@ -99,6 +101,42 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     }
 }
 
+- (UIStackView *)timesStackView {
+    return [[UIStackView alloc] initWithArrangedSubviews:@[] axis:UILayoutConstraintAxisHorizontal
+                                            distribution:UIStackViewDistributionEqualSpacing
+                                               alignment:UIStackViewAlignmentLeading
+                                                 spacing:16
+                                                 margins:UIEdgeInsetsZero];
+}
+
+- (void)animateInTravelTimeViews {
+    if (self.regularStack.arrangedSubviews.count == 0 && self.ridesharingStack.arrangedSubviews.count == 0) {
+        return;
+    }
+    
+    NSTimeInterval stagger = 0.1;
+    CGAffineTransform transform = CGAffineTransformTranslate(CGAffineTransformIdentity, [[UIScreen mainScreen] bounds].size.width, 0);
+    
+    NSArray<UIView *> *views = [self.regularStack.arrangedSubviews arrayByAddingObjectsFromArray:self.ridesharingStack.arrangedSubviews];
+    [views enumerateObjectsUsingBlock:^(UIView * _Nonnull view, NSUInteger idx, BOOL * _Nonnull stop) {
+        view.transform = transform;
+        view.alpha = 0;
+        [UIView
+         animateWithDuration:0.25
+         delay:stagger * (idx + 1)
+         usingSpringWithDamping:0.8
+         initialSpringVelocity:0
+         options:0
+         animations:^{
+             view.alpha = 1;
+             view.transform = CGAffineTransformIdentity;
+         }
+         completion:nil];
+    }];
+}
+
+// MARK: - Travel Time Calcs
+
 - (Arrival)arriavalFromTravelTime:(TravelTime *)travelTime timeToEvent:(NSTimeInterval)timeToEvent {
     NSTimeInterval tardy = 2700; // 45m
     
@@ -115,16 +153,6 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
         return ArrivalLate;
     }
 }
-
-- (UIStackView *)timesStackView {
-    return [[UIStackView alloc] initWithArrangedSubviews:@[] axis:UILayoutConstraintAxisHorizontal
-                                            distribution:UIStackViewDistributionEqualSpacing
-                                               alignment:UIStackViewAlignmentLeading
-                                                 spacing:16
-                                                 margins:UIEdgeInsetsZero];
-}
-
-// MARK: - Travel Time Categorization
 
 - (NSDictionary *)categorizedTravelTimesFromArray:(NSArray<TravelTime *> *)array {
     NSMutableArray *regular = [NSMutableArray new];
