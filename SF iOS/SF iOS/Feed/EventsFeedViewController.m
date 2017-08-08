@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_END
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Event *event = [self.dataSource eventAtIndex:indexPath.row];
-    EventDetailsViewController *detailsViewController = [[EventDetailsViewController alloc] initWithEvent:event];
+    EventDetailsViewController *detailsViewController = [[EventDetailsViewController alloc] initWithEvent:event userLocationService:self.userLocationService];
     [self presentViewController:detailsViewController animated:true completion:nil];
 }
 
