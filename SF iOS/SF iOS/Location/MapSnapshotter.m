@@ -30,7 +30,11 @@
 
 - (void)snapshotOfsize:(CGSize)size showingDestinationLocation:(CLLocation *)location annotationImage:(UIImage *)annotationImage withCompletionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotOptions *options = [MKMapSnapshotOptions new];
-    options.mapType = MKMapTypeMutedStandard;
+    if (@available(iOS 11.0, *)) {
+        options.mapType = MKMapTypeMutedStandard;
+    } else {
+        options.mapType = MKMapTypeStandard;
+    }
     options.scale = UIScreen.mainScreen.scale;
     options.size = size;
     options.showsPointsOfInterest = false;
