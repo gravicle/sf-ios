@@ -49,7 +49,7 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     loading ? [self.loadingIndicator startAnimating] : [self.loadingIndicator stopAnimating];
 }
 
-- (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes {
+- (void)configureWithTravelTimes:(NSArray<TravelTime *> *)travelTimes timetoEvent:(NSTimeInterval)timeToEvent {
     [self.loadingIndicator stopAnimating];
     
     [self.regularStack removeAllArrangedSubviews];
@@ -58,12 +58,12 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     NSDictionary *categorizedTravelTimes = [self categorizedTravelTimesFromArray:travelTimes];
     NSArray *regularTimes = categorizedTravelTimes[@(TravelTimeTypeRegular)];
     if (regularTimes) {
-        [self populateTravelTimeViewsInStack:self.regularStack withTimes:regularTimes];
+        [self populateTravelTimeViewsInStack:self.regularStack withTimes:regularTimes timeToEvent:timeToEvent];
     }
     
     NSArray *rideSharingTimes = categorizedTravelTimes[@(TravelTimeTypeRideSharing)];
     if (rideSharingTimes) {
-        [self populateTravelTimeViewsInStack:self.ridesharingStack withTimes:rideSharingTimes];
+        [self populateTravelTimeViewsInStack:self.ridesharingStack withTimes:rideSharingTimes timeToEvent:timeToEvent];
     }
 }
 
@@ -91,10 +91,28 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
     [self.loadingIndicator.centerYAnchor constraintEqualToAnchor:self.centerYAnchor].active = true;
 }
 
-- (void)populateTravelTimeViewsInStack:(nonnull UIStackView *)stack withTimes:(nonnull NSArray *)travelTimes {
+- (void)populateTravelTimeViewsInStack:(nonnull UIStackView *)stack withTimes:(nonnull NSArray *)travelTimes timeToEvent:(NSTimeInterval)timeToEvent {
     for (TravelTime *time in travelTimes) {
-        TravelTimeView *view = [[TravelTimeView alloc] initWithTravelTime:time directionsRequestHandler:self.directionsRequestHandler];
+        Arrival arrival = [self arriavalFromTravelTime:time timeToEvent:timeToEvent];
+        TravelTimeView *view = [[TravelTimeView alloc] initWithTravelTime:time arrival:arrival directionsRequestHandler:self.directionsRequestHandler];
         [stack addArrangedSubview:view];
+    }
+}
+
+- (Arrival)arriavalFromTravelTime:(TravelTime *)travelTime timeToEvent:(NSTimeInterval)timeToEvent {
+    NSTimeInterval tardy = 2700; // 45m
+    
+    if (timeToEvent + tardy < 0) {
+        // if the event is in the past, magnitudes do not matter
+        return ArrivalOnTime;
+    }
+    
+    if (travelTime.travelTime < timeToEvent) {
+        return ArrivalOnTime;
+    } else if (travelTime.travelTime <= timeToEvent + tardy) { // arrive within 45 mins
+        return ArrivalAboutTime;
+    } else {
+        return ArrivalLate;
     }
 }
 

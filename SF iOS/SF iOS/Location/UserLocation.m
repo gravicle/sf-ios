@@ -13,8 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UserLocation ()
 
 @property (nonatomic) CLLocationManager *locationManager;
-@property (nullable, nonatomic) CLLocation *lastKnownLocation;
-@property (nullable, nonatomic) NSTimer *cacheExpirationTimer;
 
 // Support multiple requests backed by a single location manager
 @property (nullable, nonatomic) NSMutableArray<UserLocationRequestCompletionHandler> *requestCompletionHandlers;
@@ -62,11 +60,6 @@ static NSTimeInterval const cacheExpirationduration = 60.0; //60s
 }
 
 -(void)requestWithCompletionHandler:(UserLocationRequestCompletionHandler)completionHandler {
-    if (self.lastKnownLocation) {
-        completionHandler(self.lastKnownLocation, nil);
-        return;
-    }
-    
     if (!self.canRequestUserLocation) {
         completionHandler(nil, [NSError appErrorWithDescription:@"Access to location has not been granted."]);
         return;
@@ -76,34 +69,15 @@ static NSTimeInterval const cacheExpirationduration = 60.0; //60s
     [self.locationManager requestLocation];
 }
 
-- (void)startCacheExpirationTimer {
-    __weak typeof(self) welf = self;
-    self.cacheExpirationTimer = [NSTimer scheduledTimerWithTimeInterval:cacheExpirationduration repeats:false block:^(NSTimer * _Nonnull timer) {
-        welf.lastKnownLocation = nil;
-    }];
-}
-
-- (void)cancelCacheExpirationTimer {
-    if (!self.cacheExpirationTimer) {
-        return;
-    }
-    [self.cacheExpirationTimer invalidate];
-    self.cacheExpirationTimer = nil;
-}
-
 //MARK: - CLLocationManagerDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    [self cancelCacheExpirationTimer];
-    
     if (locations.count == 0) {
         [self callCompletionHandlersWithLocation:nil error:[NSError appErrorWithDescription:@"Locations array came in empty."]];
         return;
     }
     
-    self.lastKnownLocation = locations.firstObject;
-    [self startCacheExpirationTimer];
-    [self callCompletionHandlersWithLocation:self.lastKnownLocation error:nil];
+    [self callCompletionHandlersWithLocation:locations.firstObject error:nil];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {

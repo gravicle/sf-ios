@@ -52,7 +52,13 @@
 + (NSString *)abbreviatedTimeIntervalForTimeInterval:(NSTimeInterval)timeInterval {
     NSDateComponentsFormatter *formatter = [NSDateComponentsFormatter new];
     formatter.unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated;
-    formatter.allowedUnits = NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+    
+    if (timeInterval > 86400) {
+        formatter.allowedUnits = NSCalendarUnitDay | NSCalendarUnitHour;
+    } else {
+        formatter.allowedUnits = NSCalendarUnitHour | NSCalendarUnitMinute;
+    }
+    
     return [formatter stringFromTimeInterval:timeInterval];
 }
 

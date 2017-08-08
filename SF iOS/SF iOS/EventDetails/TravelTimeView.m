@@ -21,25 +21,42 @@
 
 @implementation TravelTimeView
 
-- (instancetype)initWithTravelTime:(TravelTime *)travelTime directionsRequestHandler:(DirectionsRequestHandler)directionsRequestHandler {
+- (instancetype)initWithTravelTime:(TravelTime *)travelTime arrival:(Arrival)arrival directionsRequestHandler:(DirectionsRequestHandler)directionsRequestHandler {
     if (self = [super initWithFrame:CGRectZero]) {
         [self setup];
         self.iconView.image = travelTime.icon;
-        self.timeLabel.text = travelTime.travelTimeEstimateString;
         self.transportType = travelTime.transportType;
         self.directionsRequestHandler = directionsRequestHandler;
+        
+        self.timeLabel.text = travelTime.travelTimeEstimateString;
+        switch (arrival) {
+            case ArrivalOnTime:
+                self.timeLabel.textColor = [UIColor atlantis];
+                break;
+            
+            case ArrivalAboutTime:
+                self.timeLabel.textColor = [UIColor saffron];
+                break;
+                
+            case ArrivalLate:
+                self.timeLabel.textColor = [UIColor mandy];
+                break;
+                
+            default:
+                break;
+        }
     }
     return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     NSAssert(false, @"Use initWithTravelTime:");
-    return [self initWithTravelTime:[TravelTime new] directionsRequestHandler:^(TransportType transportType) {}];
+    return [self initWithTravelTime:[TravelTime new] arrival:ArrivalOnTime directionsRequestHandler:^(TransportType transportType) {}];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"Use initWithTravelTime:");
-    return [self initWithTravelTime:[TravelTime new] directionsRequestHandler:^(TransportType transportType) {}];
+    return [self initWithTravelTime:[TravelTime new] arrival:ArrivalOnTime directionsRequestHandler:^(TransportType transportType) {}];
 }
 
 - (void)setup {

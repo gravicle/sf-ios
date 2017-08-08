@@ -157,7 +157,8 @@ NS_ASSUME_NONNULL_END
             welf.travelTimesView.loading = false;
             
             if (travelTimes.count > 0) {
-                [welf.travelTimesView configureWithTravelTimes:travelTimes];
+                NSTimeInterval timeToEvent = [welf.event.date timeIntervalSinceDate:[NSDate new]];
+                [welf.travelTimesView configureWithTravelTimes:travelTimes timetoEvent:timeToEvent];
                 [UIView animateWithDuration:0.3 animations:^{
                     [welf.mapView layoutIfNeeded];
                     [welf.containerStack layoutIfNeeded];
