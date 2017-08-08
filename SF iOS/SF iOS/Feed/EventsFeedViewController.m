@@ -74,6 +74,11 @@ NS_ASSUME_NONNULL_END
     [self requestLocationPermission];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.refreshControl endRefreshing];
+}
+
 //MARK: - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
