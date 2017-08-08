@@ -17,4 +17,4 @@ The app has no external dependencies. However, for travel time estimates, it use
 1. Duplicate `Secrets/secrets-example.plist` and rename it to `secrets.plist`. you can build the project now but Uber and Lyft travel times will not be available.
 2. Get [Uber](https://auth.uber.com/login/?next_url=https%3A%2F%2Fdeveloper.uber.com%2Fdashboard%2F&state=jZgX3-jJNzOiN57ly8Tv0uY0ArFXStNvQsjM_mzcYdg%3D) and [Lyft](https://www.lyft.com/developers/manage) `client-id` and `server-token` and populate `secrets.plist`.
 
-The app uses CLoudKit as its backend and you will need to replicate the required models in your CloudKit dev environemnt.
+The app uses CloudKit as its backend and you will need to replicate the required models in your CloudKit dev environemnt.
