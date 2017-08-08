@@ -34,4 +34,8 @@
     return [UIColor colorWithRed:0.72 green:0.72 blue:0.72 alpha:1.0];
 }
 
++ (UIColor *)boulder {
+    return [UIColor colorWithRed:0.49 green:0.49 blue:0.49 alpha:1.0];;
+}
+
 @end

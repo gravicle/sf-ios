@@ -22,7 +22,7 @@
                        event.location.streetAddress,
                        [NSDate timeslotStringFromStartDate:event.date duration:event.duration]
                        ] componentsJoinedByString: @", "];
-    self.shouldShowDirections = [self directionsAreRelevantForEventWithDate:event.date];
+    self.isUpcoming = [self directionsAreRelevantForEventWithDate:event.date];
     self.coverImageFileURL = event.location.imageFileURL;
     self.location = event.location.location;
     self.annotationImage = event.annotationImage;

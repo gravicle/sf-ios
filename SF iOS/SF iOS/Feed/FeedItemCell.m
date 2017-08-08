@@ -42,9 +42,12 @@ NS_ASSUME_NONNULL_END
 
 - (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
     self.timeLabel.text = item.dateString;
+    self.timeLabel.textColor = item.isUpcoming ? [UIColor blackColor] : [UIColor boulder];
+    
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = [NSAttributedString kernedStringFromString:item.subtitle];
-    if (item.shouldShowDirections) {
+    
+    if (item.isUpcoming) {
         __weak typeof(self) welf = self;
         self.takeMapSnapshot = ^{
             [welf showMapForLocation:item.location annotionImage:item.annotationImage usingSnapshotter:snapshotter withCompletionHandler:^(NSError * _Nullable error) {

@@ -28,4 +28,7 @@
 ///#B7B7B7
 + (UIColor *)nobel;
 
+///#A6A6A6
++(UIColor *)boulder;
+
 @end

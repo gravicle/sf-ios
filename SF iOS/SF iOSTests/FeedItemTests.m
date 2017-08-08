@@ -43,7 +43,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Tomorrow"]);
-    XCTAssertTrue(item.shouldShowDirections);
+    XCTAssertTrue(item.isUpcoming);
 }
 
 - (void)testEventInToday {
@@ -52,7 +52,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
-    XCTAssertTrue(item.shouldShowDirections);
+    XCTAssertTrue(item.isUpcoming);
 }
 
 - (void)testEventInPastButStillInToday {
@@ -61,7 +61,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
-    XCTAssertTrue(item.shouldShowDirections);
+    XCTAssertTrue(item.isUpcoming);
 }
 
 - (void)testEventInYesterday {
@@ -70,7 +70,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Yesterday"]);
-    XCTAssertEqual(item.shouldShowDirections, false);
+    XCTAssertEqual(item.isUpcoming, false);
 }
 
 - (void)testEventInLastMonth {
@@ -83,7 +83,7 @@
     NSString *expctedTime = [formatter stringFromDate:eventDate];
     
     XCTAssertTrue([item.dateString isEqualToString:expctedTime]);
-    XCTAssertFalse(item.shouldShowDirections);
+    XCTAssertFalse(item.isUpcoming);
 }
 
 - (NSDate *)dateByAddingUnit:(NSCalendarUnit)calendarUnit value:(NSInteger)value toDate:(NSDate *)date {
