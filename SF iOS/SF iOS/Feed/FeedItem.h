@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic) NSString *dateString;
 @property (nonatomic) NSString *title;
-@property (nonatomic) NSString *subtitle;
+@property (nonatomic) NSAttributedString *subtitle;
 @property (nonatomic) UIImage *annotationImage;
 @property (nonatomic, assign) BOOL isUpcoming;
 @property (nullable, nonatomic) NSURL *coverImageFileURL;

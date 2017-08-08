@@ -8,6 +8,7 @@
 
 #import "FeedItem.h"
 #import "NSDate+Utilities.h"
+#import "NSAttributedString+Kerning.h"
 
 @implementation FeedItem
 
@@ -18,14 +19,22 @@
     }
     self.dateString = [self dateStringFromDate:event.date];
     self.title = event.location.name;
-    self.subtitle = [@[
-                       event.location.streetAddress,
-                       [NSDate timeslotStringFromStartDate:event.date duration:event.duration]
-                       ] componentsJoinedByString: @", "];
     self.isUpcoming = [self directionsAreRelevantForEventWithDate:event.date];
     self.coverImageFileURL = event.location.imageFileURL;
     self.location = event.location.location;
     self.annotationImage = event.annotationImage;
+    
+    NSString *location = event.location.streetAddress;
+    NSString *time;
+    
+    if ([[NSDate new] isBetweenEarlierDate:event.date laterDate:event.endDate]) {
+        time = @"Now";
+    } else {
+        time = [NSDate timeslotStringFromStartDate:event.date duration:event.duration];
+    }
+    
+    NSString *subtite = [NSString stringWithFormat:@"%@, %@", location, time];
+    self.subtitle = [NSAttributedString kernedStringFromString:[subtite uppercaseString]];
     
     return self;
 }
