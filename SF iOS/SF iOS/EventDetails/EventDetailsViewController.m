@@ -26,28 +26,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UIStackView *containerStack;
 @property (nonatomic) TravelTimeService *travelTimeService;
 @property (nonatomic) TravelTimesView *travelTimesView;
+@property (nullable, nonatomic) UserLocation *userLocationService;
 
 @end
 NS_ASSUME_NONNULL_END
 
 @implementation EventDetailsViewController
 
-- (instancetype)initWithEvent:(Event *)event {
+- (instancetype)initWithEvent:(Event *)event userLocationService:(UserLocation *)userLocation {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.event = event;
         self.travelTimeService = [TravelTimeService new];
+        self.userLocationService = userLocation;
     }
     return self;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     NSAssert(false, @"Use -initWithEvent");
-    return [self initWithEvent:[Event new]];
+    return [self initWithEvent:[Event new] userLocationService:[UserLocation new]];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     NSAssert(false, @"Use -initWithEvent");
-    return [self initWithEvent:[Event new]];
+    return [self initWithEvent:[Event new] userLocationService:[UserLocation new]];
 }
 
 - (void)viewDidLoad {
@@ -131,31 +133,37 @@ NS_ASSUME_NONNULL_END
     [super viewDidAppear:animated];
     
     [self.mapView setDestinationToLocation:self.event.location.location withAnnotationImage:self.event.annotationImage];
-    __weak typeof(self) welf = self;
-    self.mapView.userLocationObserver = ^(CLLocation * _Nullable userLocation) {
-        if (userLocation) {
-            [welf updateTravelTimesWithUserLocation:userLocation];
-        }
-        welf.mapView.userLocationObserver = nil; // only set traveltimes once
-    };
+    [self getTravelTimes];
 }
 
 // MARK: - Travel Times
 
-- (void)updateTravelTimesWithUserLocation:(nullable CLLocation *)userLocation {
+- (void)getTravelTimes {
+    if (!self.userLocationService) {
+        return;
+    }
+    
     self.travelTimesView.loading = true;
     
     __weak typeof(self) welf = self;
-    [self.travelTimeService calculateTravelTimesFromLocation:userLocation toLocation:self.event.location.location withCompletionHandler:^(NSArray<TravelTime *> * _Nonnull travelTimes) {
-        welf.travelTimesView.loading = false;
-        
-        if (travelTimes.count > 0) {
-            [welf.travelTimesView configureWithTravelTimes:travelTimes];
-            [UIView animateWithDuration:0.3 animations:^{
-                [welf.mapView layoutIfNeeded];
-                [welf.containerStack layoutIfNeeded];
-            }];
+    [self.userLocationService requestWithCompletionHandler:^(CLLocation * _Nullable currentLocation, NSError * _Nullable error) {
+        if (!currentLocation || error) {
+            NSLog(@"Could not get travel times: %@", error);
+            self.travelTimesView.loading = false;
+            return;
         }
+        
+        [welf.travelTimeService calculateTravelTimesFromLocation:currentLocation toLocation:welf.event.location.location withCompletionHandler:^(NSArray<TravelTime *> * _Nonnull travelTimes) {
+            welf.travelTimesView.loading = false;
+            
+            if (travelTimes.count > 0) {
+                [welf.travelTimesView configureWithTravelTimes:travelTimes];
+                [UIView animateWithDuration:0.3 animations:^{
+                    [welf.mapView layoutIfNeeded];
+                    [welf.containerStack layoutIfNeeded];
+                }];
+            }
+        }];
     }];
 }
 
@@ -172,3 +180,4 @@ NS_ASSUME_NONNULL_END
 
 
 @end
+

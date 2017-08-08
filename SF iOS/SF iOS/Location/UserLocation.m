@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 NS_ASSUME_NONNULL_END
 
-static NSTimeInterval const cacheExpirationduration = 10.0; //10s
+static NSTimeInterval const cacheExpirationduration = 60.0; //60s
 
 @implementation UserLocation
 
@@ -64,6 +64,11 @@ static NSTimeInterval const cacheExpirationduration = 10.0; //10s
 -(void)requestWithCompletionHandler:(UserLocationRequestCompletionHandler)completionHandler {
     if (self.lastKnownLocation) {
         completionHandler(self.lastKnownLocation, nil);
+        return;
+    }
+    
+    if (!self.canRequestUserLocation) {
+        completionHandler(nil, [NSError appErrorWithDescription:@"Access to location has not been granted."]);
         return;
     }
     
