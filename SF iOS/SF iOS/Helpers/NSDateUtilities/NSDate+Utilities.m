@@ -34,10 +34,18 @@
     }
 }
 
+- (BOOL)isThisWeek {
+    return [self isInThisCalendarUnit:NSCalendarUnitYear] && [self isInThisCalendarUnit:NSCalendarUnitWeekOfYear];
+}
+
 - (BOOL)isThisYear {
-    NSInteger dateYear = [[NSCalendar currentCalendar] component:NSCalendarUnitYear fromDate:self];
-    NSInteger currentYear = [[NSCalendar currentCalendar] component:NSCalendarUnitYear fromDate:[NSDate new]];
-    return  dateYear == currentYear;
+    return [self isInThisCalendarUnit:NSCalendarUnitYear];
+}
+
+- (BOOL)isInThisCalendarUnit:(NSCalendarUnit)unit {
+    NSInteger dateUnit = [[NSCalendar currentCalendar] component:unit fromDate:self];
+    NSInteger currentUnit = [[NSCalendar currentCalendar] component:unit fromDate:[NSDate new]];
+    return dateUnit == currentUnit;
 }
 
 - (BOOL)isInFuture {
@@ -84,8 +92,20 @@
     return [formatter stringFromDate:self];
 }
 
+- (NSString *)weekdayName {
+    return [self stringWithformat:@"E"];
+}
+
 - (BOOL)isLaterThanDate:(NSDate *)date {
     return [self compare:date] == NSOrderedDescending;
+}
+
+- (BOOL)isBeforeDate:(NSDate *)date {
+    return [self compare:date] == NSOrderedAscending;
+}
+
+- (BOOL)isBetweenEarlierDate:(NSDate *)earlierDate laterDate:(NSDate *)laterDate {
+    return [self isLaterThanDate:earlierDate] && [self isBeforeDate:laterDate];
 }
 
 @end

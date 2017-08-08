@@ -10,7 +10,6 @@
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
 #import "UIImage+URL.h"
-#import "NSAttributedString+EventAddress.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell ()
@@ -45,7 +44,7 @@ NS_ASSUME_NONNULL_END
     self.timeLabel.alpha =  item.isUpcoming ? 1 : 0.2;
     
     self.titleLabel.text = item.title;
-    self.subtitleLabel.attributedText = [NSAttributedString kernedStringFromString:item.subtitle];
+    self.subtitleLabel.attributedText = item.subtitle;
     
     if (item.isUpcoming) {
         __weak typeof(self) welf = self;

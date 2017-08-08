@@ -1,5 +1,5 @@
 //
-//  NSAttributedString+EventAddress.h
+//  NSAttributedString+Kerning.h
 //  SF iOS
 //
 //  Created by Amit Jain on 8/2/17.

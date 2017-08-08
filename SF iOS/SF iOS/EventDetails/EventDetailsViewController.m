@@ -10,7 +10,7 @@
 #import "EventDetailsViewController.h"
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
-#import "NSAttributedString+EventAddress.h"
+#import "NSAttributedString+EventDetails.h"
 #import "NSDate+Utilities.h"
 #import "MapView.h"
 #import "TravelTimeService.h"
@@ -66,14 +66,7 @@ NS_ASSUME_NONNULL_END
     UILabel *subtitleLabel = [UILabel new];
     subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     subtitleLabel.textColor = [UIColor abbey];
-    NSString *timeLabelText;
-    if (self.event.date.isInFuture && self.event.date.isToday) {
-        timeLabelText = [NSString stringWithFormat:@"in %@", self.event.date.abbreviatedTimeintervalFromNow];
-    } else {
-        timeLabelText = [NSDate timeslotStringFromStartDate:self.event.date duration:self.event.duration];
-    }
-    NSString *subtitle = [@[self.event.location.streetAddress, timeLabelText] componentsJoinedByString:@", "];
-    subtitleLabel.attributedText = [NSAttributedString kernedStringFromString:subtitle];
+    subtitleLabel.attributedText = [NSAttributedString attributedDetailsStringFromEvent:self.event];
     
     UIStackView *titleStack = [[UIStackView alloc] initWithArrangedSubviews:@[titleLabel, subtitleLabel]
                                                                        axis:UILayoutConstraintAxisVertical
@@ -158,8 +151,7 @@ NS_ASSUME_NONNULL_END
             welf.travelTimesView.loading = false;
             
             if (travelTimes.count > 0) {
-                NSTimeInterval timeToEvent = [welf.event.date timeIntervalSinceDate:[NSDate new]];
-                [welf.travelTimesView configureWithTravelTimes:travelTimes timetoEvent:timeToEvent];
+                [welf.travelTimesView configureWithTravelTimes:travelTimes eventStartDate:welf.event.date endDate:welf.event.endDate];
                 [UIView animateWithDuration:0.3 animations:^{
                     [welf.mapView layoutIfNeeded];
                     [welf.containerStack layoutIfNeeded];

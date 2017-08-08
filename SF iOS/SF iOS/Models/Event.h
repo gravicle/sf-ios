@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic) Location* location;
 @property (nonatomic, readonly) UIImage *annotationImage;
+@property (nonatomic, readonly) NSDate *endDate;
 
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location;
 
