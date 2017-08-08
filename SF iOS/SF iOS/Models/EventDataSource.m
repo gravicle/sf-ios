@@ -130,9 +130,6 @@
 // MARK: - Records Parsing
 
 - (NSArray<Event *> *)eventsFromEventRecords:(NSArray<CKRecord *> *)eventRecords locationRecordsByID:(NSDictionary<CKRecordID *,CKRecord *> *) locationRecordsByRecordID {
-    NSAssert(eventRecords.count == locationRecordsByRecordID.count,
-             @"Number of events %lu != Number of locations %lu", (unsigned long)eventRecords.count, locationRecordsByRecordID.count);
-    
     NSMutableArray<Event *> *events = [NSMutableArray new];
     for (CKRecord *eventRecord in eventRecords) {
         CKRecordID *locationRecordID = [self locationRecordIDFromEventRecord:eventRecord];

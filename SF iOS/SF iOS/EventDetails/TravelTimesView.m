@@ -122,9 +122,9 @@ typedef NS_ENUM(NSUInteger, TravelTimeType) {
         view.transform = transform;
         view.alpha = 0;
         [UIView
-         animateWithDuration:0.25
+         animateWithDuration:0.3
          delay:stagger * (idx + 1)
-         usingSpringWithDamping:0.8
+         usingSpringWithDamping:0.85
          initialSpringVelocity:0
          options:0
          animations:^{
