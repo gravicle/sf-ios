@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)weekdayName;
 
 - (BOOL)isLaterThanDate:(NSDate *)date;
-- (BOOL)isBeforeDate:(NSDate *)date;
+- (BOOL)isEarlierThanDate:(NSDate *)date;
 - (BOOL)isBetweenEarlierDate:(NSDate *)earlierDate laterDate:(NSDate *)laterDate;
 
 @end

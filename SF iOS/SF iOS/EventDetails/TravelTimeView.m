@@ -34,11 +34,11 @@
                 self.timeLabel.textColor = [UIColor atlantis];
                 break;
             
-            case ArrivalAboutTime:
+            case ArrivalDuringEvent:
                 self.timeLabel.textColor = [UIColor saffron];
                 break;
                 
-            case ArrivalLate:
+            case ArrivalAfterEvent:
                 self.timeLabel.textColor = [UIColor mandy];
                 break;
                 

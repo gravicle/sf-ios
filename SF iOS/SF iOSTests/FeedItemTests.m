@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "Event.h"
 #import "FeedItem.h"
+#import "Location.h"
 
 @interface FeedItemTests : XCTestCase
 
@@ -21,13 +22,14 @@
 - (void)setUp {
     [super setUp];
     
-    Location *location = [Location new];
+    CKRecord *locRecord = [[CKRecord alloc] initWithRecordType:Location.recordName];
+    Location *location = [[Location alloc] initWithRecord:locRecord];
     location.name = @"Test Event";
     location.streetAddress = @"600 Post St.";
     location.location = [[CLLocation alloc] initWithLatitude:37.7564388 longitude:-122.4213833];
     
-    self.event = [Event new];
-    self.event.location = location;
+    CKRecord *eventRecord = [[CKRecord alloc] initWithRecordType:Event.recordName];
+    self.event = [[Event alloc] initWithRecord:eventRecord location:location];
     self.event.type = EventTypeSFCoffee;
     self.event.date = [NSDate new];
 }

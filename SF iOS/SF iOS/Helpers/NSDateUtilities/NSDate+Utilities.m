@@ -100,12 +100,12 @@
     return [self compare:date] == NSOrderedDescending;
 }
 
-- (BOOL)isBeforeDate:(NSDate *)date {
+- (BOOL)isEarlierThanDate:(NSDate *)date {
     return [self compare:date] == NSOrderedAscending;
 }
 
 - (BOOL)isBetweenEarlierDate:(NSDate *)earlierDate laterDate:(NSDate *)laterDate {
-    return [self isLaterThanDate:earlierDate] && [self isBeforeDate:laterDate];
+    return [self isLaterThanDate:earlierDate] && [self isEarlierThanDate:laterDate];
 }
 
 @end
