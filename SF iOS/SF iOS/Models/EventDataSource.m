@@ -65,6 +65,7 @@
         [self.database addOperation:locationsOperation];
     }];
     
+    [self.delegate willUpdateDataSource:self];
     [self.database addOperation:eventRecordsOperation];
 }
 
