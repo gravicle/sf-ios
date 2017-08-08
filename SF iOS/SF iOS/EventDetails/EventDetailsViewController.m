@@ -114,10 +114,10 @@ NS_ASSUME_NONNULL_END
     [closeButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     closeButton.translatesAutoresizingMaskIntoConstraints = false;
     [self.view addSubview:closeButton];
-    [closeButton.widthAnchor constraintEqualToConstant:28].active = true;
-    [closeButton.heightAnchor constraintEqualToConstant:28].active = true;
-    [closeButton.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:40].active = true;
-    [closeButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-20].active = true;
+    [closeButton.widthAnchor constraintEqualToConstant:44].active = true;
+    [closeButton.heightAnchor constraintEqualToConstant:44].active = true;
+    [closeButton.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:32].active = true;
+    [closeButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-12].active = true;
     
     UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     UIVisualEffectView *statusBarBackground = [[UIVisualEffectView alloc] initWithEffect:effect];
