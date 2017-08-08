@@ -15,7 +15,6 @@
 @interface EventDataSource ()
 
 @property (nonatomic) CKDatabase *database;
-@property (nonatomic) CKQueryCursor *cursor;
 @property (nonatomic, assign) EventType eventType;
 @property (nonatomic) NSMutableArray<Event *> *events;
 
@@ -33,7 +32,7 @@
     return self;
 }
 
-- (void)fetchPreviousEvents {
+- (void)refresh {
     __weak typeof(self) welf = self;
     __block NSArray<CKRecord *> *eventRecords;
     
@@ -52,14 +51,14 @@
         });
     }];
     
-    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCursor:self.cursor completionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
+    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCompletionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [welf.delegate dataSource:welf failedToUpdateWithError:error];
             });
             return;
         }
-        welf.cursor = cursor;
+        
         eventRecords = records;
         
         locationsOperation.recordIDs = [welf locationRecordIDsFromEventRecords:eventRecords];
@@ -77,20 +76,15 @@
     return self.events.count;
 }
 
-// MARK: - CloudKit Operations Construction
+// MARK: - CloudKit Operations
 
-- (CKQueryOperation *)eventRecordsQueryOperationForEventsOfType:(EventType)eventType withCursor:(CKQueryCursor *)cursor completionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {
+- (CKQueryOperation *)eventRecordsQueryOperationForEventsOfType:(EventType)eventType withCompletionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {
     NSString *recordType = Event.recordName;
     
-    CKQueryOperation *operation = nil;
-    if (cursor) {
-        operation = [[CKQueryOperation alloc] initWithCursor:cursor];
-    } else {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"eventType == %u", eventType];
-        CKQuery *query = [[CKQuery alloc] initWithRecordType:recordType predicate:predicate];
-        query.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"eventDate" ascending:false]];
-        operation = [[CKQueryOperation alloc] initWithQuery:query];
-    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"eventType == %u", eventType];
+    CKQuery *query = [[CKQuery alloc] initWithRecordType:recordType predicate:predicate];
+    query.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"eventDate" ascending:false]];
+    CKQueryOperation *operation = [[CKQueryOperation alloc] initWithQuery:query];
     
     __block NSMutableArray<CKRecord *> *records = [NSMutableArray new];
     operation.recordFetchedBlock = ^(CKRecord * _Nonnull record) {
@@ -108,7 +102,6 @@
         
         completionHandler(cursor, records, nil);
     };
-    operation.resultsLimit = 10;
     
     return operation;
 }
@@ -170,7 +163,7 @@
 - (void)observeAppActivationEvents {
     __weak typeof(self) welf = self;
     [[NSNotificationCenter defaultCenter] addObserverForName:NSNotification.applicationBecameActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [welf fetchPreviousEvents];
+        [welf refresh];
     }];
 }
 

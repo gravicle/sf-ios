@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, assign) NSUInteger numberOfEvents;
 
 - (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database;
-- (void)fetchPreviousEvents;
+- (void)refresh;
 - (Event *)eventAtIndex:(NSUInteger)index;
 
 @end

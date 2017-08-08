@@ -62,6 +62,9 @@ NS_ASSUME_NONNULL_END
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl addTarget:self action:<#(nonnull SEL)#> forControlEvents:<#(UIControlEvents)#>
+    
     [self.dataSource fetchPreviousEvents];
 }
 
