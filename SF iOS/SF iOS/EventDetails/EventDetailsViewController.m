@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_END
     subtitleLabel.textColor = [UIColor abbey];
     NSString *timeLabelText;
     if (self.event.date.isInFuture && self.event.date.isToday) {
-        timeLabelText = self.event.date.abbreviatedTimeintervalFromNow;
+        timeLabelText = [NSString stringWithFormat:@"in %@", self.event.date.abbreviatedTimeintervalFromNow];
     } else {
         timeLabelText = [NSDate timeslotStringFromStartDate:self.event.date duration:self.event.duration];
     }
