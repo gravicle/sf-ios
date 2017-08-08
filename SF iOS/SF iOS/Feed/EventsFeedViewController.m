@@ -63,9 +63,10 @@ NS_ASSUME_NONNULL_END
     self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
     
     self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl addTarget:self action:<#(nonnull SEL)#> forControlEvents:<#(UIControlEvents)#>
+    [self.refreshControl addTarget:self.dataSource action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
     
-    [self.dataSource fetchPreviousEvents];
+    [self.dataSource refresh];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -113,12 +114,26 @@ NS_ASSUME_NONNULL_END
 
 //MARK: - EventDataSourceDelegate
 
+- (void)willUpdateDataSource:(EventDataSource *)datasource {
+    [self.refreshControl beginRefreshing];
+}
+
 - (void)didUpdateDataSource:(EventDataSource *)datasource {
     [self.tableView reloadData];
+    [self.refreshControl endRefreshing];
 }
 
 - (void)dataSource:(EventDataSource *)datasource failedToUpdateWithError:(NSError *)error {
+    [self.refreshControl endRefreshing];
+    
     NSLog(@"Error fetching events: %@", error);
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error Fetching Events" message:@"There was an error fetching events. Please try again." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:true completion:nil];
+    }];
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 //MARK: - Location Permission
