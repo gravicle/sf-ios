@@ -46,8 +46,10 @@
         
         NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [welf addEvents:newEvents];
-            [welf.delegate didUpdateDataSource:welf];
+            BOOL updatedEvents = [welf reconcileNewEvents:newEvents];
+            if (updatedEvents) {
+                [welf.delegate didUpdateDataSource:welf];
+            }
         });
     }];
     
@@ -170,7 +172,8 @@
 
 // MARK: - Bookeeping
 
-- (void)addEvents:(NSArray<Event *> *)newEvents {
+- (BOOL)reconcileNewEvents:(NSArray<Event *> *)newEvents {
+    BOOL updatedEvents = false;
     NSMutableArray *newUniqueEvents = [NSMutableArray new];
     for (Event *event in newEvents) {
         NSUInteger index = [self.events indexOfObject:event];
@@ -178,16 +181,25 @@
             [newUniqueEvents addObject:event];
         } else {
             Event *exsistingEvent = self.events[index];
-            // If modified, replace
             if ([event.modificationDate isLaterThanDate:exsistingEvent.modificationDate]) {
+                updatedEvents = true;
                 [self.events replaceObjectAtIndex:index withObject:event];
             }
         }
     }
-    [self.events addObjectsFromArray:newUniqueEvents];
-    [self.events sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        return [[(Event *)obj2 date] compare:[(Event *)obj1 date]];
-    }];
+    
+    if (newUniqueEvents.count > 0) {
+        updatedEvents = true;
+        [self.events addObjectsFromArray:newUniqueEvents];
+    }
+    
+    if (updatedEvents) {
+        [self.events sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            return [[(Event *)obj2 date] compare:[(Event *)obj1 date]];
+        }];
+    }
+    
+    return updatedEvents;
 }
 
 @end
