@@ -1,3 +1,5 @@
+![screenshot](https://github.com/gravicle/sf-ios/blob/master/screenshots.jpg)
+
 # sf-ios
 An app for #sf-coffee and #sf-beer events from the iOS Folks Slack.
 
