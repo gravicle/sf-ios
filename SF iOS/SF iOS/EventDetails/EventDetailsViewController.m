@@ -93,6 +93,7 @@ NS_ASSUME_NONNULL_END
     }];
     self.travelTimesView.layoutMargins = UIEdgeInsetsMake(32, 21, 21, 21);
     self.travelTimesView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.travelTimesView.heightAnchor constraintGreaterThanOrEqualToConstant:141].active = true;
     
     self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.mapView, titleStack, self.travelTimesView]
                                                                    axis:UILayoutConstraintAxisVertical
