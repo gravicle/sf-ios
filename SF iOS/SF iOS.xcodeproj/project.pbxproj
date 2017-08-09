@@ -52,6 +52,7 @@
 		C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49421F330F360064B03E /* AsyncOperation.m */; };
 		C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49481F33B9150064B03E /* TravelTimesView.m */; };
 		C8CC494C1F33BA420064B03E /* TravelTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC494B1F33BA420064B03E /* TravelTimeView.m */; };
+		C8CEC9841F3AB342002A8D88 /* UIViewController+StatusBarBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CEC9831F3AB342002A8D88 /* UIViewController+StatusBarBackground.m */; };
 		C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -162,6 +163,8 @@
 		C8CC49481F33B9150064B03E /* TravelTimesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTimesView.m; sourceTree = "<group>"; };
 		C8CC494A1F33BA420064B03E /* TravelTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTimeView.h; sourceTree = "<group>"; };
 		C8CC494B1F33BA420064B03E /* TravelTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TravelTimeView.m; sourceTree = "<group>"; };
+		C8CEC9821F3AB342002A8D88 /* UIViewController+StatusBarBackground.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+StatusBarBackground.h"; sourceTree = "<group>"; };
+		C8CEC9831F3AB342002A8D88 /* UIViewController+StatusBarBackground.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+StatusBarBackground.m"; sourceTree = "<group>"; };
 		C8E6A3EB1F3256180098339C /* EventDetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
 		C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,6 +239,7 @@
 		C82516491F3054BE006B9D7E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C8CEC9811F3AB31D002A8D88 /* StatusBarBackgroung */,
 				C8CC49401F330F1E0064B03E /* Concurrency */,
 				C8CC49321F32A70A0064B03E /* Application */,
 				C8CC49291F3264420064B03E /* MapCameraOverlookingLocations */,
@@ -450,6 +454,15 @@
 			path = Concurrency;
 			sourceTree = "<group>";
 		};
+		C8CEC9811F3AB31D002A8D88 /* StatusBarBackgroung */ = {
+			isa = PBXGroup;
+			children = (
+				C8CEC9821F3AB342002A8D88 /* UIViewController+StatusBarBackground.h */,
+				C8CEC9831F3AB342002A8D88 /* UIViewController+StatusBarBackground.m */,
+			);
+			path = StatusBarBackgroung;
+			sourceTree = "<group>";
+		};
 		C8E6A3EA1F3255F70098339C /* EventDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -619,6 +632,7 @@
 				C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */,
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
+				C8CEC9841F3AB342002A8D88 /* UIViewController+StatusBarBackground.m in Sources */,
 				C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */,
 				C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
