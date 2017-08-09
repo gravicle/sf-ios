@@ -195,12 +195,12 @@ static CGFloat const eventCellAspectRatio = 1.352;
     NSTimeInterval stagger = 0.2;
     [self.tableView.visibleCells enumerateObjectsUsingBlock:^(__kindof UITableViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
         cell.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, [UIScreen mainScreen].bounds.size.height);
-        cell.alpha = 0.25;
+        cell.alpha = 0;
         
         [UIView
-         animateWithDuration:0.65
-         delay:(stagger * idx)
-         usingSpringWithDamping:0.775
+         animateWithDuration:0.75
+         delay:stagger * (idx + 1)
+         usingSpringWithDamping:0.85
          initialSpringVelocity:0
          options:0
          animations:^{
