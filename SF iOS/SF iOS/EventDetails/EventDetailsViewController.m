@@ -1,4 +1,3 @@
-
 //
 //  EventDetailsViewController.m
 //  SF iOS
@@ -16,6 +15,7 @@
 #import "TravelTimeService.h"
 #import "TravelTimesView.h"
 #import "DirectionsRequest.h"
+#import "UIViewController+StatusBarBackground.h"
 @import MapKit;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -113,14 +113,7 @@ NS_ASSUME_NONNULL_END
     [closeButton.topAnchor constraintEqualToAnchor:self.view.topAnchor constant:32].active = true;
     [closeButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-12].active = true;
     
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *statusBarBackground = [[UIVisualEffectView alloc] initWithEffect:effect];
-    statusBarBackground.translatesAutoresizingMaskIntoConstraints = false;
-    [self.view addSubview:statusBarBackground];
-    [statusBarBackground.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = true;
-    [statusBarBackground.leftAnchor constraintEqualToAnchor:self.view.leftAnchor].active = true;
-    [statusBarBackground.rightAnchor constraintEqualToAnchor:self.view.rightAnchor].active = true;
-    [statusBarBackground.heightAnchor constraintEqualToConstant:self.statusBarHeight].active = true;
+    [self addStatusBarBlurBackground];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

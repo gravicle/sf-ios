@@ -12,7 +12,7 @@
 #import "MapSnapshotter.h"
 #import "UserLocation.h"
 #import "EventDetailsViewController.h"
-
+#import "UIViewController+StatusBarBackground.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EventsFeedViewController ()
@@ -59,15 +59,6 @@ NS_ASSUME_NONNULL_END
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    UIVisualEffectView *statusBarBackground = [[UIVisualEffectView alloc] initWithEffect:effect];
-    statusBarBackground.translatesAutoresizingMaskIntoConstraints = false;
-    [self.view addSubview:statusBarBackground];
-    [statusBarBackground.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = true;
-    [statusBarBackground.leftAnchor constraintEqualToAnchor:self.view.leftAnchor].active = true;
-    [statusBarBackground.rightAnchor constraintEqualToAnchor:self.view.rightAnchor].active = true;
-    [statusBarBackground.heightAnchor constraintEqualToConstant:20].active = true;
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -86,7 +77,7 @@ NS_ASSUME_NONNULL_END
     self.tableView.refreshControl = [[UIRefreshControl alloc] init];
     [self.tableView.refreshControl addTarget:self.dataSource action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-    [self.view bringSubviewToFront:statusBarBackground];
+    [self addStatusBarBlurBackground];
     
     [self.dataSource refresh];
 }
