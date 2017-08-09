@@ -10,7 +10,7 @@
 #import "EventDataSource.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface EventsFeedViewController : UITableViewController <EventDataSourceDelegate>
+@interface EventsFeedViewController : UIViewController <EventDataSourceDelegate, UITableViewDataSource, UITableViewDelegate>
 
 - (instancetype)initWithDataSource:(EventDataSource *)dataSource NS_DESIGNATED_INITIALIZER;
 

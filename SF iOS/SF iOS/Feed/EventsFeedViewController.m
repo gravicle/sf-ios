@@ -13,12 +13,14 @@
 #import "UserLocation.h"
 #import "EventDetailsViewController.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 @interface EventsFeedViewController ()
 
 @property (nonatomic) EventDataSource *dataSource;
 @property (nullable, nonatomic) UserLocation *userLocationService;
 @property (nonatomic) MapSnapshotter *snapshotter;
+@property (nonatomic) UITableView *tableView;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -26,7 +28,7 @@ NS_ASSUME_NONNULL_END
 @implementation EventsFeedViewController
 
 - (instancetype)initWithDataSource:(EventDataSource *)dataSource {
-    if (self = [super initWithStyle:UITableViewStylePlain]) {
+    if (self = [super initWithNibName:nil bundle:nil]) {
         self.dataSource = dataSource;
         dataSource.delegate = self;
         self.userLocationService = [UserLocation new];
@@ -57,14 +59,34 @@ NS_ASSUME_NONNULL_END
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *statusBarBackground = [[UIVisualEffectView alloc] initWithEffect:effect];
+    statusBarBackground.translatesAutoresizingMaskIntoConstraints = false;
+    [self.view addSubview:statusBarBackground];
+    [statusBarBackground.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = true;
+    [statusBarBackground.leftAnchor constraintEqualToAnchor:self.view.leftAnchor].active = true;
+    [statusBarBackground.rightAnchor constraintEqualToAnchor:self.view.rightAnchor].active = true;
+    [statusBarBackground.heightAnchor constraintEqualToConstant:20].active = true;
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
     [self.tableView registerClass:self.feedItemCellClass forCellReuseIdentifier:NSStringFromClass(self.feedItemCellClass)];
     self.tableView.rowHeight = self.cellHeight;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
+    self.tableView.translatesAutoresizingMaskIntoConstraints = false;
+    [self.view addSubview:self.tableView];
+    [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = true;
+    [self.tableView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor].active = true;
+    [self.tableView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor].active = true;
+    [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor].active = true;
+    [self.tableView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = true;
     
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self.dataSource action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refreshControl];
+    self.tableView.refreshControl = [[UIRefreshControl alloc] init];
+    [self.tableView.refreshControl addTarget:self.dataSource action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    [self.view bringSubviewToFront:statusBarBackground];
     
     [self.dataSource refresh];
 }
@@ -76,7 +98,7 @@ NS_ASSUME_NONNULL_END
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.refreshControl endRefreshing];
+    [self.tableView.refreshControl endRefreshing];
 }
 
 //MARK: - UITableViewDataSource
@@ -120,11 +142,11 @@ NS_ASSUME_NONNULL_END
 //MARK: - EventDataSourceDelegate
 
 - (void)willUpdateDataSource:(EventDataSource *)datasource {
-    [self.refreshControl beginRefreshing];
+    [self.tableView.refreshControl beginRefreshing];
 }
 
 - (void)didUpdateDataSource:(EventDataSource *)datasource withNewData:(BOOL)hasNewData error:(NSError *)error {
-    [self.refreshControl endRefreshing];
+    [self.tableView.refreshControl endRefreshing];
     
     if (hasNewData) {
         [self.tableView reloadData];
