@@ -225,9 +225,9 @@ static CGFloat const eventCellAspectRatio = 1.352;
         cell.alpha = 0;
         
         [UIView
-         animateWithDuration:0.75
+         animateWithDuration:0.7
          delay:stagger * (idx + 1)
-         usingSpringWithDamping:0.85
+         usingSpringWithDamping:0.8
          initialSpringVelocity:0
          options:0
          animations:^{
