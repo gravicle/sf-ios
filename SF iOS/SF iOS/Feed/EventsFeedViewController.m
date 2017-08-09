@@ -15,7 +15,7 @@
 #import "UIViewController+StatusBarBackground.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface EventsFeedViewController ()
+@interface EventsFeedViewController () <EventDataSourceDelegate, UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic) EventDataSource *dataSource;
 @property (nullable, nonatomic) UserLocation *userLocationService;
@@ -79,6 +79,10 @@ NS_ASSUME_NONNULL_END
     self.tableView.refreshControl = [[UIRefreshControl alloc] init];
     [self.tableView.refreshControl addTarget:self.dataSource action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
+    if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        [self registerForPreviewingWithDelegate:self sourceView:self.tableView];
+    }
+    
     [self addStatusBarBlurBackground];
     
     [self.dataSource refresh];
@@ -127,9 +131,25 @@ NS_ASSUME_NONNULL_END
 //MARK: - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Event *event = [self.dataSource eventAtIndex:indexPath.row];
-    EventDetailsViewController *detailsViewController = [[EventDetailsViewController alloc] initWithEvent:event userLocationService:self.userLocationService];
-    [self presentViewController:detailsViewController animated:true completion:nil];
+    EventDetailsViewController *vc = [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
+    [self presentViewController:vc animated:true completion:nil];
+}
+
+//MARK: - UIViewControllerPreviewingDelegate
+
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    if (!indexPath) { return nil; }
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if (!cell) { return nil; }
+    previewingContext.sourceRect = cell.frame;
+    
+    return [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    [self presentViewController:viewControllerToCommit animated:true completion:nil];
 }
 
 //MARK: - EventDataSourceDelegate
@@ -148,6 +168,13 @@ NS_ASSUME_NONNULL_END
     if (error) {
         [self handleError:error];
     }
+}
+
+//MARK: - Details View
+
+- (EventDetailsViewController *)eventDetailsViewControllerForEventAtIndexPath:(NSIndexPath *)indexPath {
+    Event *event = [self.dataSource eventAtIndex:indexPath.row];
+    return [[EventDetailsViewController alloc] initWithEvent:event userLocationService:self.userLocationService];
 }
 
 //MARK: - Location Permission
