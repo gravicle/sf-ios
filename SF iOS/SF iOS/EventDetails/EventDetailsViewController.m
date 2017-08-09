@@ -114,10 +114,6 @@ NS_ASSUME_NONNULL_END
     [closeButton.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor constant:-12].active = true;
     
     [self addStatusBarBlurBackground];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
     [self.mapView setDestinationToLocation:self.event.location.location withAnnotationImage:self.event.annotationImage];
     [self getTravelTimes];
