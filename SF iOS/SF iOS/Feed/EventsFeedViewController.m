@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic) UserLocation *userLocationService;
 @property (nonatomic) MapSnapshotter *snapshotter;
 @property (nonatomic) UITableView *tableView;
+@property (nonatomic, assign) BOOL firstLoad;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -33,6 +34,7 @@ NS_ASSUME_NONNULL_END
         dataSource.delegate = self;
         self.userLocationService = [UserLocation new];
         self.snapshotter = [[MapSnapshotter alloc] initWithUserLocationService:self.userLocationService];
+        self.firstLoad = true;
     }
     
     return self;
@@ -140,7 +142,7 @@ NS_ASSUME_NONNULL_END
     [self.tableView.refreshControl endRefreshing];
     
     if (hasNewData) {
-        [self.tableView reloadData];
+        [self refresh];
     }
     
     if (error) {
@@ -173,6 +175,40 @@ static CGFloat const eventCellAspectRatio = 1.352;
     [alert addAction:okAction];
     
     [self presentViewController:alert animated:true completion:nil];
+}
+
+//MARK: - First Load
+
+- (void)refresh {
+    if (!self.firstLoad) {
+        [self.tableView reloadData];
+        return;
+    }
+    
+    [self animateFirstLoad];
+    self.firstLoad = false;
+}
+
+- (void)animateFirstLoad {
+    [self.tableView reloadData];
+    
+    NSTimeInterval stagger = 0.2;
+    [self.tableView.visibleCells enumerateObjectsUsingBlock:^(__kindof UITableViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
+        cell.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, [UIScreen mainScreen].bounds.size.height);
+        cell.alpha = 0.25;
+        
+        [UIView
+         animateWithDuration:0.65
+         delay:(stagger * idx)
+         usingSpringWithDamping:0.775
+         initialSpringVelocity:0
+         options:0
+         animations:^{
+             cell.alpha = 1;
+             cell.transform = CGAffineTransformIdentity;
+         }
+         completion:nil];
+    }];
 }
 
 @end
