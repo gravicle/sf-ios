@@ -18,5 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithRecord:(CKRecord *)record NS_DESIGNATED_INITIALIZER;
 
+- (BOOL)hasBeenModifiedSinceRecord:(CloudKitDerivedRecord *)cachedRecord;
+
 @end
 NS_ASSUME_NONNULL_END

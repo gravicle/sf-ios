@@ -36,4 +36,10 @@
     return [self.date dateByAddingTimeInterval:self.duration];
 }
 
+- (BOOL)hasBeenModifiedSinceRecord:(CloudKitDerivedRecord *)cachedRecord {
+    BOOL isEventModified = [super hasBeenModifiedSinceRecord:cachedRecord];
+    BOOL isLocationModified = [self.location hasBeenModifiedSinceRecord:[(Event *)cachedRecord location]];
+    return isEventModified || isLocationModified;
+}
+
 @end

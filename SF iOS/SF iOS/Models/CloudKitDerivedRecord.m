@@ -7,6 +7,7 @@
 //
 
 #import "CloudKitDerivedRecord.h"
+#import "NSDate+Utilities.h"
 
 @implementation CloudKitDerivedRecord
 
@@ -32,6 +33,11 @@
         return false;
     }
     return [self.identifier isEqualToString: [(CloudKitDerivedRecord *)object identifier]];
+}
+
+- (BOOL)hasBeenModifiedSinceRecord:(CloudKitDerivedRecord *)cachedRecord {
+    if (![cachedRecord isKindOfClass:[self class]]) { return false; }
+    return [self.modificationDate isLaterThanDate:cachedRecord.modificationDate];
 }
 
 @end

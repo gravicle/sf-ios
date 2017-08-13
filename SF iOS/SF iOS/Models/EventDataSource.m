@@ -176,7 +176,7 @@
             [newUniqueEvents addObject:event];
         } else {
             Event *exsistingEvent = self.events[index];
-            if ([event.modificationDate isLaterThanDate:exsistingEvent.modificationDate]) {
+            if ([event hasBeenModifiedSinceRecord:exsistingEvent]) {
                 updatedEvents = true;
                 [self.events replaceObjectAtIndex:index withObject:event];
             }
