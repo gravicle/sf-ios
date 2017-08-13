@@ -18,6 +18,7 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
 @property (nullable, nonatomic) UIImage *annotationImage;
 @property (nullable, nonatomic) CLLocation *destination;
 @property (nullable, nonatomic) CLLocation *userLocation;
+@property (nonatomic, assign) BOOL cameraHasBeenSet;
 
 @end
 
@@ -107,11 +108,13 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
         self.userLocationObserver(userLocation);
     }
     
+    if (self.cameraHasBeenSet) { return; }
     if (!userLocation) {
         [self setCameraOnDestination];
     } else {
         [self setCameraOverlookingDestinationAndUserLocation];
     }
+    self.cameraHasBeenSet = true;
 }
 
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation {
