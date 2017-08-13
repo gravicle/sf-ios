@@ -45,7 +45,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Tomorrow"]);
-    XCTAssertTrue(item.isUpcoming);
+    XCTAssertTrue(item.isActive);
 }
 
 - (void)testEventInToday {
@@ -54,7 +54,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
-    XCTAssertTrue(item.isUpcoming);
+    XCTAssertTrue(item.isActive);
 }
 
 - (void)testEventInPastButStillInToday {
@@ -63,7 +63,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
-    XCTAssertTrue(item.isUpcoming);
+    XCTAssertTrue(item.isActive);
 }
 
 - (void)testEventInYesterday {
@@ -72,7 +72,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Yesterday"]);
-    XCTAssertEqual(item.isUpcoming, false);
+    XCTAssertEqual(item.isActive, false);
 }
 
 - (void)testEventInLastMonth {
@@ -85,7 +85,7 @@
     NSString *expctedTime = [formatter stringFromDate:eventDate];
     
     XCTAssertTrue([item.dateString isEqualToString:expctedTime]);
-    XCTAssertFalse(item.isUpcoming);
+    XCTAssertFalse(item.isActive);
 }
 
 - (NSDate *)dateByAddingUnit:(NSCalendarUnit)calendarUnit value:(NSInteger)value toDate:(NSDate *)date {

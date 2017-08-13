@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *title;
 @property (nonatomic) NSAttributedString *subtitle;
 @property (nonatomic) UIImage *annotationImage;
-@property (nonatomic, assign) BOOL isUpcoming;
+@property (readonly, assign, nonatomic) BOOL isActive;
 @property (nullable, nonatomic) NSURL *coverImageFileURL;
 @property (nonatomic) CLLocation *location;
 

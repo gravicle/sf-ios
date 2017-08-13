@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) Location* location;
 @property (nonatomic, readonly) UIImage *annotationImage;
 @property (nonatomic, readonly) NSDate *endDate;
+@property (nonatomic, readonly, assign) BOOL isActive;
 
 - (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location;
 

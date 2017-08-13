@@ -82,7 +82,7 @@
     // index of the first future event
     for (Event *event in self.events.reverseObjectEnumerator) {
         // Basing on end-date allows ongoing event to show up first
-        if (event.endDate.isInFuture) {
+        if (event.isActive) {
             return [self.events indexOfObjectIdenticalTo:event];
         }
     }

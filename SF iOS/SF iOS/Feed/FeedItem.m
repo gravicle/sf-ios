@@ -10,6 +10,12 @@
 #import "NSDate+Utilities.h"
 #import "NSAttributedString+Kerning.h"
 
+@interface FeedItem ()
+
+@property (readwrite, assign, nonatomic) BOOL isActive;
+
+@end
+
 @implementation FeedItem
 
 - (instancetype)initWithEvent:(Event *)event {
@@ -19,7 +25,7 @@
     }
     self.dateString = [self dateStringFromDate:event.date];
     self.title = event.location.name;
-    self.isUpcoming = [self directionsAreRelevantForEventWithDate:event.date];
+    self.isActive = event.isActive;
     self.coverImageFileURL = event.location.imageFileURL;
     self.location = event.location.location;
     self.annotationImage = event.annotationImage;

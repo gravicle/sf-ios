@@ -7,6 +7,7 @@
 //
 
 #import "Event.h"
+#import "NSDate+Utilities.h"
 @import CloudKit;
 
 @implementation Event
@@ -34,6 +35,10 @@
 
 - (NSDate *)endDate {
     return [self.date dateByAddingTimeInterval:self.duration];
+}
+
+- (BOOL)isActive {
+    return self.endDate.isInFuture;
 }
 
 - (BOOL)hasBeenModifiedSinceRecord:(CloudKitDerivedRecord *)cachedRecord {
