@@ -25,6 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL hasMoreEvents;
 @property (nonatomic, readonly, assign) NSUInteger numberOfEvents;
 
+/// Index of the next upcoming event. If not found, returns NSNotFound
+@property (nonatomic, readonly, assign) NSUInteger indexOfCurrentEvent;
+
 - (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database;
 - (void)refresh;
 - (Event *)eventAtIndex:(NSUInteger)index;

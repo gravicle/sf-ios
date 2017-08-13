@@ -222,13 +222,18 @@ static CGFloat const eventCellAspectRatio = 1.352;
 - (void)animateFirstLoad {
     [self.tableView reloadData];
     
+    if (self.dataSource.indexOfCurrentEvent != NSNotFound) {
+        NSIndexPath *nextEventIndexPath = [NSIndexPath indexPathForRow:self.dataSource.indexOfCurrentEvent inSection:0];
+        [self.tableView scrollToRowAtIndexPath:nextEventIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:false];
+    }
+    
     NSTimeInterval stagger = 0.2;
     [self.tableView.visibleCells enumerateObjectsUsingBlock:^(__kindof UITableViewCell * _Nonnull cell, NSUInteger idx, BOOL * _Nonnull stop) {
         cell.transform = CGAffineTransformTranslate(CGAffineTransformIdentity, 0, [UIScreen mainScreen].bounds.size.height);
         cell.alpha = 0;
         
         [UIView
-         animateWithDuration:0.7
+         animateWithDuration:0.8
          delay:stagger * (idx + 1)
          usingSpringWithDamping:0.8
          initialSpringVelocity:0

@@ -156,11 +156,5 @@ NS_ASSUME_NONNULL_END
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (CGFloat)statusBarHeight {
-    return [UIApplication sharedApplication].statusBarFrame.size.height;
-}
-
-
-
 @end
 

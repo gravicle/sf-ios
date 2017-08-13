@@ -77,6 +77,19 @@
     return self.events.count;
 }
 
+
+- (NSUInteger)indexOfCurrentEvent {
+    // index of the first future event
+    for (Event *event in self.events.reverseObjectEnumerator) {
+        // Basing on end-date allows ongoing event to show up first
+        if (event.endDate.isInFuture) {
+            return [self.events indexOfObjectIdenticalTo:event];
+        }
+    }
+    
+    return NSNotFound;
+}
+
 // MARK: - CloudKit Operations
 
 - (CKQueryOperation *)eventRecordsQueryOperationForEventsOfType:(EventType)eventType withCompletionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {

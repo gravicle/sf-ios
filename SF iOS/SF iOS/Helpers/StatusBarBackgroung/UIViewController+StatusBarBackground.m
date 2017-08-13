@@ -21,4 +21,9 @@
     [statusBarBackground.heightAnchor constraintEqualToConstant:20].active = true;
 }
 
+
+- (CGFloat)statusBarHeight {
+    return [UIApplication sharedApplication].statusBarFrame.size.height;
+}
+
 @end

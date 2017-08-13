@@ -11,5 +11,6 @@
 @interface UIViewController (StatusBarBackground)
 
 - (void)addStatusBarBlurBackground;
+- (CGFloat)statusBarHeight;
 
 @end
