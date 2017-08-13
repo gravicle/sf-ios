@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell ()
 
 @property (nonatomic) UIStackView *containerStack;
+@property (nonatomic) UIView *detailStackContainer;
 @property (nonatomic) UILabel *timeLabel;
 @property (nonatomic) UILabel *titleLabel;
 @property (nonatomic) UILabel *subtitleLabel;
@@ -35,6 +36,15 @@ NS_ASSUME_NONNULL_END
         [self setup];
     }
     return self;
+}
+
+- (CGRect)contentFrame {
+    UIView *superView = [self superview];
+    if (!superView) {
+        return CGRectZero;
+    }
+    
+    return [superView convertRect:self.detailStackContainer.frame fromView:self.containerStack];
 }
 
 //MARK: - Configuration
@@ -117,16 +127,20 @@ NS_ASSUME_NONNULL_END
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    UIBezierPath *path = [UIBezierPath
-        bezierPathWithRoundedRect:self.coverImageView.bounds
-                byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
-                      cornerRadii:CGSizeMake(15, 15)];
-
-    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-    maskLayer.frame = self.coverImageView.bounds;
-    maskLayer.path = path.CGPath;
-    
-    self.coverImageView.layer.mask = maskLayer;
+    if (@available(iOS 11.0, *)) {
+        // set using corner mask API
+    } else {
+        UIBezierPath *path = [UIBezierPath
+                              bezierPathWithRoundedRect:self.coverImageView.bounds
+                              byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
+                              cornerRadii:CGSizeMake(15, 15)];
+        
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.frame = self.coverImageView.bounds;
+        maskLayer.path = path.CGPath;
+        
+        self.coverImageView.layer.mask = maskLayer;
+    }
 }
 
 //MARK: - Setup
@@ -213,22 +227,22 @@ NS_ASSUME_NONNULL_END
                                                               margins:UIEdgeInsetsZero];
     detailsStack.translatesAutoresizingMaskIntoConstraints = false;
     
-    UIView *detailsStackContainer = [UIView new];
-    detailsStackContainer.backgroundColor = [UIColor whiteColor];
-    detailsStackContainer.layer.cornerRadius = 15;
-    detailsStackContainer.layer.shadowOpacity = 0.22;
-    detailsStackContainer.layer.shadowRadius = 14;
-    detailsStackContainer.layer.shadowColor = [UIColor blackColor].CGColor;
-    detailsStackContainer.layer.shadowOffset = CGSizeMake(0, 12);
-    detailsStackContainer.clipsToBounds = false;
-    detailsStackContainer.translatesAutoresizingMaskIntoConstraints = false;
-    [detailsStackContainer addSubview:detailsStack];
-    [detailsStack.leftAnchor constraintEqualToAnchor:detailsStackContainer.leftAnchor].active = true;
-    [detailsStack.rightAnchor constraintEqualToAnchor:detailsStackContainer.rightAnchor].active = true;
-    [detailsStack.topAnchor constraintEqualToAnchor:detailsStackContainer.topAnchor].active = true;
-    [detailsStack.bottomAnchor constraintEqualToAnchor:detailsStackContainer.bottomAnchor].active = true;
+    self.detailStackContainer = [UIView new];
+    self.detailStackContainer.backgroundColor = [UIColor whiteColor];
+    self.detailStackContainer.layer.cornerRadius = 15;
+    self.detailStackContainer.layer.shadowOpacity = 0.22;
+    self.detailStackContainer.layer.shadowRadius = 14;
+    self.detailStackContainer.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.detailStackContainer.layer.shadowOffset = CGSizeMake(0, 12);
+    self.detailStackContainer.clipsToBounds = false;
+    self.detailStackContainer.translatesAutoresizingMaskIntoConstraints = false;
+    [self.detailStackContainer addSubview:detailsStack];
+    [detailsStack.leftAnchor constraintEqualToAnchor:self.detailStackContainer.leftAnchor].active = true;
+    [detailsStack.rightAnchor constraintEqualToAnchor:self.detailStackContainer.rightAnchor].active = true;
+    [detailsStack.topAnchor constraintEqualToAnchor:self.detailStackContainer.topAnchor].active = true;
+    [detailsStack.bottomAnchor constraintEqualToAnchor:self.detailStackContainer.bottomAnchor].active = true;
     
-    [self.containerStack addArrangedSubview:detailsStackContainer];
+    [self.containerStack addArrangedSubview:self.detailStackContainer];
 }
 
 @end

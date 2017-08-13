@@ -135,15 +135,18 @@ NS_ASSUME_NONNULL_END
     [self presentViewController:vc animated:true completion:nil];
 }
 
-//MARK: - UIViewControllerPreviewingDelegate
+//MARK: - #D Touch Peek & Pop
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
     if (!indexPath) { return nil; }
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    if (!cell) { return nil; }
-    previewingContext.sourceRect = cell.frame;
+    if (!cell || ![cell isKindOfClass:[self.feedItemCellClass class]]) {
+        return nil;
+    }
+    
+    previewingContext.sourceRect = [(FeedItemCell *)cell contentFrame];
     
     return [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
 }

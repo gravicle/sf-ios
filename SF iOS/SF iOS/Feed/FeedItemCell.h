@@ -14,6 +14,8 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell : UITableViewCell
 
+@property (readonly, assign, nonatomic) CGRect contentFrame;
+
 - (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter;
 
 /**
