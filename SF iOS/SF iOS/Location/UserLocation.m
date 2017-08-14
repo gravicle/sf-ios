@@ -20,8 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 NS_ASSUME_NONNULL_END
 
-static NSTimeInterval const cacheExpirationduration = 60.0; //60s
-
 @implementation UserLocation
 
 - (instancetype)init {
