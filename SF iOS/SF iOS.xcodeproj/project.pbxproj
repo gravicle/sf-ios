@@ -147,6 +147,7 @@
 		C89A8DE01F2D8C2A007A5B0C /* EventType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventType.h; sourceTree = "<group>"; };
 		C89A8DE11F2D926A007A5B0C /* EventDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventDataSource.h; sourceTree = "<group>"; };
 		C89A8DE21F2D926A007A5B0C /* EventDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventDataSource.m; sourceTree = "<group>"; };
+		C8C337911F42AC5B00F307AD /* SF iOS-Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SF iOS-Debug.entitlements"; sourceTree = "<group>"; };
 		C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MKMapCamera+OverlookingLocations.m"; sourceTree = "<group>"; };
 		C8CC49281F32643A0064B03E /* MKMapCamera+OverlookingLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MKMapCamera+OverlookingLocations.h"; sourceTree = "<group>"; };
 		C8CC492F1F32A6820064B03E /* NSNotification+ApplicationEventNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNotification+ApplicationEventNotifications.h"; sourceTree = "<group>"; };
@@ -339,6 +340,7 @@
 				C8E6A3EA1F3255F70098339C /* EventDetails */,
 				C8810A5A1F2C028900DCFEB6 /* Models */,
 				C8810A541F2BFE9400DCFEB6 /* SF iOS.entitlements */,
+				C8C337911F42AC5B00F307AD /* SF iOS-Debug.entitlements */,
 				C8810A221F2BFE6900DCFEB6 /* AppDelegate.h */,
 				C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */,
 				C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */,
@@ -831,7 +833,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "SF iOS/SF iOS.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "SF iOS/SF iOS-Debug.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = U699U9MM24;
