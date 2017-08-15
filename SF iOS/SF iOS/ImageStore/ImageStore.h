@@ -8,22 +8,13 @@
 
 #import <Foundation/Foundation.h>
 @import UIKit;
-@import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, ImageSource) {
-    ImageSourceCache,
-    ImageSourceOrigin
-};
-
-typedef void(^ImageStoreCompletionHandler)(UIImage * _Nullable image, ImageSource source);
-
 @interface ImageStore : NSObject
 
-- (void)getImageFromImageFileURL:(NSURL *)fileURL withCompletionHandler:(ImageStoreCompletionHandler)completionHandler;
-
-- (void)getMapImageOfSize:(CGSize)size forDestinationLocation:(CLLocation *)destination annotatedWithImage:(UIImage *)annotationImage;
+- (void)storeImage:(UIImage *)image forKey:(id)key;
+- (nullable UIImage *)imageForKey:(id)key;
 
 @end
 

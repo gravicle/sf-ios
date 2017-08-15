@@ -9,7 +9,6 @@
 #import "FeedItemCell.h"
 #import "UIStackView+ConvenienceInitializer.h"
 #import "UIColor+SFiOSColors.h"
-#import "UIImage+URL.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell ()
@@ -21,10 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UILabel *subtitleLabel;
 @property (nonatomic) UIStackView *itemImageStack;
 @property (nonatomic) UIImageView *coverImageView;
-
-typedef void(^MapSnapshotTask)(void);
-@property (nullable, nonatomic) MapSnapshotTask takeMapSnapshot;
-@property (nullable, weak, nonatomic) NSURLSessionDataTask *imageDownloadTask;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -47,81 +42,22 @@ NS_ASSUME_NONNULL_END
     return [superView convertRect:self.detailStackContainer.frame fromView:self.containerStack];
 }
 
+- (CGSize)coverImageSize {
+    return self.itemImageStack.bounds.size;
+}
+
 //MARK: - Configuration
 
-- (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter {
+- (void)configureWithFeedItem:(FeedItem *)item {
     self.timeLabel.text = item.dateString;
     self.timeLabel.alpha =  item.isActive ? 1 : 0.2;
     
     self.titleLabel.text = item.title;
     self.subtitleLabel.attributedText = item.subtitle;
-    
-    if (item.isActive) {
-        __weak typeof(self) welf = self;
-        self.takeMapSnapshot = ^{
-            [welf showMapForLocation:item.location annotionImage:item.annotationImage usingSnapshotter:snapshotter withCompletionHandler:^(NSError * _Nullable error) {
-                if (error) {
-                    NSLog(@"Error displaying map: %@", error);
-                    [welf showImageWithFileURL:item.coverImageFileURL];
-                }
-            }];
-        };
-    } else {
-        [self showImageWithFileURL:item.coverImageFileURL];
-    }
 }
 
-- (void)layoutMap {
-    if (self.takeMapSnapshot) {
-        [self setNeedsLayout];
-        [self layoutIfNeeded];
-        
-        self.takeMapSnapshot();
-        self.takeMapSnapshot = nil;
-    }
-}
-
-- (void)prepareForReuse {
-    self.takeMapSnapshot = nil;
-    
-    [self.imageDownloadTask cancel];
-    self.imageDownloadTask = nil;
-    self.imageView.image = nil;
-    
-    [super prepareForReuse];
-}
-
-//MARK: - Map
-
-- (void)showMapForLocation:(nonnull CLLocation *)location annotionImage:(UIImage *)annotationImage usingSnapshotter:(MapSnapshotter *)snapshotter withCompletionHandler:(void(^)(NSError * _Nullable error))completionHandler {
-    __weak typeof(self) welf = self;
-    [snapshotter snapshotOfsize:welf.itemImageStack.bounds.size showingDestinationLocation:location annotationImage:annotationImage withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-         dispatch_async(dispatch_get_main_queue(), ^{
-             if (error) {
-                 completionHandler(error);
-                 return;
-             }
-             [welf setCoverImageToImage:image];
-             completionHandler(nil);
-         });
-    }];
-}
-
-- (void)showImageWithFileURL:(NSURL *)url {
-    __weak typeof(self) welf = self;
-    [UIImage imageFromFileURL:url withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-        [welf setCoverImageToImage:image];
-    }];
-}
-
-- (void)setCoverImageToImage:(nullable UIImage *)image {
-    [UIView transitionWithView:self.coverImageView
-                      duration:0.3
-                       options:UIViewAnimationOptionTransitionCrossDissolve
-                    animations:^{
-                        self.coverImageView.image = image;
-                    }
-                    completion:nil];
+- (void)setCoverToImage:(UIImage *)image {
+    self.coverImageView.image = image;
 }
 
 - (void)layoutSubviews {
