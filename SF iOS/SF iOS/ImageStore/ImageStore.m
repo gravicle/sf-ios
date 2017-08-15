@@ -13,7 +13,6 @@
 @interface ImageStore ()
 
 @property (nonatomic) NSCache *cache;
-@property (nonatomic) NSOperationQueue *queue;
 
 @end
 
@@ -24,33 +23,16 @@
         self.cache = [[NSCache alloc] init];
         self.cache.countLimit = 20;
         self.cache.name = [NSString stringWithFormat:@"%@.image-cache", [UIApplication sharedApplication].bundleIdentifier];
-        
-        self.queue = [[NSOperationQueue alloc] init];
-        self.queue.name = [NSString stringWithFormat:@"%@.image-store-queue", [UIApplication sharedApplication].bundleIdentifier];
     }
     
     return self;
 }
 
-- (void)getImageFromImageFileURL:(NSURL *)fileURL withCompletionHandler:(ImageStoreCompletionHandler)completionHandler {
-    NSAssert(fileURL.isFileURL, @"%@ is not a file URL", fileURL);
-    
-    UIImage *cachedImage = [self imageForKey:fileURL];
-    if (cachedImage) {
-        completionHandler(cachedImage, ImageSourceCache);
-        return;
-    }
-    
-    [UIImage imageFromFileURL:fileURL withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
-        completionHandler(image, ImageSourceOrigin);
-    }];
+- (void)storeImage:(UIImage *)image forKey:(id)key {
+    [self.cache setObject:image forKey:key];
 }
 
-- (void)getMapImageOfSize:(CGSize)size forDestinationLocation:(CLLocation *)destination annotatedWithImage:(UIImage *)annotationImage {
-    
-}
-
-- (nullable UIImage *)imageForKey:(id)key {
+- (UIImage *)imageForKey:(id)key {
     return [self.cache objectForKey:key];
 }
 

@@ -8,22 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "FeedItem.h"
-#import "MapSnapshotter.h"
-@import CoreLocation;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface FeedItemCell : UITableViewCell
 
 @property (readonly, assign, nonatomic) CGRect contentFrame;
+@property (readonly, assign, nonatomic) CGSize coverImageSize;
 
-- (void)configureWithFeedItem:(FeedItem *)item snapshotter:(MapSnapshotter *)snapshotter;
-
-/**
- For capturing snapshots of correct size, they need to be taken after all the layout work
- has been completed and the view hierarchy has settled.
- This method should be called from `tableView:willDisplayCell:`.
- */
-- (void)layoutMap;
+- (void)configureWithFeedItem:(FeedItem *)item;
+- (void)setCoverToImage:(UIImage *)image;
 
 @end
 NS_ASSUME_NONNULL_END

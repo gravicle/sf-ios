@@ -28,6 +28,7 @@
 		C86DD43B1F3A4A6200C58723 /* TravelTime+Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD43A1F3A4A6100C58723 /* TravelTime+Arrival.m */; };
 		C86DD43D1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD43C1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m */; };
 		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
+		C8709C661F42632300DFE7A9 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C8709C651F42632300DFE7A9 /* ImageStore.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
@@ -113,6 +114,8 @@
 		C86DD43C1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TravelTime+ArrivalTests.m"; sourceTree = "<group>"; };
 		C86E38691F31B78300E35EBF /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
 		C86E386A1F31B78300E35EBF /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
+		C8709C641F42632300DFE7A9 /* ImageStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
+		C8709C651F42632300DFE7A9 /* ImageStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageStore.m; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
 		C87995CB1F312873002CA6C8 /* UserLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserLocation.m; sourceTree = "<group>"; };
 		C8810A1F1F2BFE6900DCFEB6 /* SF iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,6 +292,24 @@
 			path = RemoteUIImage;
 			sourceTree = "<group>";
 		};
+		C8709C631F42630B00DFE7A9 /* ImageStore */ = {
+			isa = PBXGroup;
+			children = (
+				C8709C641F42632300DFE7A9 /* ImageStore.h */,
+				C8709C651F42632300DFE7A9 /* ImageStore.m */,
+			);
+			path = ImageStore;
+			sourceTree = "<group>";
+		};
+		C8709C681F42784700DFE7A9 /* HTTPRequestOperation */ = {
+			isa = PBXGroup;
+			children = (
+				C8307A0C1F365969005CB3D2 /* HTTPRequestAsyncOperation.h */,
+				C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */,
+			);
+			path = HTTPRequestOperation;
+			sourceTree = "<group>";
+		};
 		C8810A161F2BFE6900DCFEB6 = {
 			isa = PBXGroup;
 			children = (
@@ -313,9 +334,11 @@
 		C8810A211F2BFE6900DCFEB6 /* SF iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C8709C631F42630B00DFE7A9 /* ImageStore */,
 				C83079FC1F3649EF005CB3D2 /* Secrets */,
 				C86E38651F31B75700E35EBF /* RemoteUIImage */,
 				C825164A1F3054D1006B9D7E /* Location */,
+				C8709C681F42784700DFE7A9 /* HTTPRequestOperation */,
 				C82516491F3054BE006B9D7E /* Helpers */,
 				C825162D1F2FA24B006B9D7E /* Feed */,
 				C8E6A3EA1F3255F70098339C /* EventDetails */,
@@ -448,8 +471,6 @@
 				C8CC49421F330F360064B03E /* AsyncOperation.m */,
 				C8307A0F1F365E58005CB3D2 /* AsyncBlockOperation.h */,
 				C8307A101F365E58005CB3D2 /* AsyncBlockOperation.m */,
-				C8307A0C1F365969005CB3D2 /* HTTPRequestAsyncOperation.h */,
-				C8307A0D1F365969005CB3D2 /* HTTPRequestAsyncOperation.m */,
 			);
 			path = Concurrency;
 			sourceTree = "<group>";
@@ -626,6 +647,7 @@
 				C8307A081F365687005CB3D2 /* UberTravelTimeEstimateOperation.m in Sources */,
 				C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */,
 				C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */,
+				C8709C661F42632300DFE7A9 /* ImageStore.m in Sources */,
 				C825163C1F2FDF46006B9D7E /* UIColor+SFiOSColors.m in Sources */,
 				C86DD43B1F3A4A6200C58723 /* TravelTime+Arrival.m in Sources */,
 				C8810A321F2BFE6900DCFEB6 /* main.m in Sources */,

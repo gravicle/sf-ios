@@ -9,19 +9,21 @@
 #import "EventsFeedViewController.h"
 #import "FeedItemCell.h"
 #import "FeedItem.h"
-#import "MapSnapshotter.h"
 #import "UserLocation.h"
 #import "EventDetailsViewController.h"
 #import "UIViewController+StatusBarBackground.h"
+#import "UIImage+URL.h"
+#import "ImageStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EventsFeedViewController () <EventDataSourceDelegate, UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic) EventDataSource *dataSource;
 @property (nullable, nonatomic) UserLocation *userLocationService;
-@property (nonatomic) MapSnapshotter *snapshotter;
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic, assign) BOOL firstLoad;
+@property (nonatomic) ImageStore *imageStore;
+@property (nonatomic) NSOperationQueue *imageFetchQueue;
 
 @end
 NS_ASSUME_NONNULL_END
@@ -33,7 +35,9 @@ NS_ASSUME_NONNULL_END
         self.dataSource = dataSource;
         dataSource.delegate = self;
         self.userLocationService = [UserLocation new];
-        self.snapshotter = [[MapSnapshotter alloc] initWithUserLocationService:self.userLocationService];
+        self.imageFetchQueue = [[NSOperationQueue alloc] init];
+        self.imageFetchQueue.name = @"Image Fetch Queue";
+        self.imageStore = [[ImageStore alloc] init];
         self.firstLoad = true;
     }
     
@@ -94,8 +98,10 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
     [self.tableView.refreshControl endRefreshing];
+    [self.imageFetchQueue cancelAllOperations];
+    
+    [super viewDidDisappear:animated];
 }
 
 //MARK: - UITableViewDataSource
@@ -115,17 +121,35 @@ NS_ASSUME_NONNULL_END
     }
     
     FeedItem *item = [[FeedItem alloc] initWithEvent:[self.dataSource eventAtIndex:indexPath.row]];
-    [cell configureWithFeedItem:item snapshotter:self.snapshotter];
+    [cell configureWithFeedItem:item];
+    
+    UIImage *image = [self.imageStore imageForKey:item.coverImageFileURL];
+    if (image) {
+        [cell setCoverToImage:image];
+    } else {
+        __weak typeof(self) welf = self;
+        [UIImage
+         fetchImageFromFileURL:item.coverImageFileURL
+         onQueue: self.imageFetchQueue
+         withCompletionHandler:^(UIImage * _Nullable image, NSError * _Nullable error) {
+             if (!image || error) {
+                 NSLog(@"Error decoding image: %@", error);
+                 return;
+             }
+             
+             [welf.imageStore storeImage:image forKey:item.coverImageFileURL];
+             
+             // Fetch the cell again, if it exists as the original instance of cell might have been
+             // dequeued by now. If the cell does not exist, setting the image will silently fail.
+             [(FeedItemCell *)[tableView cellForRowAtIndexPath:indexPath] setCoverToImage:image];
+         }];
+    }
     
     return cell;
 }
 
 - (Class)feedItemCellClass {
     return [FeedItemCell class];
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    [(FeedItemCell *)cell layoutMap];
 }
 
 //MARK: - UITableViewDelegate
@@ -135,7 +159,7 @@ NS_ASSUME_NONNULL_END
     [self presentViewController:vc animated:true completion:nil];
 }
 
-//MARK: - #D Touch Peek & Pop
+//MARK: - 3D Touch Peek & Pop
 
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
