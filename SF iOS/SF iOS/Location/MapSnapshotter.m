@@ -13,7 +13,6 @@
 @interface MapSnapshotter ()
 
 @property (nullable, nonatomic) UserLocation *locationService;
-@property (nonnull, nonatomic) dispatch_queue_t snapshotQueue;
 
 @end
 
@@ -22,8 +21,6 @@
 - (instancetype)initWithUserLocationService:(UserLocation *)userLocationService {
     if (self = [super init]) {
         self.locationService = userLocationService;
-        // High priority as snapshots are needed for UI rendering.
-        self.snapshotQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
     }
     return self;
 }
@@ -64,7 +61,7 @@
               completionHandler:(MapSnapshotCompletionHandler)completionHandler {
     MKMapSnapshotter *snapShotter = [[MKMapSnapshotter alloc] initWithOptions:options];
     __weak typeof(self) welf = self;
-    [snapShotter startWithQueue:self.snapshotQueue completionHandler:^(MKMapSnapshot * _Nullable snapshot, NSError * _Nullable error) {
+    [snapShotter startWithCompletionHandler:^(MKMapSnapshot * _Nullable snapshot, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error) {
                 completionHandler(nil, error);
