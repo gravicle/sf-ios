@@ -66,16 +66,16 @@ NS_ASSUME_NONNULL_END
     if (@available(iOS 11.0, *)) {
         // set using corner mask API
     } else {
-        UIBezierPath *path = [UIBezierPath
-                              bezierPathWithRoundedRect:self.coverImageView.bounds
-                              byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
-                              cornerRadii:CGSizeMake(15, 15)];
-        
-        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-        maskLayer.frame = self.coverImageView.bounds;
-        maskLayer.path = path.CGPath;
-        
-        self.coverImageView.layer.mask = maskLayer;
+      UIBezierPath *path = [UIBezierPath
+          bezierPathWithRoundedRect:self.coverImageView.bounds
+                  byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight
+                        cornerRadii:CGSizeMake(15, 15)];
+
+      CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+      maskLayer.frame = self.coverImageView.bounds;
+      maskLayer.path = path.CGPath;
+
+      self.coverImageView.layer.mask = maskLayer;
     }
 }
 
@@ -97,18 +97,23 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setupContainerStack {
-    self.containerStack = [[UIStackView alloc] initWithArrangedSubviews:nil
-                                                                   axis:UILayoutConstraintAxisVertical
-                                                           distribution:UIStackViewDistributionFill
-                                                              alignment:UIStackViewAlignmentFill
-                                                                spacing:13
-                                                                margins:UIEdgeInsetsMake(0, 20, 40, 20)];
-    [self.contentView addSubview:self.containerStack];
-    [self.containerStack setTranslatesAutoresizingMaskIntoConstraints:false];
-    [[self.containerStack.leftAnchor constraintEqualToAnchor:self.contentView.leftAnchor] setActive:true];
-    [[self.containerStack.rightAnchor constraintEqualToAnchor:self.contentView.rightAnchor] setActive:true];
-    [[self.containerStack.topAnchor constraintEqualToAnchor:self.contentView.topAnchor] setActive:true];
-    [[self.containerStack.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor] setActive:true];
+  self.containerStack = [[UIStackView alloc]
+      initWithArrangedSubviews:nil
+                          axis:UILayoutConstraintAxisVertical
+                  distribution:UIStackViewDistributionFill
+                     alignment:UIStackViewAlignmentFill
+                       spacing:13
+                       margins:UIEdgeInsetsMake(0, 20, 40, 20)];
+  [self.contentView addSubview:self.containerStack];
+  [self.containerStack setTranslatesAutoresizingMaskIntoConstraints:false];
+  [[self.containerStack.leftAnchor
+      constraintEqualToAnchor:self.contentView.leftAnchor] setActive:true];
+  [[self.containerStack.rightAnchor
+      constraintEqualToAnchor:self.contentView.rightAnchor] setActive:true];
+  [[self.containerStack.topAnchor
+      constraintEqualToAnchor:self.contentView.topAnchor] setActive:true];
+  [[self.containerStack.bottomAnchor
+      constraintEqualToAnchor:self.contentView.bottomAnchor] setActive:true];
 }
 
 - (void)setupDetailsStack {
@@ -128,13 +133,14 @@ NS_ASSUME_NONNULL_END
     self.coverImageView.clipsToBounds = true;
     self.coverImageView.translatesAutoresizingMaskIntoConstraints = false;
     [self.coverImageView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-    
-    self.itemImageStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.coverImageView]
-                                                                   axis:UILayoutConstraintAxisVertical
-                                                           distribution:UIStackViewDistributionFill
-                                                              alignment:UIStackViewAlignmentFill
-                                                                spacing:0
-                                                                margins:UIEdgeInsetsZero];
+
+    self.itemImageStack = [[UIStackView alloc]
+        initWithArrangedSubviews:@[ self.coverImageView ]
+                            axis:UILayoutConstraintAxisVertical
+                    distribution:UIStackViewDistributionFill
+                       alignment:UIStackViewAlignmentFill
+                         spacing:0
+                         margins:UIEdgeInsetsZero];
     self.itemImageStack.translatesAutoresizingMaskIntoConstraints = false;
     
     self.titleLabel = [UILabel new];
@@ -146,21 +152,25 @@ NS_ASSUME_NONNULL_END
     self.subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     self.subtitleLabel.textColor = [UIColor abbey];
     self.subtitleLabel.translatesAutoresizingMaskIntoConstraints = false;
-    
-    UIStackView *titleStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.subtitleLabel, self.titleLabel]
-                                                                       axis:UILayoutConstraintAxisVertical
-                                                               distribution:UIStackViewDistributionEqualSpacing
-                                                                  alignment:UIStackViewAlignmentLeading
-                                                                    spacing:6
-                                                                    margins:UIEdgeInsetsMake(19, 19, 19, 19)];
-    [titleStack setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
-    
-    UIStackView *detailsStack = [[UIStackView alloc] initWithArrangedSubviews:@[self.itemImageStack, titleStack]
-                                                                 axis:UILayoutConstraintAxisVertical
-                                                         distribution:UIStackViewDistributionFill
-                                                            alignment:UIStackViewAlignmentFill
-                                                              spacing:0
-                                                              margins:UIEdgeInsetsZero];
+
+    UIStackView *titleStack = [[UIStackView alloc]
+        initWithArrangedSubviews:@[ self.subtitleLabel, self.titleLabel ]
+                            axis:UILayoutConstraintAxisVertical
+                    distribution:UIStackViewDistributionEqualSpacing
+                       alignment:UIStackViewAlignmentLeading
+                         spacing:6
+                         margins:UIEdgeInsetsMake(19, 19, 19, 19)];
+    [titleStack
+     setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh
+     forAxis:UILayoutConstraintAxisVertical];
+
+    UIStackView *detailsStack = [[UIStackView alloc]
+        initWithArrangedSubviews:@[ self.itemImageStack, titleStack ]
+                            axis:UILayoutConstraintAxisVertical
+                    distribution:UIStackViewDistributionFill
+                       alignment:UIStackViewAlignmentFill
+                         spacing:0
+                         margins:UIEdgeInsetsZero];
     detailsStack.translatesAutoresizingMaskIntoConstraints = false;
     
     self.detailStackContainer = [UIView new];

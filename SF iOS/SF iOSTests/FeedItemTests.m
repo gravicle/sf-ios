@@ -63,7 +63,7 @@
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
-    XCTAssertTrue(item.isActive);
+    XCTAssertFalse(item.isActive);
 }
 
 - (void)testEventInYesterday {
