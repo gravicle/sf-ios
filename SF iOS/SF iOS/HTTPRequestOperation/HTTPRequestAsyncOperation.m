@@ -24,6 +24,8 @@
     
     __weak typeof(self) welf = self;
     self.task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (self.isCancelled) { return; }
+        
         if (!error && data) {
             NSError *jsonParsingError;
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParsingError];
