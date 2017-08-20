@@ -89,7 +89,7 @@ NS_ASSUME_NONNULL_END
     
     self.timeLabel = [UILabel new];
     self.timeLabel.font = [UIFont systemFontOfSize:34 weight:UIFontWeightBold];
-    self.titleLabel.textColor = [UIColor blackColor];
+    self.timeLabel.textColor = [UIColor blackColor];
     [self.timeLabel setTranslatesAutoresizingMaskIntoConstraints:false];
     [self.containerStack addArrangedSubview:self.timeLabel];
     
@@ -143,15 +143,19 @@ NS_ASSUME_NONNULL_END
                          margins:UIEdgeInsetsZero];
     self.itemImageStack.translatesAutoresizingMaskIntoConstraints = false;
     
-    self.titleLabel = [UILabel new];
-    self.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
-    self.titleLabel.textColor = [UIColor blackColor];
-    self.titleLabel.translatesAutoresizingMaskIntoConstraints = false;
-    
     self.subtitleLabel = [UILabel new];
     self.subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     self.subtitleLabel.textColor = [UIColor abbey];
+    self.subtitleLabel.adjustsFontSizeToFitWidth = true;
+    self.subtitleLabel.minimumScaleFactor = 0.7;
     self.subtitleLabel.translatesAutoresizingMaskIntoConstraints = false;
+    
+    self.titleLabel = [UILabel new];
+    self.titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.timeLabel.adjustsFontSizeToFitWidth = true;
+    self.timeLabel.minimumScaleFactor = 0.8;
+    self.titleLabel.translatesAutoresizingMaskIntoConstraints = false;
 
     UIStackView *titleStack = [[UIStackView alloc]
         initWithArrangedSubviews:@[ self.subtitleLabel, self.titleLabel ]

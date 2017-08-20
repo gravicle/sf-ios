@@ -67,6 +67,8 @@ NS_ASSUME_NONNULL_END
     subtitleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold];
     subtitleLabel.textColor = [UIColor abbey];
     subtitleLabel.attributedText = [NSAttributedString attributedDetailsStringFromEvent:self.event];
+    subtitleLabel.adjustsFontSizeToFitWidth = true;
+    subtitleLabel.minimumScaleFactor = 0.7;
     
     UIStackView *titleStack = [[UIStackView alloc] initWithArrangedSubviews:@[titleLabel, subtitleLabel]
                                                                        axis:UILayoutConstraintAxisVertical
