@@ -24,16 +24,17 @@ NS_ASSUME_NONNULL_END
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//    self.notificationHandler = [[NotificationHandler alloc] init];
-//    [self.notificationHandler registerForReceivingNotifications];
+    CKDatabase *publicDatabase = [[CKContainer defaultContainer] publicCloudDatabase];
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [self.window makeKeyAndVisible];
+    self.notificationHandler = [[NotificationHandler alloc] initWithDatabase:publicDatabase];
+    [self.notificationHandler registerForReceivingNotifications];
     
-    self.dataSource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:[[CKContainer defaultContainer] publicCloudDatabase]];
+    self.dataSource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:publicDatabase];
     EventsFeedViewController *feedController = [[EventsFeedViewController alloc] initWithDataSource:self.dataSource];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = feedController;
+    [self.window makeKeyAndVisible];
     
     return true;
 }
@@ -48,12 +49,14 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [self.notificationHandler processNotification:userInfo withCompletionHandler:^(BOOL success, NSError * _Nullable error) {
+    [self.notificationHandler processNotification:userInfo withCompletionHandler:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error processing remote notification: %@", error);
+            completionHandler(UIBackgroundFetchResultFailed);
+            return;
         }
         
-        completionHandler(success ? UIBackgroundFetchResultNewData : UIBackgroundFetchResultFailed);
+        completionHandler(UIBackgroundFetchResultNewData);
     }];
 }
 

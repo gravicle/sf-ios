@@ -37,8 +37,20 @@
     return [self.date dateByAddingTimeInterval:self.duration];
 }
 
+- (NSString *)typeDescription {
+    switch (self.type) {
+        case EventTypeSFCoffee:
+            return @"☕️";
+            break;
+            
+        default:
+            NSAssert(false, @"Add support for event: %ld", self.type);
+            break;
+    }
+}
+
 - (BOOL)isActive {
-    return self.endDate.isInFuture;
+    return self.endDate.isInTheFuture;
 }
 
 - (BOOL)hasBeenModifiedSinceRecord:(CloudKitDerivedRecord *)cachedRecord {

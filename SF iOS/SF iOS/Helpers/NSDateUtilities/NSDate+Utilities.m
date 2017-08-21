@@ -29,8 +29,10 @@
         return @"Today";
     } else if (self.isTomorrow) {
         return @"Tomorrow";
+    } else if (self.isThisYear) {
+        return [self stringWithFormat:@"MMM d"];
     } else {
-        return nil;
+        return [self stringWithFormat:@"MMM d, yyyy"];
     }
 }
 
@@ -48,8 +50,13 @@
     return dateUnit == currentUnit;
 }
 
-- (BOOL)isInFuture {
-    return [self compare:[NSDate new]] == NSOrderedDescending;
+- (BOOL)isInTheFuture {
+    NSComparisonResult comparison = [self compare:[NSDate new]];
+    return comparison == NSOrderedDescending || comparison == NSOrderedSame;
+}
+
+- (BOOL)isInThePast {
+    return !self.isInTheFuture;
 }
 
 - (NSString *)abbreviatedTimeintervalFromNow {
@@ -80,20 +87,20 @@
     
     NSString *timeFormat = @"h:mm";
     NSString *timeFormatWithPeriod = @"h:mma";
-    NSString *startTime = [startDate stringWithformat:shouldShowPeriodInStartDate ? timeFormatWithPeriod : timeFormat];
-    NSString *endTime = [endDate stringWithformat:timeFormatWithPeriod];
+    NSString *startTime = [startDate stringWithFormat:shouldShowPeriodInStartDate ? timeFormatWithPeriod : timeFormat];
+    NSString *endTime = [endDate stringWithFormat:timeFormatWithPeriod];
     
     return [@[startTime, endTime] componentsJoinedByString:@" - "];
 }
 
-- (NSString *)stringWithformat:(NSString *)format {
+- (NSString *)stringWithFormat:(NSString *)format {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:format];
     return [formatter stringFromDate:self];
 }
 
 - (NSString *)weekdayName {
-    return [self stringWithformat:@"E"];
+    return [self stringWithFormat:@"E"];
 }
 
 - (BOOL)isLaterThanDate:(NSDate *)date {

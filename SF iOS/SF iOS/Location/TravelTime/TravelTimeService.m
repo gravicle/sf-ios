@@ -88,18 +88,18 @@
     return request;
 }
 
-- (AsyncBlockOperation *)travelTimeCalculationWithRequest:(MKDirectionsRequest *)request completionHandler:(void(^)(TravelTime * _Nullable travelTime))resultHandler {
-    return [[AsyncBlockOperation alloc] initWithAsyncBlock:^(dispatch_block_t  _Nonnull completionHandler) {
+- (AsyncBlockOperation *)travelTimeCalculationWithRequest:(MKDirectionsRequest *)request completionHandler:(void(^)(TravelTime * _Nullable travelTime))completionHandler {
+    return [[AsyncBlockOperation alloc] initWithAsyncBlock:^(dispatch_block_t  _Nonnull blockCompletionHandler) {
         MKDirections *direction = [[MKDirections alloc] initWithRequest:request];
         [direction calculateETAWithCompletionHandler:^(MKETAResponse * _Nullable response, NSError * _Nullable error) {
             if (!response) {
                 NSLog(@"Could not get travel time for request:\n%@\n%@", request, error);
-                resultHandler(nil);
-                completionHandler();
+                completionHandler(nil);
+                blockCompletionHandler();
             }
             TravelTime *result = [[TravelTime alloc] initWithMKDirectionsTransportType:request.transportType travelTime:response.expectedTravelTime];
-            resultHandler(result);
-            completionHandler();
+            completionHandler(result);
+            blockCompletionHandler();
         }];
     }];
 }

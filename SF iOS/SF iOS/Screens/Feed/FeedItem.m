@@ -48,18 +48,11 @@
 //MARK: - Time Representation
 
 - (NSString *)dateStringFromDate:(NSDate *)date {
-    NSString *relativeDate = date.relativeDayRepresentation;
-    if (relativeDate) {
-        return relativeDate;
-    } else if (date.isThisYear) {
-        return [date stringWithformat:@"MMM d"];
-    } else {
-        return [date stringWithformat:@"MMM d, yyyy"];
-    }
+    return date.relativeDayRepresentation;
 }
 
 - (BOOL)directionsAreRelevantForEventWithDate:(NSDate *)date {
-    if (date.isToday || date.isInFuture) {
+    if (date.isToday || date.isInTheFuture) {
         return true;
     }
     return false;

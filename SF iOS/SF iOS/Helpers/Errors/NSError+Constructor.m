@@ -10,7 +10,7 @@
 
 @implementation NSError (Constructor)
 
-+ (nonnull NSError *)appErrorWithDescription:(nonnull NSString *)description {
++ (nonnull NSError *)appErrorWithDescription:(nonnull NSString *)description, ... {
     return [NSError appErrorWithDescription:description errorCode:0];
 }
 

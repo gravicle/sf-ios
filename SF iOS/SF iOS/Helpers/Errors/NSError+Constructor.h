@@ -10,7 +10,7 @@
 
 @interface NSError (Constructor)
 
-+ (nonnull NSError *)appErrorWithDescription:(nonnull NSString *)description;
++ (nonnull NSError *)appErrorWithDescription:(nonnull NSString *)description, ...;
 + (nonnull NSError *)appErrorWithDescription:(nonnull NSString *)description errorCode:(NSInteger)code;
 
 @end

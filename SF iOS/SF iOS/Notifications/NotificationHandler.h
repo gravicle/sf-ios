@@ -7,14 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Event.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface NotificationHandler : NSObject
 
++ (NSDictionary<NSString *, id> *)userInfoDictionaryWithEvent:(Event *)event;
+
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithDatabase:(CKDatabase *)database;
+
 - (void)registerForReceivingNotifications;
 - (void)subscribeToEventNotifications;
 
-typedef void(^NotificationHandlerCompletion)(BOOL success, NSError *_Nullable error);
+typedef void(^NotificationHandlerCompletion)(NSError *_Nullable error);
 - (void)processNotification:(NSDictionary *)notificationPayload withCompletionHandler:(NotificationHandlerCompletion)completionHandler;
 
 @end

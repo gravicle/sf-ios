@@ -10,8 +10,8 @@
 
 @implementation EventFetcher
 
-+ (void)fetchLatestEventsOfType:(EventType)eventType fromDatabase:(CKDatabase *)database withCompletionHandler:(EventsFetchCompletionHandler)completionHandler {
-    void(^abort)(NSError *_Nullable) = ^void(NSError *error) {
++ (void)fetchLatestEventsOfType:(EventType)eventType fromDatabase:(CKDatabase *)database withCompletionHandler:(EventsQueryCompletionHandler)completionHandler {
+    void(^fail)(NSError *_Nullable) = ^void(NSError *error) {
         completionHandler(nil, error);
     };
     
@@ -23,7 +23,7 @@
     
     CKFetchRecordsOperation *locationsFetch = [self recordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
         if (!recordsByRecordID || error) {
-            abort(error);
+            fail(error);
             return;
         }
         
@@ -33,7 +33,7 @@
     
     CKQueryOperation *eventsQuery = [self eventQueryOperationForEventsOfType:eventType withCompletionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (!records || error) {
-            abort(error);
+            fail(error);
             return;
         }
         
@@ -46,13 +46,13 @@
     [database addOperation:eventsQuery];
 }
 
-+ (void)fetchEventWithID:(CKRecordID *)eventID fromDatabase:(CKDatabase *)database withCompletionHandler:(EventsFetchCompletionHandler)completionHandler {
++ (void)fetchEventWithID:(CKRecordID *)eventID fromDatabase:(CKDatabase *)database withCompletionHandler:(EventFetchCompletionHandler)completionHandler {
     void(^abort)(NSError *_Nullable) = ^void(NSError *error) {
         completionHandler(nil, error);
     };
     
     void(^finish)(Event *) = ^void(Event *event) {
-        completionHandler(@[event], nil);
+        completionHandler(event, nil);
     };
     
     __block CKRecord *eventRecord = nil;

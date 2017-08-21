@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, assign) BOOL isTomorrow;
 @property (nonatomic, readonly, assign) BOOL isThisWeek;
 @property (nonatomic, readonly, assign) BOOL isThisYear;
-@property (nonatomic, readonly, assign) BOOL isInFuture;
-@property (nullable, nonatomic, readonly) NSString *relativeDayRepresentation;
+@property (nonatomic, readonly, assign) BOOL isInTheFuture;
+@property (nonatomic, readonly, assign) BOOL isInThePast;
+@property (nonatomic, readonly) NSString *relativeDayRepresentation;
 
 @property (nonatomic, readonly) NSString *abbreviatedTimeintervalFromNow;
 
@@ -25,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)timeslotStringFromStartDate:(NSDate *)startDate duration:(NSTimeInterval)duration;
 
-- (NSString *)stringWithformat:(NSString *)format;
+- (NSString *)stringWithFormat:(NSString *)format;
 
 - (NSString *)weekdayName;
 

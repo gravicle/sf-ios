@@ -23,18 +23,18 @@
         timeLabelText = [NSString stringWithFormat:@"Ends in %@", remainingtime];
     }
     // If the event is upcoming today: "in 32min"
-    else if (eventDate.isInFuture && eventDate.isToday) {
+    else if (eventDate.isInTheFuture && eventDate.isToday) {
         timeLabelText = [NSString stringWithFormat:@"in %@", eventDate.abbreviatedTimeintervalFromNow];
     }
     // If the event is upcoming this week: "Wednesday 8:30 - 10:00am"
-    else if (eventDate.isInFuture && eventDate.isThisWeek) {
+    else if (eventDate.isInTheFuture && eventDate.isThisWeek) {
         NSString *weekday = [eventDate weekdayName];
         NSString *time = [NSDate timeslotStringFromStartDate:eventDate duration:event.duration];
         timeLabelText = [NSString stringWithFormat:@"%@ %@", weekday, time];
     }
     // Otherwise: "Oct 11 8:30 - 10:00am"
     else {
-        NSString *date = [eventDate stringWithformat:@"MMM d"];
+        NSString *date = [eventDate stringWithFormat:@"MMM d"];
         NSString *time = [NSDate timeslotStringFromStartDate:eventDate duration:event.duration];
         timeLabelText = [NSString stringWithFormat:@"%@ %@", date, time];
     }

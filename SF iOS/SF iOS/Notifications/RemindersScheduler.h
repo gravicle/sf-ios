@@ -9,10 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "Event.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface RemindersScheduler : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 
-+ (void)scheduleReminderForEvent:(Event *)event;
+typedef void(^RemindersSchedulerCompletionHandler)(NSError *_Nullable error);
++ (void)scheduleReminderForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)completionHandler;
 
 @end
+NS_ASSUME_NONNULL_END

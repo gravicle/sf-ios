@@ -18,10 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface EventFetcher : NSObject
 
-typedef void(^EventsFetchCompletionHandler)(NSArray<Event *> *_Nullable events, NSError *_Nullable error);
+typedef void(^EventsQueryCompletionHandler)(NSArray<Event *> *_Nullable events, NSError *_Nullable error);
++ (void)fetchLatestEventsOfType:(EventType)eventType fromDatabase:(CKDatabase*)database withCompletionHandler:(EventsQueryCompletionHandler)completionHandler;
 
-+ (void)fetchLatestEventsOfType:(EventType)eventType fromDatabase:(CKDatabase*)database withCompletionHandler:(EventsFetchCompletionHandler)completionHandler;
-+ (void)fetchEventWithID:(CKRecordID *)eventID fromDatabase:(CKDatabase *)database withCompletionHandler:(EventsFetchCompletionHandler)completionHandler;
+typedef void(^EventFetchCompletionHandler)(Event *_Nullable event, NSError *_Nullable error);
++ (void)fetchEventWithID:(CKRecordID *)eventID fromDatabase:(CKDatabase *)database withCompletionHandler:(EventFetchCompletionHandler)completionHandler;
 
 @end
 

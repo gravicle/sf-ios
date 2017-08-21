@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^AsyncBlock)(dispatch_block_t completionHandler);
+typedef void(^AsyncBlock)(dispatch_block_t blockCompletionHandler);
 
 @interface AsyncBlockOperation : AsyncOperation
 

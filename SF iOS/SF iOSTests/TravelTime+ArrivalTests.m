@@ -24,7 +24,7 @@
     self.traveltime.travelTime = 1800; //30min
 }
 
-- (void)testArrivalWhenEventIsInFuture {
+- (void)testArrivalWhenEventisInTheFuture {
     NSDate *startDate = [self dateWithHoursSinceNow:3];
     NSDate *endDate = [self dateWithHoursSinceNow:4];
     
