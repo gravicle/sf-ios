@@ -14,12 +14,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Wrapper around CloudKit operations for fetching records, and parsing CK objects
- into concrete Events.
+ Wrapper around CloudKit operations for fetching records, and parsing CK objects into concrete Events.
  */
 @interface EventFetcher : NSObject
 
-typedef void(^EventsFetchCompletionHandler)(EventType eventType, NSArray<Event *> *_Nullable events, NSError *_Nullable error);
+typedef void(^EventsFetchCompletionHandler)(NSArray<Event *> *_Nullable events, NSError *_Nullable error);
 
 + (void)fetchLatestEventsOfType:(EventType)eventType fromDatabase:(CKDatabase*)database withCompletionHandler:(EventsFetchCompletionHandler)completionHandler;
 + (void)fetchEventWithID:(CKRecordID *)eventID fromDatabase:(CKDatabase *)database withCompletionHandler:(EventsFetchCompletionHandler)completionHandler;

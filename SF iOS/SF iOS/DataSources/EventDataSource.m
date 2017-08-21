@@ -11,6 +11,7 @@
 #import "NSDate+Utilities.h"
 #import "NSError+Constructor.h"
 #import "NSNotification+ApplicationEventNotifications.h"
+#import "EventFetcher.h"
 
 @interface EventDataSource ()
 
@@ -27,46 +28,28 @@
         self.eventType = eventType;
         self.database = database;
         self.events = [NSMutableArray new];
-        [self observeAppActivationEvents];
     }
     return self;
 }
 
 - (void)refresh {
-    __weak typeof(self) welf = self;
-    __block NSArray<CKRecord *> *eventRecords;
-    
-    CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:false error:error];
-            });
-            return;
-        }
-        
-        NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            BOOL updatedEvents = [welf reconcileNewEvents:newEvents];
-            [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:updatedEvents error:nil];
-        });
-    }];
-    
-    CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCompletionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
-        if (error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:false error:error];
-            });
-            return;
-        }
-        
-        eventRecords = records;
-        
-        locationsOperation.recordIDs = [welf locationRecordIDsFromEventRecords:eventRecords];
-        [self.database addOperation:locationsOperation];
-    }];
-    
     [self.updateStatusDelegate willUpdateDataSource:self];
-    [self.database addOperation:eventRecordsOperation];
+    
+    __weak typeof(self) welf = self;
+    [EventFetcher
+     fetchLatestEventsOfType:self.eventType
+     fromDatabase:self.database
+     withCompletionHandler:^(NSArray<Event *> * _Nullable events, NSError * _Nullable error) {
+         [NSOperationQueue.mainQueue addOperationWithBlock:^{
+             if (error) {
+                 [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:false error:error];
+                 return;
+             }
+             
+             BOOL didUpdateEvents = [welf reconcileNewEvents:events];
+             [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:didUpdateEvents error:nil];
+         }];
+     }];
 }
 
 - (Event *)eventAtIndex:(NSUInteger)index {
@@ -88,83 +71,6 @@
     }
     
     return NSNotFound;
-}
-
-// MARK: - CloudKit Operations
-
-- (CKQueryOperation *)eventRecordsQueryOperationForEventsOfType:(EventType)eventType withCompletionHandler: (void (^)(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error))completionHandler {
-    NSString *recordType = Event.recordName;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"eventType == %u", eventType];
-    CKQuery *query = [[CKQuery alloc] initWithRecordType:recordType predicate:predicate];
-    query.sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"eventDate" ascending:false]];
-    CKQueryOperation *operation = [[CKQueryOperation alloc] initWithQuery:query];
-    
-    __block NSMutableArray<CKRecord *> *records = [NSMutableArray new];
-    operation.recordFetchedBlock = ^(CKRecord * _Nonnull record) {
-        if (![record.recordType isEqualToString:recordType]) {
-            NSAssert(false, @"Received a record of unexpected type: %@", record.recordType);
-            return;
-        }
-        [records addObject:record];
-    };
-    operation.queryCompletionBlock = ^(CKQueryCursor * _Nullable cursor, NSError * _Nullable operationError) {
-        if (operationError != nil) {
-            completionHandler(nil, nil, operationError);
-            return;
-        }
-        
-        completionHandler(cursor, records, nil);
-    };
-    
-    return operation;
-}
-
-- (CKFetchRecordsOperation *)locationRecordsFetchOperationWithCompletionHandler:(void (^)(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error))completionHandler {
-    CKFetchRecordsOperation *operation = [CKFetchRecordsOperation new];
-    operation.fetchRecordsCompletionBlock = completionHandler;
-    
-    return operation;
-}
-
-// MARK: - Records Parsing
-
-- (NSArray<Event *> *)eventsFromEventRecords:(NSArray<CKRecord *> *)eventRecords locationRecordsByID:(NSDictionary<CKRecordID *,CKRecord *> *) locationRecordsByRecordID {
-    NSMutableArray<Event *> *events = [NSMutableArray new];
-    for (CKRecord *eventRecord in eventRecords) {
-        CKRecordID *locationRecordID = [self locationRecordIDFromEventRecord:eventRecord];
-        if (!locationRecordID) {
-            NSAssert(false, @"Location corresponding to Event does not exist\n%@", eventRecord);
-            break;
-        }
-        Location *location = [[Location alloc] initWithRecord:locationRecordsByRecordID[locationRecordID]];
-        Event *event = [[Event alloc] initWithRecord:eventRecord location:location];
-        [events addObject:event];
-    }
-    
-    return events;
-}
-                                          
-- (CKRecordID *)locationRecordIDFromEventRecord:(CKRecord *)eventRecord {
-    CKReference *locationReference = eventRecord[@"location"];
-    return locationReference.recordID;
-}
-
-- (NSArray<CKRecordID *> *)locationRecordIDsFromEventRecords:(NSArray<CKRecord *> *)eventRecords {
-    NSMutableArray<CKRecordID *> *recordIDs = [NSMutableArray new];
-    for (CKRecord *eventRecord in eventRecords) {
-        [recordIDs addObject:[self locationRecordIDFromEventRecord:eventRecord]];
-    }
-    return recordIDs;
-}
-
-//MARK: - Respond To app Events
-
-- (void)observeAppActivationEvents {
-    __weak typeof(self) welf = self;
-    [[NSNotificationCenter defaultCenter] addObserverForName:NSNotification.applicationBecameActiveNotification object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        [welf refresh];
-    }];
 }
 
 // MARK: - Bookeeping
