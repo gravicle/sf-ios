@@ -48,7 +48,6 @@
 		C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DDE1F2D8BCF007A5B0C /* Event.m */; };
 		C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DE21F2D926A007A5B0C /* EventDataSource.m */; };
 		C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */; };
-		C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */; };
 		C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */; };
 		C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC493A1F3303170064B03E /* TravelTimeService.m */; };
 		C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC493E1F3307DD0064B03E /* TravelTime.m */; };
@@ -159,8 +158,6 @@
 		C8C337911F42AC5B00F307AD /* SF iOS-Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SF iOS-Debug.entitlements"; sourceTree = "<group>"; };
 		C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MKMapCamera+OverlookingLocations.m"; sourceTree = "<group>"; };
 		C8CC49281F32643A0064B03E /* MKMapCamera+OverlookingLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MKMapCamera+OverlookingLocations.h"; sourceTree = "<group>"; };
-		C8CC492F1F32A6820064B03E /* NSNotification+ApplicationEventNotifications.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSNotification+ApplicationEventNotifications.h"; sourceTree = "<group>"; };
-		C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSNotification+ApplicationEventNotifications.m"; sourceTree = "<group>"; };
 		C8CC49331F32A7260064B03E /* UIApplication+Metadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Metadata.h"; sourceTree = "<group>"; };
 		C8CC49341F32A7260064B03E /* UIApplication+Metadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Metadata.m"; sourceTree = "<group>"; };
 		C8CC49391F3303170064B03E /* TravelTimeService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TravelTimeService.h; sourceTree = "<group>"; };
@@ -425,7 +422,6 @@
 		C8810A5A1F2C028900DCFEB6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				C8CC492B1F32A5E20064B03E /* ApplicationEventNotifications */,
 				C8810A5B1F2C043600DCFEB6 /* Location.h */,
 				C8810A5C1F2C043600DCFEB6 /* Location.m */,
 				C89A8DDD1F2D8BCF007A5B0C /* Event.h */,
@@ -462,15 +458,6 @@
 				C8CC49271F32643A0064B03E /* MKMapCamera+OverlookingLocations.m */,
 			);
 			path = MapCameraOverlookingLocations;
-			sourceTree = "<group>";
-		};
-		C8CC492B1F32A5E20064B03E /* ApplicationEventNotifications */ = {
-			isa = PBXGroup;
-			children = (
-				C8CC492F1F32A6820064B03E /* NSNotification+ApplicationEventNotifications.h */,
-				C8CC49301F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m */,
-			);
-			path = ApplicationEventNotifications;
 			sourceTree = "<group>";
 		};
 		C8CC49321F32A70A0064B03E /* Application */ = {
@@ -700,7 +687,6 @@
 				C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
 				C86DD4381F3A3D3100C58723 /* NSAttributedString+Kerning.m in Sources */,
-				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
 				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,
 				C897CD0F1F37B26300E6C2A6 /* CloudKitDerivedRecord.m in Sources */,
 				C8307A051F364DDF005CB3D2 /* SecretsStore.m in Sources */,

@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database;
 
 - (void)refresh;
+
 - (Event *)eventAtIndex:(NSUInteger)index;
 
 @end

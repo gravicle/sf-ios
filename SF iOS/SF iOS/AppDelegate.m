@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "EventDataSource.h"
 #import "EventsFeedViewController.h"
-#import "NSNotification+ApplicationEventNotifications.h"
 #import "NotificationHandler.h"
 @import CloudKit;
 
@@ -31,8 +30,8 @@ NS_ASSUME_NONNULL_END
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
     
-    EventDataSource *datasource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:[[CKContainer defaultContainer] publicCloudDatabase]];
-    EventsFeedViewController *feedController = [[EventsFeedViewController alloc] initWithDataSource:datasource];
+    self.dataSource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:[[CKContainer defaultContainer] publicCloudDatabase]];
+    EventsFeedViewController *feedController = [[EventsFeedViewController alloc] initWithDataSource:self.dataSource];
     
     self.window.rootViewController = feedController;
     
@@ -59,7 +58,6 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self.dataSource refresh];
 }
 

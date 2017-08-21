@@ -10,7 +10,6 @@
 #import "Event.h"
 #import "NSDate+Utilities.h"
 #import "NSError+Constructor.h"
-#import "NSNotification+ApplicationEventNotifications.h"
 #import "EventFetcher.h"
 
 @interface EventDataSource ()
