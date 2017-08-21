@@ -12,11 +12,11 @@
 #import "UserLocation.h"
 #import "EventDetailsViewController.h"
 #import "UIViewController+StatusBarBackground.h"
-#import "UIImage+URL.h"
 #import "ImageStore.h"
+#import "UIImage+URL.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@interface EventsFeedViewController () <EventDataSourceDelegate, UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate>
+@interface EventsFeedViewController () <EventDataSourceUpdateStausDelegate, UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic) EventDataSource *dataSource;
 @property (nullable, nonatomic) UserLocation *userLocationService;
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_END
 - (instancetype)initWithDataSource:(EventDataSource *)dataSource {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.dataSource = dataSource;
-        dataSource.delegate = self;
+        dataSource.updateStatusDelegate = self;
         self.userLocationService = [UserLocation new];
         self.imageFetchQueue = [[NSOperationQueue alloc] init];
         self.imageFetchQueue.name = @"Image Fetch Queue";

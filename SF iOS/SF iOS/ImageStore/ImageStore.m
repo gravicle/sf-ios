@@ -7,7 +7,6 @@
 //
 
 #import "ImageStore.h"
-#import "UIImage+URL.h"
 #import "UIApplication+Metadata.h"
 
 @interface ImageStore ()

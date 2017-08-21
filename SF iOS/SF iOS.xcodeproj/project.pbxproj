@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C8094D5A1F49FE9E00EBCB94 /* EventFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = C8094D591F49FE9E00EBCB94 /* EventFetcher.m */; };
+		C8094D611F4A03AB00EBCB94 /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C8094D5F1F4A037C00EBCB94 /* UIImage+URL.m */; };
+		C8094D651F4A042D00EBCB94 /* NotificationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C8094D641F4A042D00EBCB94 /* NotificationHandler.m */; };
+		C8094D681F4A043700EBCB94 /* RemindersScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = C8094D671F4A043700EBCB94 /* RemindersScheduler.m */; };
 		C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */; };
 		C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516331F2FBBD2006B9D7E /* FeedItemCell.m */; };
 		C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516371F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m */; };
@@ -26,7 +30,6 @@
 		C86DD4381F3A3D3100C58723 /* NSAttributedString+Kerning.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD4361F3A3D2100C58723 /* NSAttributedString+Kerning.m */; };
 		C86DD43B1F3A4A6200C58723 /* TravelTime+Arrival.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD43A1F3A4A6100C58723 /* TravelTime+Arrival.m */; };
 		C86DD43D1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD43C1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m */; };
-		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C8709C661F42632300DFE7A9 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C8709C651F42632300DFE7A9 /* ImageStore.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
@@ -74,6 +77,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C8094D581F49FE9E00EBCB94 /* EventFetcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventFetcher.h; sourceTree = "<group>"; };
+		C8094D591F49FE9E00EBCB94 /* EventFetcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventFetcher.m; sourceTree = "<group>"; };
+		C8094D5E1F4A037C00EBCB94 /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
+		C8094D5F1F4A037C00EBCB94 /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
+		C8094D631F4A042D00EBCB94 /* NotificationHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationHandler.h; sourceTree = "<group>"; };
+		C8094D641F4A042D00EBCB94 /* NotificationHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationHandler.m; sourceTree = "<group>"; };
+		C8094D661F4A043700EBCB94 /* RemindersScheduler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RemindersScheduler.h; sourceTree = "<group>"; };
+		C8094D671F4A043700EBCB94 /* RemindersScheduler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemindersScheduler.m; sourceTree = "<group>"; };
 		C825162E1F2FA260006B9D7E /* EventsFeedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsFeedViewController.h; sourceTree = "<group>"; };
 		C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventsFeedViewController.m; sourceTree = "<group>"; };
 		C82516321F2FBBD2006B9D7E /* FeedItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemCell.h; sourceTree = "<group>"; };
@@ -109,8 +120,6 @@
 		C86DD4391F3A4A6100C58723 /* TravelTime+Arrival.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TravelTime+Arrival.h"; sourceTree = "<group>"; };
 		C86DD43A1F3A4A6100C58723 /* TravelTime+Arrival.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TravelTime+Arrival.m"; sourceTree = "<group>"; };
 		C86DD43C1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "TravelTime+ArrivalTests.m"; sourceTree = "<group>"; };
-		C86E38691F31B78300E35EBF /* UIImage+URL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+URL.h"; sourceTree = "<group>"; };
-		C86E386A1F31B78300E35EBF /* UIImage+URL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+URL.m"; sourceTree = "<group>"; };
 		C8709C641F42632300DFE7A9 /* ImageStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageStore.h; sourceTree = "<group>"; };
 		C8709C651F42632300DFE7A9 /* ImageStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageStore.m; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
@@ -197,6 +206,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C8094D5C1F4A02E700EBCB94 /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				C89A8DE11F2D926A007A5B0C /* EventDataSource.h */,
+				C89A8DE21F2D926A007A5B0C /* EventDataSource.m */,
+				C8094D581F49FE9E00EBCB94 /* EventFetcher.h */,
+				C8094D591F49FE9E00EBCB94 /* EventFetcher.m */,
+			);
+			path = DataSources;
+			sourceTree = "<group>";
+		};
+		C8094D5D1F4A032000EBCB94 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				C825162D1F2FA24B006B9D7E /* Feed */,
+				C8E6A3EA1F3255F70098339C /* EventDetails */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		C8094D601F4A038200EBCB94 /* UIImageFromFile */ = {
+			isa = PBXGroup;
+			children = (
+				C8094D5E1F4A037C00EBCB94 /* UIImage+URL.h */,
+				C8094D5F1F4A037C00EBCB94 /* UIImage+URL.m */,
+			);
+			path = UIImageFromFile;
+			sourceTree = "<group>";
+		};
+		C8094D621F4A03F200EBCB94 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				C8094D631F4A042D00EBCB94 /* NotificationHandler.h */,
+				C8094D641F4A042D00EBCB94 /* NotificationHandler.m */,
+				C8094D661F4A043700EBCB94 /* RemindersScheduler.h */,
+				C8094D671F4A043700EBCB94 /* RemindersScheduler.m */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		C825162D1F2FA24B006B9D7E /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +289,7 @@
 		C82516491F3054BE006B9D7E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				C8094D601F4A038200EBCB94 /* UIImageFromFile */,
 				C8CEC9811F3AB31D002A8D88 /* StatusBarBackgroung */,
 				C8CC49401F330F1E0064B03E /* Concurrency */,
 				C8CC49321F32A70A0064B03E /* Application */,
@@ -277,15 +327,6 @@
 				C8307A041F364DDF005CB3D2 /* SecretsStore.m */,
 			);
 			path = Secrets;
-			sourceTree = "<group>";
-		};
-		C86E38651F31B75700E35EBF /* RemoteUIImage */ = {
-			isa = PBXGroup;
-			children = (
-				C86E38691F31B78300E35EBF /* UIImage+URL.h */,
-				C86E386A1F31B78300E35EBF /* UIImage+URL.m */,
-			);
-			path = RemoteUIImage;
 			sourceTree = "<group>";
 		};
 		C8709C631F42630B00DFE7A9 /* ImageStore */ = {
@@ -330,14 +371,14 @@
 		C8810A211F2BFE6900DCFEB6 /* SF iOS */ = {
 			isa = PBXGroup;
 			children = (
+				C8094D621F4A03F200EBCB94 /* Notifications */,
+				C8094D5D1F4A032000EBCB94 /* Screens */,
+				C8094D5C1F4A02E700EBCB94 /* DataSources */,
 				C8709C631F42630B00DFE7A9 /* ImageStore */,
 				C83079FC1F3649EF005CB3D2 /* Secrets */,
-				C86E38651F31B75700E35EBF /* RemoteUIImage */,
 				C825164A1F3054D1006B9D7E /* Location */,
 				C8709C681F42784700DFE7A9 /* HTTPRequestOperation */,
 				C82516491F3054BE006B9D7E /* Helpers */,
-				C825162D1F2FA24B006B9D7E /* Feed */,
-				C8E6A3EA1F3255F70098339C /* EventDetails */,
 				C8810A5A1F2C028900DCFEB6 /* Models */,
 				C8810A541F2BFE9400DCFEB6 /* SF iOS.entitlements */,
 				C8C337911F42AC5B00F307AD /* SF iOS-Debug.entitlements */,
@@ -390,8 +431,6 @@
 				C89A8DDD1F2D8BCF007A5B0C /* Event.h */,
 				C89A8DDE1F2D8BCF007A5B0C /* Event.m */,
 				C89A8DE01F2D8C2A007A5B0C /* EventType.h */,
-				C89A8DE11F2D926A007A5B0C /* EventDataSource.h */,
-				C89A8DE21F2D926A007A5B0C /* EventDataSource.m */,
 				C897CD0D1F37B26300E6C2A6 /* CloudKitDerivedRecord.h */,
 				C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */,
 			);
@@ -566,6 +605,9 @@
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
@@ -640,12 +682,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8094D681F4A043700EBCB94 /* RemindersScheduler.m in Sources */,
 				C8307A111F365E58005CB3D2 /* AsyncBlockOperation.m in Sources */,
 				C8307A081F365687005CB3D2 /* UberTravelTimeEstimateOperation.m in Sources */,
 				C82516421F2FE9E7006B9D7E /* FeedItem.m in Sources */,
 				C8CC493F1F3307DD0064B03E /* TravelTime.m in Sources */,
 				C8709C661F42632300DFE7A9 /* ImageStore.m in Sources */,
 				C825163C1F2FDF46006B9D7E /* UIColor+SFiOSColors.m in Sources */,
+				C8094D5A1F49FE9E00EBCB94 /* EventFetcher.m in Sources */,
 				C86DD43B1F3A4A6200C58723 /* TravelTime+Arrival.m in Sources */,
 				C8810A321F2BFE6900DCFEB6 /* main.m in Sources */,
 				C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */,
@@ -663,15 +707,16 @@
 				C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */,
 				C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */,
 				C86DD4351F3A389B00C58723 /* NSAttributedString+EventDetails.m in Sources */,
-				C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */,
 				C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */,
 				C8CC494C1F33BA420064B03E /* TravelTimeView.m in Sources */,
 				C8307A0E1F365969005CB3D2 /* HTTPRequestAsyncOperation.m in Sources */,
+				C8094D651F4A042D00EBCB94 /* NotificationHandler.m in Sources */,
 				C8307A141F368BFB005CB3D2 /* LyftTravelTimeEstimateOperation.m in Sources */,
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
 				C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */,
 				C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */,
+				C8094D611F4A03AB00EBCB94 /* UIImage+URL.m in Sources */,
 				C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */,
 				C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */,
 				C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */,

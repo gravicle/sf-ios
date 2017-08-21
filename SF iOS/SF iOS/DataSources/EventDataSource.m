@@ -39,7 +39,7 @@
     CKFetchRecordsOperation *locationsOperation = [self locationRecordsFetchOperationWithCompletionHandler:^(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [welf.delegate didUpdateDataSource:welf withNewData:false error:error];
+                [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:false error:error];
             });
             return;
         }
@@ -47,14 +47,14 @@
         NSArray<Event *> *newEvents = [welf eventsFromEventRecords:eventRecords locationRecordsByID:recordsByRecordID];
         dispatch_async(dispatch_get_main_queue(), ^{
             BOOL updatedEvents = [welf reconcileNewEvents:newEvents];
-            [welf.delegate didUpdateDataSource:welf withNewData:updatedEvents error:nil];
+            [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:updatedEvents error:nil];
         });
     }];
     
     CKQueryOperation *eventRecordsOperation = [self eventRecordsQueryOperationForEventsOfType:self.eventType withCompletionHandler:^(CKQueryCursor *cursor, NSArray<CKRecord *> *records, NSError *error) {
         if (error) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [welf.delegate didUpdateDataSource:welf withNewData:false error:error];
+                [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:false error:error];
             });
             return;
         }
@@ -65,7 +65,7 @@
         [self.database addOperation:locationsOperation];
     }];
     
-    [self.delegate willUpdateDataSource:self];
+    [self.updateStatusDelegate willUpdateDataSource:self];
     [self.database addOperation:eventRecordsOperation];
 }
 
@@ -121,18 +121,7 @@
 }
 
 - (CKFetchRecordsOperation *)locationRecordsFetchOperationWithCompletionHandler:(void (^)(NSDictionary<CKRecordID *,CKRecord *> * _Nullable recordsByRecordID, NSError * _Nullable error))completionHandler {
-    NSMutableArray<CKRecord *> *locationRecords = [NSMutableArray new];
     CKFetchRecordsOperation *operation = [CKFetchRecordsOperation new];
-    operation.perRecordCompletionBlock = ^(CKRecord * _Nullable record, CKRecordID * _Nullable recordID, NSError * _Nullable error) {
-        if (record == nil) {
-            NSError *fallbackError = [NSError appErrorWithDescription:@"Record of type %@ with id %@ could not be found."];
-            completionHandler(nil, error ? error : fallbackError);
-            return;
-        }
-        
-        [locationRecords addObject:record];
-    };
-    
     operation.fetchRecordsCompletionBlock = completionHandler;
     
     return operation;
