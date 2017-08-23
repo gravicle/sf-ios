@@ -11,6 +11,7 @@
 #import "NSDate+Utilities.h"
 #import "NSError+Constructor.h"
 #import "EventFetcher.h"
+#import "RemindersScheduler.h"
 
 @interface EventDataSource ()
 
@@ -47,6 +48,7 @@
              
              BOOL didUpdateEvents = [welf reconcileNewEvents:events];
              [welf.updateStatusDelegate didUpdateDataSource:welf withNewData:didUpdateEvents error:nil];
+             [welf scheduleRemindersForUpcomingEvents];
          }];
      }];
 }
@@ -102,6 +104,22 @@
     }
     
     return updatedEvents;
+}
+
+// MARK: - Reminders
+
+- (void)scheduleRemindersForUpcomingEvents {
+    for (Event *event in self.events) {
+        if (event.date.isInThePast) {
+            return;
+        }
+        
+        [RemindersScheduler scheduleReminderForEvent:event withCompletionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"Error scheduling reminder for %@\n%@", event, error.localizedDescription);
+            }
+        }];
+    }
 }
 
 @end

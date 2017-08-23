@@ -23,12 +23,14 @@
     
     [self getScheduledStatusOfNotificationWithID:event.identifier withCompletionHandler:^(BOOL hasBeenScheduled) {
         if (hasBeenScheduled) {
+            NSLog(@"Reminder for event %@ has already been scheduled", event);
             completionHandler(nil);
             return;
         }
         
         [self getDeliveredStatusOfNotificationWithID:event.identifier withCompletionHandler:^(BOOL hasBeenDelevered) {
-            if (hasBeenScheduled) {
+            if (hasBeenDelevered) {
+                NSLog(@"Reminder for event %@ has already been delivered", event);
                 completionHandler(nil);
                 return;
             }
