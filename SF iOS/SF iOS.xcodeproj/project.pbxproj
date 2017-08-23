@@ -32,6 +32,7 @@
 		C86DD43D1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD43C1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m */; };
 		C8709C661F42632300DFE7A9 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C8709C651F42632300DFE7A9 /* ImageStore.m */; };
 		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
+		C87FAF491F4E0AC70072C854 /* RemindersSchedulerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C87FAF481F4E0AC70072C854 /* RemindersSchedulerTests.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
 		C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2D1F2BFE6900DCFEB6 /* LaunchScreen.storyboard */; };
@@ -123,6 +124,7 @@
 		C8709C651F42632300DFE7A9 /* ImageStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageStore.m; sourceTree = "<group>"; };
 		C87995CA1F312873002CA6C8 /* UserLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLocation.h; sourceTree = "<group>"; };
 		C87995CB1F312873002CA6C8 /* UserLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserLocation.m; sourceTree = "<group>"; };
+		C87FAF481F4E0AC70072C854 /* RemindersSchedulerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RemindersSchedulerTests.m; sourceTree = "<group>"; };
 		C8810A1F1F2BFE6900DCFEB6 /* SF iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SF iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8810A221F2BFE6900DCFEB6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				C8094D641F4A042D00EBCB94 /* NotificationHandler.m */,
 				C8094D661F4A043700EBCB94 /* RemindersScheduler.h */,
 				C8094D671F4A043700EBCB94 /* RemindersScheduler.m */,
+				C87FAF481F4E0AC70072C854 /* RemindersSchedulerTests.m */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -716,6 +719,7 @@
 			files = (
 				C86DD43D1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m in Sources */,
 				C82516481F2FF293006B9D7E /* FeedItemTests.m in Sources */,
+				C87FAF491F4E0AC70072C854 /* RemindersSchedulerTests.m in Sources */,
 				C897CD111F37B78200E6C2A6 /* DateTests.m in Sources */,
 				C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */,
 			);

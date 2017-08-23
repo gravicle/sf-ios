@@ -51,13 +51,14 @@
     content.body = [NSString stringWithFormat:@"Join fellow iOS developers %@ for %@ at %@.", date, event.typeDescription, location];
     
     content.userInfo = [NotificationHandler userInfoDictionaryWithEvent:event];
-    
-    UNNotificationRequest *request = [UNNotificationRequest
-                                      requestWithIdentifier:event.identifier
-                                      content:content
-                                      trigger:[self triggerForEventWithDate:event.date]];
-    
-    [UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:request withCompletionHandler:completionHandler];
+
+    NSDateComponents *reminderDate = [self reminderDateForEventWithDate:event.date];
+    UNNotificationRequest *noteRequest = [UNNotificationRequest
+        requestWithIdentifier:event.identifier
+                      content:content
+                      trigger:[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:reminderDate repeats:false]];
+
+    [UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:noteRequest withCompletionHandler:completionHandler];
 }
 
 + (void)getScheduledStatusOfNotificationWithID:(NSString *)notificationID withCompletionHandler:(void(^)(BOOL hasBeenScheduled))completionHandler {
@@ -87,21 +88,20 @@
 }
 
 /// 6pm the eve before, if past, now
-+ (UNNotificationTrigger *)triggerForEventWithDate:(NSDate *)eventDate {
-    NSDateComponents *eventDateComponents = [NSCalendar.currentCalendar
-                                             components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute
-                                             fromDate:eventDate];
-    
-    NSDateComponents *reminderDateComponents = [eventDateComponents copy];
++ (NSDateComponents *)reminderDateForEventWithDate:(NSDate *)eventDate {
+    NSCalendarUnit components = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+
+    NSDateComponents *eventDateComponents = [NSCalendar.currentCalendar components:components fromDate:eventDate];
+    NSDateComponents *reminderDateComponents = [[NSDateComponents alloc] init];
     reminderDateComponents.day -= 1;
     reminderDateComponents.hour = 18;
     reminderDateComponents.minute = 0;
     
     if ([NSCalendar.currentCalendar dateFromComponents:reminderDateComponents].isInThePast) {
-        return [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:false];
+        return [NSCalendar.currentCalendar components:components fromDate:[NSDate new]];
+    } else {
+        return eventDateComponents;
     }
-    
-    return [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:reminderDateComponents repeats:false];
 }
 
 @end

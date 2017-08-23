@@ -45,7 +45,9 @@ static NSString * const userInfoEventIDKey = @"eventID";
              return;
          }
          
-         [[UIApplication sharedApplication] registerForRemoteNotifications];
+         [NSOperationQueue.mainQueue addOperationWithBlock:^{
+             [[UIApplication sharedApplication] registerForRemoteNotifications];
+         }];
      }];
 }
 
