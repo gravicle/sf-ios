@@ -8,39 +8,61 @@
 
 @import UserNotifications;
 #import "RemindersScheduler.h"
-#import "EventFetcher.h"
 #import "NSDate+Utilities.h"
 #import "NotificationHandler.h"
 #import "NSError+Constructor.h"
+#import "AsyncBlockOperation.h"
+
+@interface RemindersScheduler ()
+
+@property (nonatomic) NSOperationQueue *schedulerSerialQueue;
+
+@end
 
 @implementation RemindersScheduler
 
-+ (void)scheduleReminderForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)completionHandler {
+- (instancetype)init {
+    if (self = [super init]) {
+        self.schedulerSerialQueue = [[NSOperationQueue alloc] init];
+        self.schedulerSerialQueue.maxConcurrentOperationCount = 1;
+    }
+    return self;
+}
+
+- (void)scheduleReminderForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)callCompletionHandler {
     if (event.date.isInThePast) {
-        completionHandler([NSError appErrorWithDescription:@"Event is in the past %@", event]);
+        callCompletionHandler([NSError appErrorWithDescription:@"Event is in the past %@", event]);
         return;
     }
     
-    [self getScheduledStatusOfNotificationWithID:event.identifier withCompletionHandler:^(BOOL hasBeenScheduled) {
-        if (hasBeenScheduled) {
-            NSLog(@"Reminder for event %@ has already been scheduled", event);
-            completionHandler(nil);
-            return;
-        }
+    __weak typeof(self) welf = self;
+    AsyncBlockOperation *scheduleOperation = [AsyncBlockOperation asyncBlockOperationWithBlock:^(dispatch_block_t  _Nonnull blockCompletionHandler) {
+        void (^completionHandler)(NSError *_Nullable) = ^void(NSError *error) {
+            callCompletionHandler(error);
+            blockCompletionHandler();
+        };
         
-        [self getDeliveredStatusOfNotificationWithID:event.identifier withCompletionHandler:^(BOOL hasBeenDelevered) {
-            if (hasBeenDelevered) {
-                NSLog(@"Reminder for event %@ has already been delivered", event);
-                completionHandler(nil);
+        [welf getScheduledStatusOfNotificationWithID:event.identifier withCompletionHandler:^(BOOL hasBeenScheduled) {
+            if (hasBeenScheduled) {
+                completionHandler([NSError appErrorWithDescription:@"Reminder already scheduled"]);
                 return;
             }
             
-            [self scheduleLocalNotificationForEvent:event withCompletionHandler:completionHandler];
+            [welf getDeliveredStatusOfNotificationWithID:event.identifier withCompletionHandler:^(BOOL hasBeenDelevered) {
+                if (hasBeenDelevered) {
+                    completionHandler([NSError appErrorWithDescription:@"Reminder already delivered"]);
+                    return;
+                }
+                
+                [welf scheduleLocalNotificationForEvent:event withCompletionHandler:completionHandler];
+            }];
         }];
     }];
+    
+    [self.schedulerSerialQueue addOperation:scheduleOperation];
 }
 
-+ (void)scheduleLocalNotificationForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)completionHandler {
+- (void)scheduleLocalNotificationForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)completionHandler {
     UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
     // SF ☕️
     content.title = [NSString stringWithFormat:@"SF %@", event.typeDescription];
@@ -63,10 +85,10 @@
     [UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:noteRequest withCompletionHandler:completionHandler];
 }
 
-+ (void)getScheduledStatusOfNotificationWithID:(NSString *)notificationID withCompletionHandler:(void(^)(BOOL hasBeenScheduled))completionHandler {
+- (void)getScheduledStatusOfNotificationWithID:(NSString *)notificationID withCompletionHandler:(void(^)(BOOL hasBeenScheduled))completionHandler {
     [UNUserNotificationCenter.currentNotificationCenter getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * _Nonnull requests) {
         for (UNNotificationRequest *request in requests) {
-            if (request.identifier == notificationID) {
+            if ([request.identifier isEqualToString:notificationID]) {
                 completionHandler(true);
                 return;
             }
@@ -76,10 +98,10 @@
     }];
 }
 
-+ (void)getDeliveredStatusOfNotificationWithID:(NSString *)notificationID withCompletionHandler:(void(^)(BOOL hasBeenDelevered))completionHandler {
+- (void)getDeliveredStatusOfNotificationWithID:(NSString *)notificationID withCompletionHandler:(void(^)(BOOL hasBeenDelevered))completionHandler {
     [UNUserNotificationCenter.currentNotificationCenter getDeliveredNotificationsWithCompletionHandler:^(NSArray<UNNotification *> * _Nonnull notifications) {
         for (UNNotification *note in notifications) {
-            if (note.request.identifier == notificationID) {
+            if ([note.request.identifier isEqualToString:notificationID]) {
                 completionHandler(true);
                 return;
             }
@@ -90,11 +112,11 @@
 }
 
 /// 6pm the eve before, if past, now
-+ (NSDateComponents *)reminderDateForEventWithDate:(NSDate *)eventDate {
-    NSCalendarUnit components = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+- (NSDateComponents *)reminderDateForEventWithDate:(NSDate *)eventDate {
+    NSCalendarUnit components = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
 
     NSDateComponents *eventDateComponents = [NSCalendar.currentCalendar components:components fromDate:eventDate];
-    NSDateComponents *reminderDateComponents = [[NSDateComponents alloc] init];
+    NSDateComponents *reminderDateComponents = [eventDateComponents copy];
     reminderDateComponents.day -= 1;
     reminderDateComponents.hour = 18;
     reminderDateComponents.minute = 0;

@@ -20,6 +20,7 @@ static NSString * const userInfoEventIDKey = @"eventID";
 @interface NotificationHandler ()
 
 @property (nonatomic) CKDatabase *database;
+@property (nonatomic) RemindersScheduler *reminderScheduler;
 
 @end
 
@@ -32,6 +33,7 @@ static NSString * const userInfoEventIDKey = @"eventID";
 - (instancetype)initWithDatabase:(CKDatabase *)database {
     if (self = [super init]) {
         self.database = database;
+        self.reminderScheduler = [[RemindersScheduler alloc] init];
     }
     return self;
 }
@@ -71,13 +73,14 @@ static NSString * const userInfoEventIDKey = @"eventID";
     
     CKRecordID *eventID = [(CKQueryNotification *)note recordID];
     
+    __weak typeof(self) welf = self;
     [EventFetcher fetchEventWithID:eventID fromDatabase:self.database withCompletionHandler:^(Event * _Nullable event, NSError * _Nullable error) {
         if (!event || error) {
             completionHandler(error);
             return;
         }
         
-        [RemindersScheduler scheduleReminderForEvent:event withCompletionHandler:^(NSError * _Nullable error) {
+        [welf.reminderScheduler scheduleReminderForEvent:event withCompletionHandler:^(NSError * _Nullable error) {
             if (error) {
                 completionHandler([NSError appErrorWithDescription:@"Could not schedule reminder for event: %@", note]);
                 return;
@@ -115,4 +118,3 @@ static NSString * const userInfoEventIDKey = @"eventID";
 }
 
 @end
-

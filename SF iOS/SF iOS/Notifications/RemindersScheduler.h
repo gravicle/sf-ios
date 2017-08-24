@@ -12,10 +12,8 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface RemindersScheduler : NSObject
 
-- (instancetype)init NS_UNAVAILABLE;
-
 typedef void(^RemindersSchedulerCompletionHandler)(NSError *_Nullable error);
-+ (void)scheduleReminderForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)completionHandler;
+- (void)scheduleReminderForEvent:(Event *)event withCompletionHandler:(RemindersSchedulerCompletionHandler)completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END

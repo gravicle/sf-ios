@@ -18,6 +18,7 @@
 @property (nonatomic) CKDatabase *database;
 @property (nonatomic, assign) EventType eventType;
 @property (nonatomic) NSMutableArray<Event *> *events;
+@property (nonatomic) RemindersScheduler *reminderScheduler;
 
 @end
 
@@ -28,6 +29,7 @@
         self.eventType = eventType;
         self.database = database;
         self.events = [NSMutableArray new];
+        self.reminderScheduler = [[RemindersScheduler alloc] init];
     }
     return self;
 }
@@ -114,7 +116,7 @@
             return;
         }
         
-        [RemindersScheduler scheduleReminderForEvent:event withCompletionHandler:^(NSError * _Nullable error) {
+        [self.reminderScheduler scheduleReminderForEvent:event withCompletionHandler:^(NSError * _Nullable error) {
             if (error) {
                 NSLog(@"Error scheduling reminder for %@\n%@", event, error.localizedDescription);
             }
