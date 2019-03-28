@@ -12,12 +12,22 @@
 
 @implementation Event
 
-- (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location {
-    if (self = [super initWithRecord:record]) {
-        self.type = [(NSNumber *)record[@"eventType"] integerValue];
-        self.date = record[@"eventDate"];
-        self.duration = [(NSNumber *)record[@"duration"] doubleValue];
-        self.location = location;
+- (instancetype)initWithDictionary:(NSDictionary *)record {
+    if (self = [super init]) {
+        self.type = EventTypeSFCoffee;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+        NSString *startAt = record[@"start_at"];
+        self.date = [formatter dateFromString:startAt];
+        NSDate *endDate = [formatter dateFromString:record[@"end_at"]];
+        self.duration = [endDate timeIntervalSinceDate:self.date];
+        self.venueURL = [[NSURL alloc] initWithString:record[@"venue_url"]];
+
+        NSString *imageURLString = record[@"image_url"];
+        if (![imageURLString isKindOfClass:[NSNull class]]) {
+            self.imageFileURL = [[NSURL alloc] initWithString:imageURLString];
+        }
+        self.name = record[@"name"];
     }
     
     return self;
@@ -39,12 +49,6 @@
 
 - (BOOL)isActive {
     return self.endDate.isInFuture;
-}
-
-- (BOOL)hasBeenModifiedSinceRecord:(CloudKitDerivedRecord *)cachedRecord {
-    BOOL isEventModified = [super hasBeenModifiedSinceRecord:cachedRecord];
-    BOOL isLocationModified = [self.location hasBeenModifiedSinceRecord:[(Event *)cachedRecord location]];
-    return isEventModified || isLocationModified;
 }
 
 @end

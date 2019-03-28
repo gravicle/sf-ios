@@ -24,13 +24,11 @@
         return nil;
     }
     self.dateString = [self dateStringFromDate:event.date];
-    self.title = event.location.name;
+    self.title = event.name;
     self.isActive = event.isActive;
-    self.coverImageFileURL = event.location.imageFileURL;
-    self.location = event.location.location;
+    self.coverImageFileURL = event.imageFileURL;
     self.annotationImage = event.annotationImage;
     
-    NSString *location = event.location.streetAddress;
     NSString *time;
     
     if ([[NSDate new] isBetweenEarlierDate:event.date laterDate:event.endDate]) {
@@ -39,8 +37,7 @@
         time = [NSDate timeslotStringFromStartDate:event.date duration:event.duration];
     }
     
-    NSString *subtite = [NSString stringWithFormat:@"%@, %@", location, time];
-    self.subtitle = [NSAttributedString kernedStringFromString:[subtite uppercaseString]];
+    self.subtitle = [NSAttributedString kernedStringFromString:[time uppercaseString]];
     
     return self;
 }

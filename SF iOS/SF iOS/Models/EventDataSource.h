@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Event.h"
-@import CloudKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Index of the next upcoming event. If not found, returns NSNotFound
 @property (nonatomic, readonly, assign) NSUInteger indexOfCurrentEvent;
 
-- (instancetype)initWithEventType:(EventType)eventType database:(CKDatabase *)database;
+- (instancetype)initWithEventType:(EventType)eventType;
 - (void)refresh;
 - (Event *)eventAtIndex:(NSUInteger)index;
 

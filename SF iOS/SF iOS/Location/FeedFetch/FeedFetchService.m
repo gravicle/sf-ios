@@ -1,0 +1,37 @@
+//
+//  FeedFetchService.m
+//  SF iOS
+//
+//  Created by Roderic Campbell on 3/27/19.
+//  Copyright © 2019 Amit Jain. All rights reserved.
+//
+
+#import "FeedFetchService.h"
+#import "FeedFetchOperation.h"
+#import "VenueFetchOperation.h"
+
+@interface FeedFetchService ()
+@property (nonatomic) NSOperationQueue *feedFetchQueue;
+@end
+
+@implementation FeedFetchService
+
+- (instancetype)init {
+    if (self = [super init]) {
+        self.feedFetchQueue = [NSOperationQueue new];
+    }
+    return self;
+}
+
+-(void)getFeedWithHandler:(FeedFetchCompletionHandler)completionHandler {
+    FeedFetchOperation *operation = [[FeedFetchOperation alloc] initWithCompletionHandler:^(NSArray<NSDictionary *> *feed, NSError *_Nullable error) {
+        NSMutableArray<Event *> *events = [[NSMutableArray alloc] initWithCapacity:feed.count];
+        for (NSDictionary *dict in feed) {
+            [events addObject:[[Event alloc] initWithDictionary:dict]];
+        }
+        completionHandler(events, error);
+    }];
+    [self.feedFetchQueue addOperation:operation];
+}
+
+@end

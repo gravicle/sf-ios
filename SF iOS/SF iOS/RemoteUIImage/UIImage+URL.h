@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^ImageDownloadCompletionHandler)(UIImage *_Nullable image, NSError *_Nullable error);
 
-+ (void)fetchImageFromFileURL:(NSURL *)fileURL onQueue:(nullable NSOperationQueue *)queue withCompletionHandler:(ImageDownloadCompletionHandler)completionHandler;
++ (void)fetchImageFromURL:(NSURL *)fileURL onQueue:(nullable NSOperationQueue *)queue withCompletionHandler:(ImageDownloadCompletionHandler)completionHandler;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) UIImage *annotationImage;
 @property (readonly, assign, nonatomic) BOOL isActive;
 @property (nullable, nonatomic) NSURL *coverImageFileURL;
-@property (nonatomic) CLLocation *location;
 
 - (instancetype)initWithEvent:(Event *)event;
 

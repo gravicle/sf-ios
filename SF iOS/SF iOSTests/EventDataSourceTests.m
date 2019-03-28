@@ -8,11 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "EventDataSource.h"
-@import CloudKit;
 
 @interface EventDataSourceTests : XCTestCase
-
-@property (nonatomic) CKDatabase *database;
 
 @end
 
@@ -20,8 +17,6 @@
 
 - (void)setUp {
     [super setUp];
-    
-    self.database = [CKContainer defaultContainer].publicCloudDatabase;
 }
 
 

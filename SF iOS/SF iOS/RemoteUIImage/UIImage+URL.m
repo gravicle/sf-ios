@@ -11,9 +11,8 @@
 
 @implementation UIImage (URL)
 
-+ (void)fetchImageFromFileURL:(NSURL *)fileURL onQueue:(nullable NSOperationQueue *)queue withCompletionHandler:(ImageDownloadCompletionHandler)completionHandler {
-    NSAssert(fileURL.isFileURL, @"%@ is not a file URL", fileURL);
-    
++ (void)fetchImageFromURL:(NSURL *)fileURL onQueue:(nullable NSOperationQueue *)queue withCompletionHandler:(ImageDownloadCompletionHandler)completionHandler {
+
     if (!queue) {
         queue = [NSOperationQueue new];
     }

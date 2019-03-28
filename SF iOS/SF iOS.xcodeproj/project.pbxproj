@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F3820A1224C90B400862294 /* FeedFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3820A0224C90B400862294 /* FeedFetchOperation.m */; };
+		5F3820A5224C920F00862294 /* FeedFetchService.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3820A4224C920F00862294 /* FeedFetchService.m */; };
+		5F3820A9224CA76E00862294 /* VenueFetchOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F3820A8224CA76E00862294 /* VenueFetchOperation.m */; };
 		C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */; };
 		C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516331F2FBBD2006B9D7E /* FeedItemCell.m */; };
 		C82516381F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = C82516371F2FBE0E006B9D7E /* UIStackView+ConvenienceInitializer.m */; };
@@ -34,13 +37,9 @@
 		C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2D1F2BFE6900DCFEB6 /* LaunchScreen.storyboard */; };
 		C8810A321F2BFE6900DCFEB6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A311F2BFE6900DCFEB6 /* main.m */; };
 		C8810A471F2BFE6900DCFEB6 /* SF_iOSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A461F2BFE6900DCFEB6 /* SF_iOSUITests.m */; };
-		C8810A571F2BFE9500DCFEB6 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8810A561F2BFE9500DCFEB6 /* CloudKit.framework */; };
-		C8810A591F2BFEBB00DCFEB6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8810A581F2BFEBB00DCFEB6 /* MapKit.framework */; };
-		C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A5C1F2C043600DCFEB6 /* Location.m */; };
 		C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C51F2DC52D00C08187 /* NSError+Constructor.m */; };
 		C88A19C81F2EC56600C08187 /* EventDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C88A19C71F2EC56600C08187 /* EventDataSourceTests.m */; };
 		C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C89401031F36C273001E8E27 /* DirectionsRequest.m */; };
-		C897CD0F1F37B26300E6C2A6 /* CloudKitDerivedRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */; };
 		C897CD111F37B78200E6C2A6 /* DateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C897CD101F37B78200E6C2A6 /* DateTests.m */; };
 		C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DDE1F2D8BCF007A5B0C /* Event.m */; };
 		C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C89A8DE21F2D926A007A5B0C /* EventDataSource.m */; };
@@ -53,7 +52,6 @@
 		C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC49481F33B9150064B03E /* TravelTimesView.m */; };
 		C8CC494C1F33BA420064B03E /* TravelTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CC494B1F33BA420064B03E /* TravelTimeView.m */; };
 		C8CEC9841F3AB342002A8D88 /* UIViewController+StatusBarBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C8CEC9831F3AB342002A8D88 /* UIViewController+StatusBarBackground.m */; };
-		C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C8E6A3EC1F3256180098339C /* EventDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +72,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F38209F224C90B400862294 /* FeedFetchOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedFetchOperation.h; sourceTree = "<group>"; };
+		5F3820A0224C90B400862294 /* FeedFetchOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedFetchOperation.m; sourceTree = "<group>"; };
+		5F3820A2224C910300862294 /* FeedCompletion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedCompletion.h; sourceTree = "<group>"; };
+		5F3820A3224C920F00862294 /* FeedFetchService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedFetchService.h; sourceTree = "<group>"; };
+		5F3820A4224C920F00862294 /* FeedFetchService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedFetchService.m; sourceTree = "<group>"; };
+		5F3820A7224CA76E00862294 /* VenueFetchOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VenueFetchOperation.h; sourceTree = "<group>"; };
+		5F3820A8224CA76E00862294 /* VenueFetchOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VenueFetchOperation.m; sourceTree = "<group>"; };
+		5F3820AA224CA7B200862294 /* VenueCompletion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VenueCompletion.h; sourceTree = "<group>"; };
 		C825162E1F2FA260006B9D7E /* EventsFeedViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventsFeedViewController.h; sourceTree = "<group>"; };
 		C825162F1F2FA260006B9D7E /* EventsFeedViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventsFeedViewController.m; sourceTree = "<group>"; };
 		C82516321F2FBBD2006B9D7E /* FeedItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedItemCell.h; sourceTree = "<group>"; };
@@ -128,8 +134,6 @@
 		C8810A461F2BFE6900DCFEB6 /* SF_iOSUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SF_iOSUITests.m; sourceTree = "<group>"; };
 		C8810A481F2BFE6900DCFEB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C8810A541F2BFE9400DCFEB6 /* SF iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "SF iOS.entitlements"; sourceTree = "<group>"; };
-		C8810A561F2BFE9500DCFEB6 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		C8810A581F2BFEBB00DCFEB6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C8810A5B1F2C043600DCFEB6 /* Location.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		C8810A5C1F2C043600DCFEB6 /* Location.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		C88A19C41F2DC52D00C08187 /* NSError+Constructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSError+Constructor.h"; sourceTree = "<group>"; };
@@ -139,8 +143,6 @@
 		C89401021F36C273001E8E27 /* DirectionsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectionsRequest.h; sourceTree = "<group>"; };
 		C89401031F36C273001E8E27 /* DirectionsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DirectionsRequest.m; sourceTree = "<group>"; };
 		C89401051F36C2A0001E8E27 /* TransportType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TransportType.h; sourceTree = "<group>"; };
-		C897CD0D1F37B26300E6C2A6 /* CloudKitDerivedRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CloudKitDerivedRecord.h; sourceTree = "<group>"; };
-		C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CloudKitDerivedRecord.m; sourceTree = "<group>"; };
 		C897CD101F37B78200E6C2A6 /* DateTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateTests.m; sourceTree = "<group>"; };
 		C89A8DDD1F2D8BCF007A5B0C /* Event.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		C89A8DDE1F2D8BCF007A5B0C /* Event.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
@@ -175,8 +177,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8810A591F2BFEBB00DCFEB6 /* MapKit.framework in Frameworks */,
-				C8810A571F2BFE9500DCFEB6 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +197,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5F38209E224C908600862294 /* FeedFetch */ = {
+			isa = PBXGroup;
+			children = (
+				5F38209F224C90B400862294 /* FeedFetchOperation.h */,
+				5F3820A0224C90B400862294 /* FeedFetchOperation.m */,
+				5F3820A2224C910300862294 /* FeedCompletion.h */,
+				5F3820A3224C920F00862294 /* FeedFetchService.h */,
+				5F3820A4224C920F00862294 /* FeedFetchService.m */,
+			);
+			path = FeedFetch;
+			sourceTree = "<group>";
+		};
+		5F3820A6224CA75800862294 /* FoursquareFetch */ = {
+			isa = PBXGroup;
+			children = (
+				5F3820A7224CA76E00862294 /* VenueFetchOperation.h */,
+				5F3820A8224CA76E00862294 /* VenueFetchOperation.m */,
+				5F3820AA224CA7B200862294 /* VenueCompletion.h */,
+			);
+			path = FoursquareFetch;
+			sourceTree = "<group>";
+		};
 		C825162D1F2FA24B006B9D7E /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -256,6 +278,8 @@
 		C825164A1F3054D1006B9D7E /* Location */ = {
 			isa = PBXGroup;
 			children = (
+				5F3820A6224CA75800862294 /* FoursquareFetch */,
+				5F38209E224C908600862294 /* FeedFetch */,
 				C825164B1F3054F6006B9D7E /* MapView.h */,
 				C825164C1F3054F6006B9D7E /* MapView.m */,
 				C87995CA1F312873002CA6C8 /* UserLocation.h */,
@@ -375,8 +399,6 @@
 		C8810A551F2BFE9500DCFEB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C8810A581F2BFEBB00DCFEB6 /* MapKit.framework */,
-				C8810A561F2BFE9500DCFEB6 /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -392,8 +414,6 @@
 				C89A8DE01F2D8C2A007A5B0C /* EventType.h */,
 				C89A8DE11F2D926A007A5B0C /* EventDataSource.h */,
 				C89A8DE21F2D926A007A5B0C /* EventDataSource.m */,
-				C897CD0D1F37B26300E6C2A6 /* CloudKitDerivedRecord.h */,
-				C897CD0E1F37B26300E6C2A6 /* CloudKitDerivedRecord.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -567,13 +587,13 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -650,16 +670,17 @@
 				C8810A321F2BFE6900DCFEB6 /* main.m in Sources */,
 				C82516301F2FA260006B9D7E /* EventsFeedViewController.m in Sources */,
 				C89A8DDF1F2D8BCF007A5B0C /* Event.m in Sources */,
+				5F3820A1224C90B400862294 /* FeedFetchOperation.m in Sources */,
 				C825164D1F3054F6006B9D7E /* MapView.m in Sources */,
 				C8CEC9841F3AB342002A8D88 /* UIViewController+StatusBarBackground.m in Sources */,
 				C8CC49491F33B9150064B03E /* TravelTimesView.m in Sources */,
 				C89401041F36C273001E8E27 /* DirectionsRequest.m in Sources */,
 				C88A19C61F2DC52D00C08187 /* NSError+Constructor.m in Sources */,
+				5F3820A9224CA76E00862294 /* VenueFetchOperation.m in Sources */,
 				C86DD4381F3A3D3100C58723 /* NSAttributedString+Kerning.m in Sources */,
 				C8CC49311F32A6820064B03E /* NSNotification+ApplicationEventNotifications.m in Sources */,
-				C8E6A3ED1F3256180098339C /* EventDetailsViewController.m in Sources */,
-				C897CD0F1F37B26300E6C2A6 /* CloudKitDerivedRecord.m in Sources */,
 				C8307A051F364DDF005CB3D2 /* SecretsStore.m in Sources */,
+				5F3820A5224C920F00862294 /* FeedFetchService.m in Sources */,
 				C8CC49351F32A7260064B03E /* UIApplication+Metadata.m in Sources */,
 				C8CC492A1F3293230064B03E /* MKMapCamera+OverlookingLocations.m in Sources */,
 				C86DD4351F3A389B00C58723 /* NSAttributedString+EventDetails.m in Sources */,
@@ -672,7 +693,6 @@
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
 				C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */,
 				C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */,
-				C8810A5D1F2C043600DCFEB6 /* Location.m in Sources */,
 				C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */,
 				C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */,
 				C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */,
@@ -833,10 +853,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "SF iOS/SF iOS-Debug.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U699U9MM24;
+				DEVELOPMENT_TEAM = F4WTN36U2F;
 				INFOPLIST_FILE = "SF iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -851,10 +870,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "SF iOS/SF iOS.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U699U9MM24;
+				DEVELOPMENT_TEAM = F4WTN36U2F;
 				INFOPLIST_FILE = "SF iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -24,7 +24,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window makeKeyAndVisible];
     
-    EventDataSource *datasource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee database:[[CKContainer defaultContainer] publicCloudDatabase]];
+    EventDataSource *datasource = [[EventDataSource alloc] initWithEventType:EventTypeSFCoffee];
     EventsFeedViewController *feedController = [[EventsFeedViewController alloc] initWithDataSource:datasource];
     
     self.window.rootViewController = feedController;

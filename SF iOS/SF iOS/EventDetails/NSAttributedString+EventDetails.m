@@ -39,8 +39,7 @@
         timeLabelText = [NSString stringWithFormat:@"%@ %@", date, time];
     }
     
-    NSString *detailsString = [NSString stringWithFormat:@"%@, %@", event.location.streetAddress, timeLabelText];
-    return [NSAttributedString kernedStringFromString:[detailsString uppercaseString]];
+    return [NSAttributedString kernedStringFromString:[timeLabelText uppercaseString]];
 }
 
 @end

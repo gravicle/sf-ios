@@ -8,22 +8,22 @@
 
 #import <Foundation/Foundation.h>
 #import "EventType.h"
-#import "Location.h"
-#import "CloudKitDerivedRecord.h"
 @import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface Event : CloudKitDerivedRecord
+@interface Event : NSObject
 
 @property (nonatomic, assign) EventType type;
 @property (nonatomic) NSDate* date;
 @property (nonatomic, assign) NSTimeInterval duration;
-@property (nonatomic) Location* location;
+@property (nonatomic) NSURL *venueURL;
+@property (nonatomic) NSString *name;
 @property (nonatomic, readonly) UIImage *annotationImage;
 @property (nonatomic, readonly) NSDate *endDate;
 @property (nonatomic, readonly, assign) BOOL isActive;
+@property (nullable, nonatomic) NSURL *imageFileURL;
 
-- (instancetype)initWithRecord:(CKRecord *)record location:(Location *)location;
+- (instancetype)initWithDictionary:(NSDictionary *)record;
 
 @end
 NS_ASSUME_NONNULL_END
