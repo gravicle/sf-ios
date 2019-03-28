@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface EventsFeedViewController () <EventDataSourceDelegate, UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic) EventDataSource *dataSource;
-@property (nullable, nonatomic) UserLocation *userLocationService;
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic, assign) BOOL firstLoad;
 @property (nonatomic) ImageStore *imageStore;
@@ -33,7 +32,6 @@ NS_ASSUME_NONNULL_END
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.dataSource = dataSource;
         dataSource.delegate = self;
-        self.userLocationService = [UserLocation new];
         self.imageFetchQueue = [[NSOperationQueue alloc] init];
         self.imageFetchQueue.name = @"Image Fetch Queue";
         self.imageStore = [[ImageStore alloc] init];
@@ -89,11 +87,6 @@ NS_ASSUME_NONNULL_END
     [self addStatusBarBlurBackground];
     
     [self.dataSource refresh];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self requestLocationPermission];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -207,12 +200,6 @@ NS_ASSUME_NONNULL_END
 //    Event *event = [self.dataSource eventAtIndex:indexPath.row];
 //    return [[EventDetailsViewController alloc] initWithEvent:event userLocationService:self.userLocationService];
 //}
-
-//MARK: - Location Permission
-
-- (void)requestLocationPermission {
-    [self.userLocationService requestLocationPermission];
-}
 
 //MARK: - Cell Dimensions
 

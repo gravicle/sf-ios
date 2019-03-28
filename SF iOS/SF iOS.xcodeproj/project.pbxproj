@@ -31,7 +31,6 @@
 		C86DD43D1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C86DD43C1F3A4DFD00C58723 /* TravelTime+ArrivalTests.m */; };
 		C86E386B1F31B78300E35EBF /* UIImage+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = C86E386A1F31B78300E35EBF /* UIImage+URL.m */; };
 		C8709C661F42632300DFE7A9 /* ImageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = C8709C651F42632300DFE7A9 /* ImageStore.m */; };
-		C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C87995CB1F312873002CA6C8 /* UserLocation.m */; };
 		C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C8810A231F2BFE6900DCFEB6 /* AppDelegate.m */; };
 		C8810A2C1F2BFE6900DCFEB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2B1F2BFE6900DCFEB6 /* Assets.xcassets */; };
 		C8810A2F1F2BFE6900DCFEB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C8810A2D1F2BFE6900DCFEB6 /* LaunchScreen.storyboard */; };
@@ -692,7 +691,6 @@
 				C82516461F2FEB6F006B9D7E /* NSDate+Utilities.m in Sources */,
 				C82516341F2FBBD2006B9D7E /* FeedItemCell.m in Sources */,
 				C8CC49431F330F360064B03E /* AsyncOperation.m in Sources */,
-				C87995CC1F312873002CA6C8 /* UserLocation.m in Sources */,
 				C8810A241F2BFE6900DCFEB6 /* AppDelegate.m in Sources */,
 				C8CC493B1F3303170064B03E /* TravelTimeService.m in Sources */,
 				C89A8DE31F2D926A007A5B0C /* EventDataSource.m in Sources */,
