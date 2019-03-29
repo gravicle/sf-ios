@@ -7,6 +7,7 @@
 //
 
 #import "EventsFeedViewController.h"
+#import "EventDetailsViewController.h"
 #import "FeedItemCell.h"
 #import "FeedItem.h"
 #import "UserLocation.h"
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL firstLoad;
 @property (nonatomic) ImageStore *imageStore;
 @property (nonatomic) NSOperationQueue *imageFetchQueue;
-
+@property (nullable, nonatomic) UserLocation *userLocationService;
 @end
 NS_ASSUME_NONNULL_END
 
@@ -32,6 +33,7 @@ NS_ASSUME_NONNULL_END
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.dataSource = dataSource;
         dataSource.delegate = self;
+        self.userLocationService = [UserLocation new];
         self.imageFetchQueue = [[NSOperationQueue alloc] init];
         self.imageFetchQueue.name = @"Image Fetch Queue";
         self.imageStore = [[ImageStore alloc] init];
@@ -71,6 +73,7 @@ NS_ASSUME_NONNULL_END
     self.tableView.contentInset = UIEdgeInsetsMake(40, 0, 0, 0);
     self.tableView.translatesAutoresizingMaskIntoConstraints = false;
     [self.view addSubview:self.tableView];
+
     [self.tableView.topAnchor constraintEqualToAnchor:self.view.topAnchor].active = true;
     [self.tableView.leftAnchor constraintEqualToAnchor:self.view.leftAnchor].active = true;
     [self.tableView.rightAnchor constraintEqualToAnchor:self.view.rightAnchor].active = true;
@@ -85,7 +88,7 @@ NS_ASSUME_NONNULL_END
     }
     
     [self addStatusBarBlurBackground];
-    
+
     [self.dataSource refresh];
 }
 
@@ -146,35 +149,30 @@ NS_ASSUME_NONNULL_END
 //MARK: - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Event *event = [self.dataSource eventAtIndex:indexPath.row];
-    UIApplication *app = [UIApplication sharedApplication];
-    if ([app canOpenURL:event.venueURL]) {
-        [app openURL:event.venueURL options:@{} completionHandler:nil];
-    }
-    // TODO for now we link to safari
-//    EventDetailsViewController *vc = [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
-//    [self presentViewController:vc animated:true completion:nil];
+    [self.userLocationService requestLocationPermission];
+    EventDetailsViewController *vc = [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
+    [self presentViewController:vc animated:true completion:nil];
 }
 
 //MARK: - 3D Touch Peek & Pop
 
-//- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
-//    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
-//    if (!indexPath) { return nil; }
-//    
-//    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-//    if (!cell || ![cell isKindOfClass:[self.feedItemCellClass class]]) {
-//        return nil;
-//    }
-//    
-//    previewingContext.sourceRect = [(FeedItemCell *)cell contentFrame];
-//    
-//    return [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
-//}
-//
-//- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
-//    [self presentViewController:viewControllerToCommit animated:true completion:nil];
-//}
+- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:location];
+    if (!indexPath) { return nil; }
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    if (!cell || ![cell isKindOfClass:[self.feedItemCellClass class]]) {
+        return nil;
+    }
+    
+    previewingContext.sourceRect = [(FeedItemCell *)cell contentFrame];
+    
+    return [self eventDetailsViewControllerForEventAtIndexPath:indexPath];
+}
+
+- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
+    [self presentViewController:viewControllerToCommit animated:true completion:nil];
+}
 
 //MARK: - EventDataSourceDelegate
 
@@ -196,10 +194,10 @@ NS_ASSUME_NONNULL_END
 
 //MARK: - Details View
 
-//- (EventDetailsViewController *)eventDetailsViewControllerForEventAtIndexPath:(NSIndexPath *)indexPath {
-//    Event *event = [self.dataSource eventAtIndex:indexPath.row];
-//    return [[EventDetailsViewController alloc] initWithEvent:event userLocationService:self.userLocationService];
-//}
+- (EventDetailsViewController *)eventDetailsViewControllerForEventAtIndexPath:(NSIndexPath *)indexPath {
+    Event *event = [self.dataSource eventAtIndex:indexPath.row];
+    return [[EventDetailsViewController alloc] initWithEvent:event userLocationService:self.userLocationService];
+}
 
 //MARK: - Cell Dimensions
 

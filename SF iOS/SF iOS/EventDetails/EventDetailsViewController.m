@@ -16,7 +16,9 @@
 #import "TravelTimesView.h"
 #import "DirectionsRequest.h"
 #import "UIViewController+StatusBarBackground.h"
+#import "Location.h"
 @import MapKit;
+
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EventDetailsViewController ()
@@ -59,7 +61,7 @@ NS_ASSUME_NONNULL_END
     self.extendedLayoutIncludesOpaqueBars = true;
     
     UILabel *titleLabel = [UILabel new];
-    titleLabel.text = self.event.location.name;
+    titleLabel.text = self.event.venueName;
     titleLabel.font = [UIFont systemFontOfSize:28 weight:UIFontWeightSemibold];
     titleLabel.textColor = [UIColor blackColor];
     
@@ -78,10 +80,11 @@ NS_ASSUME_NONNULL_END
     
     self.mapView = [[MapView alloc] init];
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-    
-    self.travelTimesView = [[TravelTimesView alloc] initWithDirectionsRequestHandler:^(TransportType transportType) {
+
+    self.travelTimesView = [[TravelTimesView alloc]
+                            initWithDirectionsRequestHandler:^(TransportType transportType) {
         [DirectionsRequest requestDirectionsToLocation:self.event.location.location
-                                              withName:self.event.location.name
+                                              withName:self.event.venueName
                                     usingTransportType:transportType];
     }];
     self.travelTimesView.layoutMargins = UIEdgeInsetsMake(32, 21, 21, 21);
