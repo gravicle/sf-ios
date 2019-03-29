@@ -16,7 +16,9 @@
 #import "TravelTimesView.h"
 #import "DirectionsRequest.h"
 #import "UIViewController+StatusBarBackground.h"
+#import "Location.h"
 @import MapKit;
+
 
 NS_ASSUME_NONNULL_BEGIN
 @interface EventDetailsViewController ()
@@ -78,8 +80,9 @@ NS_ASSUME_NONNULL_END
     
     self.mapView = [[MapView alloc] init];
     [self.mapView setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
-    
-    self.travelTimesView = [[TravelTimesView alloc] initWithDirectionsRequestHandler:^(TransportType transportType) {
+
+    self.travelTimesView = [[TravelTimesView alloc]
+                            initWithDirectionsRequestHandler:^(TransportType transportType) {
         [DirectionsRequest requestDirectionsToLocation:self.event.location.location
                                               withName:self.event.location.name
                                     usingTransportType:transportType];

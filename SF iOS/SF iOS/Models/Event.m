@@ -8,6 +8,8 @@
 
 #import "Event.h"
 #import "NSDate+Utilities.h"
+#import "Venue.h"
+
 @import CloudKit;
 
 @implementation Event
@@ -21,7 +23,7 @@
         self.date = [formatter dateFromString:startAt];
         NSDate *endDate = [formatter dateFromString:record[@"end_at"]];
         self.duration = [endDate timeIntervalSinceDate:self.date];
-        self.venueURL = [[NSURL alloc] initWithString:record[@"venue_url"]];
+        self.venue = [[Venue alloc] initWithDictionary:record[@"venue"]];
 
         NSString *imageURLString = record[@"image_url"];
         if (![imageURLString isKindOfClass:[NSNull class]]) {
@@ -49,6 +51,14 @@
 
 - (BOOL)isActive {
     return self.endDate.isInFuture;
+}
+
+- (NSURL *)venueURL {
+    return self.venue.venueURL;
+}
+
+- (Location *)location {
+    return self.venue.location;
 }
 
 @end

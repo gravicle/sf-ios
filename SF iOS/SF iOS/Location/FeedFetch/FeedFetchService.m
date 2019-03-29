@@ -8,7 +8,6 @@
 
 #import "FeedFetchService.h"
 #import "FeedFetchOperation.h"
-#import "VenueFetchOperation.h"
 
 @interface FeedFetchService ()
 @property (nonatomic) NSOperationQueue *feedFetchQueue;
