@@ -7,17 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CloudKitDerivedRecord.h"
 @import CoreLocation;
-@import CloudKit;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface Location : CloudKitDerivedRecord
+@interface Location : NSObject
 
-@property (nonatomic) NSString *name;
 @property (nonatomic) NSString *streetAddress;
 @property (nonatomic) CLLocation *location;
-@property (nullable, nonatomic) NSURL *imageFileURL;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
 
 @end
 NS_ASSUME_NONNULL_END
