@@ -1,0 +1,77 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+
+desc "#### Options"
+desc " ***`build`**: The build to set in the *.plist files (`CFBundleVersion`)"
+desc "#### Example:"
+desc "```fastlane update_build build:69```"
+
+lane :update_build do |options|
+  increment_build_number(
+    build_number: options[:build],
+  )
+end
+
+desc "Sets the version of the project"
+desc "#### Options"
+desc " **`version`**: The version to set in the *.plist (`CFBundleShortVersionString`)"
+desc "#### Example:"
+desc "```fastlane update_version version:1.0.4```"
+
+lane :update_version do |options|
+  increment_version_number(
+    version_number: options[:version],
+  )
+end
+
+desc "update plists, tag, build, distribute to iTC"
+desc "#### Options"
+desc " **`version`**: The version to set in the *.plist (`CFBundleShortVersionString`)"
+desc " **`build`**: The build to set in the *.plist (`CFBundleVersion`)"
+desc "#### Example:"
+desc "```fastlane release build:68 version:1.0.4```"
+lane :release do |options|
+    # call our other lane to update the build
+if !options[:version]
+  options[:version] = prompt(
+             text: "Enter version number (e.g. 1.0.6)"
+            )
+end
+
+if !options[:build]
+  options[:build] = prompt(
+             text: "Enter Build number (e.g. 79)"
+            )
+end
+
+update_version(options)
+update_build(options)
+
+tagName = options[:version]+"b"+options[:build]
+
+add_git_tag(
+  tag: tagName
+)
+
+push_git_tags(
+  tag: tagName
+)
+
+  build_app(scheme: "SF iOS")
+  upload_to_app_store(skip_screenshots: true)
+end
