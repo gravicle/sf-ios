@@ -58,7 +58,8 @@ static NSString * const destAnnotationIdentifier = @"destinationAnnotationidenti
     [self.mapView.rightAnchor constraintEqualToAnchor:self.rightAnchor].active = true;
     [self.mapView.topAnchor constraintEqualToAnchor:self.topAnchor].active = true;
     [self.mapView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor].active = true;
-    
+
+    self.mapView.showsCompass = false;
     [self setCameraOnSanFrancisco];
 }
 
