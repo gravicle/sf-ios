@@ -11,7 +11,7 @@
 @implementation UIViewController (StatusBarBackground)
 
 - (void)addStatusBarBlurBackground {
-    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
     UIVisualEffectView *statusBarBackground = [[UIVisualEffectView alloc] initWithEffect:effect];
     statusBarBackground.translatesAutoresizingMaskIntoConstraints = false;
     [self.view addSubview:statusBarBackground];
