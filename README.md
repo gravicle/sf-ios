@@ -8,13 +8,13 @@ For interviews, I needed to become comfortable again with Obj-C. What better way
 
 ## Getting the app
 
-Join the TestFlight: [SF iOS testflight](https://sf-ios-testflight.herokuapp.com)
+Join the TestFlight: [SF iOS testflight](https://testflight.apple.com/join/9OaIrtAO)
 
 ## Building from source
 
-The app has no external dependencies. However, for travel time estimates, it uses Uber and Lyft REST APIs and the corresponding credentials are stored in `Secrets/secrets.plist` file. This file, for obvious reasons, is not checked-in into version control. To build and run:
+For travel time estimates, it uses Uber and Lyft REST APIs and the corresponding credentials are stored in `Secrets/secrets.plist` file. This file, for obvious reasons, is not checked-in into version control. To build and run:
 
 1. Duplicate `Secrets/secrets-example.plist` and rename it to `secrets.plist`. you can build the project now but Uber and Lyft travel times will not be available.
 2. Get [Uber](https://auth.uber.com/login/?next_url=https%3A%2F%2Fdeveloper.uber.com%2Fdashboard%2F&state=jZgX3-jJNzOiN57ly8Tv0uY0ArFXStNvQsjM_mzcYdg%3D) and [Lyft](https://www.lyft.com/developers/manage) `client-id` and `server-token` and populate `secrets.plist`.
 
-The app uses CloudKit as its backend and you will need to replicate the required models in your CloudKit dev environemnt.
+The app fetches data from [CoffeeCoffeeCoffee](http://coffeecoffeecoffee.coffee) which is also an [open source project](https://github.com/jamescmartinez/coffee)
