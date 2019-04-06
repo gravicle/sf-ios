@@ -19,6 +19,10 @@
     return self;
 }
 
++ (NSString *)primaryKey {
+    return @"venueURLString";
+}
+
 - (nullable NSURL *)venueURL {
     if (!self.venueURLString) {
         return nil;

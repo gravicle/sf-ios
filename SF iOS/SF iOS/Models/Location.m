@@ -21,6 +21,10 @@
     return self;
 }
 
++ (NSString *)primaryKey {
+    return @"streetAddress";
+}
+
 - (CLLocation *)location {
     return [[CLLocation alloc] initWithLatitude:self.latitude
                                       longitude:self.longitude];
