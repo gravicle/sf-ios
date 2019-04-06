@@ -22,8 +22,8 @@
         [formatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
         NSString *startAt = record[@"start_at"];
         self.date = [formatter dateFromString:startAt];
-        NSDate *endDate = [formatter dateFromString:record[@"end_at"]];
-        self.duration = [endDate timeIntervalSinceDate:self.date];
+        self.endDate = [formatter dateFromString:record[@"end_at"]];
+        self.duration = [self.endDate timeIntervalSinceDate:self.date];
         self.venue = [[Venue alloc] initWithDictionary:record[@"venue"]];
 
         self.imageFileURLString = record[@"image_url"];
@@ -31,6 +31,10 @@
     }
     
     return self;
+}
+
++ (NSString *)primaryKey {
+    return @"eventID";
 }
 
 - (UIImage *)annotationImage {

@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *name;
 @property (nonatomic) NSString *eventID;
 @property (nullable, nonatomic, readonly) UIImage *annotationImage;
-@property (nonatomic, readonly) NSDate *endDate;
+@property (nonatomic) NSDate *endDate;
 @property (nonatomic, readonly, assign) BOOL isActive;
 @property (nullable, nonatomic) NSString *imageFileURLString;
 

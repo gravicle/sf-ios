@@ -12,11 +12,12 @@
 #import "NSError+Constructor.h"
 #import "NSNotification+ApplicationEventNotifications.h"
 #import "FeedFetchService.h"
+#import <Realm/Realm.h>
 
 @interface EventDataSource ()
 
 @property (nonatomic, assign) EventType eventType;
-@property (nonatomic) NSMutableArray<Event *> *events;
+@property (nonatomic) RLMResults<Event *> *events;
 @property (nonatomic) FeedFetchService *service;
 
 @end
@@ -26,7 +27,7 @@
 - (instancetype)initWithEventType:(EventType)eventType {
     if (self = [super init]) {
         self.eventType = eventType;
-        self.events = [NSMutableArray new];
+        self.events = [Event allObjects];
         self.service = [[FeedFetchService alloc] init];
         [self observeAppActivationEvents];
     }
@@ -42,7 +43,11 @@
             });
             return;
         }
-        self.events = [feedFetchItems copy];
+        // Persist your data easily
+        RLMRealm *realm = [RLMRealm defaultRealm];
+        [realm transactionWithBlock:^{
+            [realm addOrUpdateObjects:feedFetchItems];
+        }];
         dispatch_async(dispatch_get_main_queue(), ^{
             [welf.delegate didUpdateDataSource:welf withNewData:true error:nil];
         });
@@ -59,15 +64,7 @@
 }
 
 - (NSUInteger)indexOfCurrentEvent {
-    // index of the first future event
-    for (Event *event in self.events.reverseObjectEnumerator) {
-        // Basing on end-date allows ongoing event to show up first
-        if (event.isActive) {
-            return [self.events indexOfObjectIdenticalTo:event];
-        }
-    }
-    
-    return NSNotFound;
+    return [self.events indexOfObjectWhere:@"endDate > %@", [NSDate date]];
 }
 
 //MARK: - Respond To app Events
