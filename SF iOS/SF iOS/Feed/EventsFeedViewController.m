@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_END
         self.imageFetchQueue = [[NSOperationQueue alloc] init];
         self.imageFetchQueue.name = @"Image Fetch Queue";
         self.imageStore = [[ImageStore alloc] init];
-        self.firstLoad = true;
+        self.firstLoad = self.dataSource.numberOfEvents == 0;
     }
     
     return self;
