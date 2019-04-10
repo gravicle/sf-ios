@@ -50,10 +50,6 @@
 
 }
 
-- (NSDate *)endDate {
-    return [self.date dateByAddingTimeInterval:self.duration];
-}
-
 - (BOOL)isActive {
     return self.endDate.isInFuture;
 }
