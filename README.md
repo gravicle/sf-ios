@@ -18,3 +18,7 @@ For travel time estimates, it uses Uber and Lyft REST APIs and the corresponding
 2. Get [Uber](https://auth.uber.com/login/?next_url=https%3A%2F%2Fdeveloper.uber.com%2Fdashboard%2F&state=jZgX3-jJNzOiN57ly8Tv0uY0ArFXStNvQsjM_mzcYdg%3D) and [Lyft](https://www.lyft.com/developers/manage) `client-id` and `server-token` and populate `secrets.plist`.
 
 The app fetches data from [CoffeeCoffeeCoffee](http://coffeecoffeecoffee.coffee) which is also an [open source project](https://github.com/jamescmartinez/coffee)
+
+## Continuous Integration
+
+We use [Bitrise](https://app.bitrise.io/referral/558bfe07e92b5498) for CI. If you'd like to help with that or learn more please use the link for referral goodies.
