@@ -49,16 +49,20 @@
 }
 
 - (void)testEventInTomorrow {
-    NSDate *eventDate = [self dateByAddingUnit:NSCalendarUnitDay value:1 toDate:[NSDate new]];
-    self.event.date = eventDate;
+    NSDate *startDate = [NSDate date];
+    NSDate *eventEndDate = [self dateByAddingUnit:NSCalendarUnitDay value:1 toDate:startDate];
+
+    self.event.date = eventEndDate;
+    self.event.endDate = eventEndDate;
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     XCTAssertTrue([item.dateString isEqualToString:@"Tomorrow"]);
     XCTAssertTrue(item.isActive);
 }
 
 - (void)testEventInToday {
-    NSDate *eventDate = [self dateByAddingUnit:NSCalendarUnitHour value:1 toDate:[NSDate new]];
-    self.event.date = eventDate;
+    NSDate *tomorrow = [self dateByAddingUnit:NSCalendarUnitHour value:1 toDate:[NSDate new]];
+    self.event.date = [NSDate new];
+    self.event.endDate = tomorrow;
     FeedItem *item = [[FeedItem alloc] initWithEvent:self.event];
     
     XCTAssertTrue([item.dateString isEqualToString:@"Today"]);
