@@ -10,7 +10,6 @@
 #import "EventDataSource.h"
 #import "EventsFeedViewController.h"
 #import "NSNotification+ApplicationEventNotifications.h"
-@import CloudKit;
 
 @interface AppDelegate ()
 

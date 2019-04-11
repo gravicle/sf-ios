@@ -10,8 +10,6 @@
 #import "NSDate+Utilities.h"
 #import "Venue.h"
 
-@import CloudKit;
-
 @implementation Event
 
 - (instancetype)initWithDictionary:(NSDictionary *)record {
