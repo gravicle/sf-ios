@@ -45,7 +45,7 @@
     }];
     
     NSNumber *estimate = [(JSON *)estimates.firstObject objectForKey:@"duration"];
-    return estimate ? [[TravelTime alloc] initWithTransportType:TransportTypeUber travelTime:estimate.doubleValue] : nil;
+    return estimate != nil ? [[TravelTime alloc] initWithTransportType:TransportTypeUber travelTime:estimate.doubleValue] : nil;
 }
 
 @end

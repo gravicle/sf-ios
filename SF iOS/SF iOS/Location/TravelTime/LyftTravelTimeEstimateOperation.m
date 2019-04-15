@@ -45,7 +45,7 @@
     }];
     
     NSNumber *estimate = estimates.firstObject[@"estimated_duration_seconds"];
-    return estimate ? [[TravelTime alloc] initWithTransportType:TransportTypeLyft travelTime:estimate.doubleValue] : nil;
+    return estimate != nil ? [[TravelTime alloc] initWithTransportType:TransportTypeLyft travelTime:estimate.doubleValue] : nil;
 }
 
 @end
