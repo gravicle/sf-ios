@@ -65,17 +65,18 @@
     }];
     [completionOperation addDependency:uberTimeCalculation];
     [self.travelTimeCalculationQueue addOperation:uberTimeCalculation];
-    
-    LyftTravelTimeEstimateOperation *lyftTimeCalculation = [[LyftTravelTimeEstimateOperation alloc] initWithSourceLocation:sourceLocation destinationLocation:destinationLocation completionHandler:^(TravelTime * _Nullable travelTime, NSError * _Nullable error) {
-        if (!travelTime) {
-            NSLog(@"Could not retrieve lyft travel time: %@", error);
-            return;
-        }
-        [travelTimes addObject:travelTime];
-    }];
-    [completionOperation addDependency:lyftTimeCalculation];
-    [self.travelTimeCalculationQueue addOperation:lyftTimeCalculation];
-    
+
+    // Temporarily remove Lyft since they changed their rules and regulations apparently. We need to get approved
+//    LyftTravelTimeEstimateOperation *lyftTimeCalculation = [[LyftTravelTimeEstimateOperation alloc] initWithSourceLocation:sourceLocation destinationLocation:destinationLocation completionHandler:^(TravelTime * _Nullable travelTime, NSError * _Nullable error) {
+//        if (!travelTime) {
+//            NSLog(@"Could not retrieve lyft travel time: %@", error);
+//            return;
+//        }
+//        [travelTimes addObject:travelTime];
+//    }];
+//    [completionOperation addDependency:lyftTimeCalculation];
+//    [self.travelTimeCalculationQueue addOperation:lyftTimeCalculation];
+
     [self.travelTimeCalculationQueue addOperation:completionOperation];
 }
 
